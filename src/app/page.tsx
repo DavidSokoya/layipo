@@ -145,7 +145,7 @@ function EventCard({ event }: { event: Event }) {
         )}
       >
         <CardHeader className="p-4 sm:p-6">
-          <CardTitle className="text-primary text-base sm:text-lg md:text-xl break-words">{event.title}</CardTitle>
+          <CardTitle className="text-base sm:text-lg md:text-xl break-words">{event.title}</CardTitle>
         </CardHeader>
         <CardContent className="flex-grow space-y-3 p-4 sm:p-6 pt-0">
           <div className="flex items-center text-sm text-muted-foreground">
@@ -190,7 +190,7 @@ function EventCard({ event }: { event: Event }) {
             )}
           </AnimatePresence>
         </CardContent>
-        <CardFooter className="flex items-center gap-2 p-4 sm:p-6 pt-0">
+        <CardFooter className="flex flex-wrap items-center gap-2 p-4 sm:p-6 pt-0">
           <Button variant="outline" size="sm" onClick={handleSetReminder} disabled={isReminderSet}>
             {isReminderSet ? <BellRing /> : <Bell />}
             {isReminderSet ? 'Reminder Set' : 'Set Reminder'}
@@ -215,10 +215,10 @@ export default function TimetablePage() {
   const [filter, setFilter] = React.useState('All');
 
   const roles = React.useMemo(() => {
-    const uniqueRoles = ['All', ...new Set(events.map((e) => e.role))].filter(
-      (role, index, self) => self.indexOf(role) === index
-    );
-    return uniqueRoles;
+    const allRoles = events.map((e) => e.role);
+    const uniqueRoles = ['All', ...new Set(allRoles)];
+    // Ensure 'All' is only present once and at the beginning
+    return Array.from(new Set(uniqueRoles));
   }, []);
 
 
@@ -314,7 +314,7 @@ export default function TimetablePage() {
                       No events scheduled for this day with the selected filter.
                     </div>
                   ) : (
-                    <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                    <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
                       {filteredDayEvents.map((event) => (
                         <EventCard key={event.id} event={event} />
                       ))}
