@@ -112,12 +112,8 @@ function DressCodeModal({
 const roleColors: Record<string, string> = {
   Delegates: 'border-l-status-amber',
   'LOC/COC': 'border-l-status-red',
-  'LOC/COC/Host President': 'border-l-status-red',
-  LOs: 'border-l-status-red',
+  Leadership: 'border-l-status-blue',
   'Registered Trainers': 'border-l-status-green',
-  'CC/LOP/CD': 'border-l-status-blue',
-  'Council Members': 'border-l-status-blue',
-  'Council Members/LOPs': 'border-l-status-blue',
   'Noble House Members': 'border-l-primary',
   All: 'border-l-border',
 };
@@ -218,12 +214,8 @@ export default function TimetablePage() {
   const roleDotColors: Record<string, string> = {
     Delegates: 'bg-status-amber',
     'LOC/COC': 'bg-status-red',
-    'LOC/COC/Host President': 'bg-status-red',
-    LOs: 'bg-status-red',
+    Leadership: 'bg-status-blue',
     'Registered Trainers': 'bg-status-green',
-    'CC/LOP/CD': 'bg-status-blue',
-    'Council Members': 'bg-status-blue',
-    'Council Members/LOPs': 'bg-status-blue',
     'Noble House Members': 'bg-primary',
     All: 'bg-muted-foreground',
   };
@@ -288,7 +280,7 @@ export default function TimetablePage() {
               const filteredDayEvents =
                 filter === 'All'
                   ? dayEvents
-                  : dayEvents.filter((event) => event.role === filter);
+                  : dayEvents.filter((event) => event.role === filter || event.role === 'All');
 
               return (
                 <TabsContent key={date} value={date} className="mt-6">

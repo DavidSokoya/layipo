@@ -132,7 +132,7 @@ export const events: Event[] = [
     time: '4:00 pm–6:00 pm',
     title: 'COC/LOC Meeting',
     location: 'Ilaji Resort',
-    role: 'COC/COC',
+    role: 'LOC/COC',
     description: 'An important coordination meeting for all COC and LOC members to finalize preparations.',
     dressCode: dressCodeDetails['Casual']
   },
@@ -173,7 +173,7 @@ export const events: Event[] = [
     time: '10:00 am–12:00 pm',
     title: 'Media Rounds',
     location: 'TBA',
-    role: 'CC/LOP/CD',
+    role: 'Leadership',
     description: 'Media engagement sessions for committee and leadership members.',
     dressCode: dressCodeDetails['Business']
   },
@@ -183,7 +183,7 @@ export const events: Event[] = [
     time: '12:00 pm–2:00 pm',
     title: 'Courtesy Visit',
     location: 'TBA',
-    role: 'CC/LOP/CD',
+    role: 'Leadership',
     description: 'Official courtesy visits by the convention leadership.',
     dressCode: dressCodeDetails['Business']
   },
@@ -213,7 +213,7 @@ export const events: Event[] = [
     time: '4:00 pm–6:30 pm',
     title: 'Football Competition Preliminaries',
     location: 'Main Bowl',
-    role: 'LOs',
+    role: 'LOC/COC',
     description: 'The exciting preliminary matches of the inter-organization football competition.',
     dressCode: dressCodeDetails['Sports Wear']
   },
@@ -223,7 +223,7 @@ export const events: Event[] = [
     time: '7:00 pm–8:30 pm',
     title: 'Collegiate Council Meeting',
     location: 'Favour Hall',
-    role: 'Council Members',
+    role: 'Leadership',
     description: 'A formal meeting for all members of the Collegiate Council.',
     dressCode: dressCodeDetails['Business']
   },
@@ -284,7 +284,7 @@ export const events: Event[] = [
     time: '12:00 pm–2:15 pm',
     title: 'Collegiate General Assembly',
     location: 'Marquee Hall',
-    role: 'Council Members/LOPs',
+    role: 'Leadership',
     description: 'The formal general assembly for the collegiate council and local presidents.',
     dressCode: dressCodeDetails['Business']
   },
@@ -466,7 +466,7 @@ export const events: Event[] = [
     time: '7:00 am–9:00 am',
     title: 'Post Conference Evaluation Meeting',
     location: 'Pool Side',
-    role: 'LOC/COC/Host President',
+    role: 'LOC/COC',
     description: 'A final evaluation meeting for the organizing committees and host president.',
     dressCode: dressCodeDetails['Not stated']
   },
