@@ -59,7 +59,6 @@ function VenueModal({
               width={600}
               height={400}
               className="object-cover w-full h-full"
-              data-ai-hint={venue.hint}
             />
           </div>
           <p className="text-sm text-muted-foreground">{venue.description}</p>
@@ -235,8 +234,7 @@ export default function TimetablePage() {
         <header className="sticky top-0 z-30 text-primary-foreground bg-black/70 backdrop-blur-sm">
           <div className="absolute inset-0 -z-10">
             <Image
-              src="https://placehold.co/1200x400.png"
-              data-ai-hint="youth conference audience"
+              src="https://source.unsplash.com/1200x400/?youth,conference,audience"
               alt="Conference background"
               fill
               className="object-cover"

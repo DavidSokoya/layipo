@@ -16,22 +16,21 @@ export type Venue = {
   name: string;
   description: string;
   image: string;
-  hint: string;
 };
 
 export const venues: Venue[] = [
-  { name: 'Training Hall', description: 'Dedicated space for workshops and training sessions.', image: 'https://placehold.co/600x400.png', hint: 'conference room' },
-  { name: 'Main Hall', description: 'The primary hall for large gatherings and keynote presentations.', image: 'https://placehold.co/600x400.png', hint: 'event hall' },
-  { name: 'Favour Hall', description: 'A secondary hall used for parallel sessions and smaller events.', image: 'https://placehold.co/600x400.png', hint: 'meeting room' },
-  { name: 'Marquee Hall', description: 'A large, elegant marquee for major ceremonies and banquets.', image: 'https://placehold.co/600x400.png', hint: 'banquet hall' },
-  { name: 'Main Bowl', description: 'The main outdoor arena for sports and large-scale activities.', image: 'https://placehold.co/600x400.png', hint: 'stadium field' },
-  { name: 'Open Space', description: 'Designated outdoor areas for networking, lunch, and casual gatherings.', image: 'https://placehold.co/600x400.png', hint: 'outdoor park' },
-  { name: 'Registration Desk', description: 'The central point for all delegate registrations and documentation.', image: 'https://placehold.co/600x400.png', hint: 'reception desk' },
-  { name: 'LOC Room', description: 'The dedicated operations room for the Local Organizing Committee.', image: 'https://placehold.co/600x400.png', hint: 'office room' },
-  { name: 'Hotel Restaurants', description: 'Various restaurants within the resort hotels serving meals.', image: 'https://placehold.co/600x400.png', hint: 'restaurant interior' },
-  { name: 'Pool Side', description: 'The area around the swimming pool, used for informal meetings and relaxation.', image: 'https://placehold.co/600x400.png', hint: 'poolside lounge' },
-  { name: 'Car Parks', description: 'Designated parking areas for attendees\' vehicles.', image: 'https://placehold.co/600x400.png', hint: 'parking lot' },
-  { name: 'Ilaji Resort', description: 'The main resort complex hosting the convention.', image: 'https://placehold.co/600x400.png', hint: 'resort hotel' },
+  { name: 'Training Hall', description: 'Dedicated space for workshops and training sessions.', image: 'https://source.unsplash.com/600x400/?conference,room' },
+  { name: 'Main Hall', description: 'The primary hall for large gatherings and keynote presentations.', image: 'https://source.unsplash.com/600x400/?event,hall' },
+  { name: 'Favour Hall', description: 'A secondary hall used for parallel sessions and smaller events.', image: 'https://source.unsplash.com/600x400/?meeting,room' },
+  { name: 'Marquee Hall', description: 'A large, elegant marquee for major ceremonies and banquets.', image: 'https://source.unsplash.com/600x400/?banquet,hall' },
+  { name: 'Main Bowl', description: 'The main outdoor arena for sports and large-scale activities.', image: 'https://source.unsplash.com/600x400/?stadium,field' },
+  { name: 'Open Space', description: 'Designated outdoor areas for networking, lunch, and casual gatherings.', image: 'https://source.unsplash.com/600x400/?outdoor,park' },
+  { name: 'Registration Desk', description: 'The central point for all delegate registrations and documentation.', image: 'https://source.unsplash.com/600x400/?reception,desk' },
+  { name: 'LOC Room', description: 'The dedicated operations room for the Local Organizing Committee.', image: 'https://source.unsplash.com/600x400/?office,room' },
+  { name: 'Hotel Restaurants', description: 'Various restaurants within the resort hotels serving meals.', image: 'https://source.unsplash.com/600x400/?restaurant,interior' },
+  { name: 'Pool Side', description: 'The area around the swimming pool, used for informal meetings and relaxation.', image: 'https://source.unsplash.com/600x400/?poolside,lounge' },
+  { name: 'Car Parks', description: 'Designated parking areas for attendees\' vehicles.', image: 'https://source.unsplash.com/600x400/?parking,lot' },
+  { name: 'Ilaji Resort', description: 'The main resort complex hosting the convention.', image: 'https://source.unsplash.com/600x400/?resort,hotel' },
 ];
 
 const dressCodeDetails = {
@@ -493,12 +492,11 @@ export type Reward = {
     cost: number;
     description: string;
     image: string;
-    hint: string;
 }
 
 export const rewards: Reward[] = [
-    { id: '1', title: 'JCI Branded Mug', cost: 500, description: 'Start your day with a reminder of your JCI journey.', image: 'https://placehold.co/600x400.png', hint: 'coffee mug' },
-    { id: '2', title: 'Exclusive T-Shirt', cost: 1500, description: 'A limited edition T-shirt, only available to top point earners.', image: 'https://placehold.co/600x400.png', hint: 't-shirt' },
-    { id: '3', title: 'VIP Seating Voucher', cost: 3000, description: 'Get front-row seats at the next keynote session.', image: 'https://placehold.co/600x400.png', hint: 'event ticket' },
-    { id: '4', title: 'Mentorship Session', cost: 5000, description: 'A one-on-one session with a JCI National President.', image: 'https://placehold.co/600x400.png', hint: 'business meeting' },
+    { id: '1', title: 'JCI Branded Mug', cost: 500, description: 'Start your day with a reminder of your JCI journey.', image: 'https://source.unsplash.com/600x400/?coffee,mug' },
+    { id: '2', title: 'Exclusive T-Shirt', cost: 1500, description: 'A limited edition T-shirt, only available to top point earners.', image: 'https://source.unsplash.com/600x400/?t-shirt' },
+    { id: '3', title: 'VIP Seating Voucher', cost: 3000, description: 'Get front-row seats at the next keynote session.', image: 'https://source.unsplash.com/600x400/?event,ticket' },
+    { id: '4', title: 'Mentorship Session', cost: 5000, description: 'A one-on-one session with a JCI National President.', image: 'https://source.unsplash.com/600x400/?business,meeting' },
 ];
