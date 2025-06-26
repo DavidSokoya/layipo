@@ -234,7 +234,7 @@ export default function TimetablePage() {
         <header className="sticky top-0 z-30 text-primary-foreground backdrop-blur-sm">
           <div className="absolute inset-0 -z-10">
             <Image
-              src="https://source.unsplash.com/1200x400/?youth,conference,audience"
+              src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=1200&h=400&fit=crop&q=80"
               data-ai-hint="youth conference audience"
               alt="Conference background"
               fill
@@ -243,7 +243,7 @@ export default function TimetablePage() {
             />
           </div>
           
-          <div className="relative z-10 p-4 sm:p-6 lg:p-8">
+          <div className="relative z-10 p-4 sm:p-6 lg:p-8 bg-black/30">
             <div className="flex justify-between items-center mb-4">
               <h1 className="text-xl sm:text-2xl font-bold">Layipo 2025</h1>
               <Button variant="ghost" size="icon" className="text-white hover:bg-white/20">
