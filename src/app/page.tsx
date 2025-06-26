@@ -16,7 +16,6 @@ import {
   DialogDescription,
   DialogFooter,
 } from '@/components/ui/dialog';
-import { Logo } from '@/components/ui/logo';
 import { PageWrapper } from '@/components/page-wrapper';
 import { cn } from '@/lib/utils';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -218,15 +217,7 @@ export default function TimetablePage() {
 
   const roles = React.useMemo(() => {
     const allRoles = events.map((e) => e.role);
-    const uniqueRoles = [...new Set(allRoles)];
-    uniqueRoles.sort(); // Sort alphabetically
-    if (uniqueRoles.includes('All')) {
-      // Move "All" to the beginning
-      uniqueRoles.splice(uniqueRoles.indexOf('All'), 1);
-      uniqueRoles.unshift('All');
-    } else {
-      uniqueRoles.unshift('All');
-    }
+    const uniqueRoles = ['All', ...[...new Set(allRoles)].filter(r => r !== 'All').sort()];
     return uniqueRoles;
   }, []);
 
@@ -243,6 +234,10 @@ export default function TimetablePage() {
   }, []);
 
   const eventDays = Object.entries(groupedEvents);
+  
+  const totalDays = eventDays.length;
+  const totalEvents = events.length;
+  const totalPoints = 5000; // Placeholder based on profile page
 
   const roleDotColors: Record<string, string> = {
     'General Delegates': 'bg-status-amber',
@@ -256,29 +251,57 @@ export default function TimetablePage() {
 
   return (
     <PageWrapper>
-      <main className="flex-1 p-4 sm:p-6 mb-16">
-        <div className="max-w-6xl mx-auto">
-          <div className="mb-8 flex items-center justify-between">
-            <Logo />
-          </div>
-          <div className="mb-8">
-            <h1 className="text-2xl sm:text-3xl font-bold font-headline tracking-tight text-foreground">
-              Event Timetable
-            </h1>
-            <p className="text-muted-foreground mt-1 text-sm sm:text-base">Your personalized schedule for the conference.</p>
-          </div>
-
-          <div className="relative mb-8">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-            <Input
-              type="search"
-              placeholder="Search events by title or description..."
-              className="w-full pl-10"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
+      <main className="flex-1 pb-16">
+        <header className="relative mb-8 text-primary-foreground">
+          <div className="absolute inset-0">
+            <Image
+              src="https://placehold.co/1200x400.png"
+              data-ai-hint="conference crowd"
+              alt="Conference background"
+              fill
+              className="object-cover"
+              priority
             />
+             <div className="absolute inset-0 bg-black/60" />
           </div>
+          
+          <div className="relative z-10 p-4 sm:p-6 lg:p-8">
+            <div className="flex justify-between items-center mb-4">
+              <h1 className="text-xl sm:text-2xl font-bold">Layipo 2025</h1>
+              <Button variant="ghost" size="icon" className="text-white hover:bg-white/20">
+                <Bell className="h-5 w-5" />
+              </Button>
+            </div>
 
+            <div className="relative mb-6">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+              <Input
+                type="search"
+                placeholder="Search events..."
+                className="w-full pl-10 bg-white/90 text-foreground"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+            </div>
+
+            <div className="grid grid-cols-3 gap-4 text-center">
+              <div>
+                <p className="font-bold text-lg sm:text-xl">{totalDays}</p>
+                <p className="text-xs sm:text-sm opacity-80">Days</p>
+              </div>
+              <div>
+                <p className="font-bold text-lg sm:text-xl">{totalEvents}</p>
+                <p className="text-xs sm:text-sm opacity-80">Sessions</p>
+              </div>
+              <div>
+                <p className="font-bold text-lg sm:text-xl">{totalPoints.toLocaleString()}</p>
+                <p className="text-xs sm:text-sm opacity-80">Points</p>
+              </div>
+            </div>
+          </div>
+        </header>
+
+        <div className="max-w-6xl mx-auto px-4 sm:px-6">
           <div className="mb-8">
             <h3 className="text-base font-semibold mb-3 flex items-center gap-2">
               <UserCheck className="w-4 h-4 text-primary" />
