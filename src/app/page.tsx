@@ -157,12 +157,12 @@ function EventCard({ event }: { event: Event }) {
             )}
           </AnimatePresence>
         </CardContent>
-        <CardFooter className="flex flex-wrap items-center gap-2 p-4 sm:p-6 pt-0">
+        <CardFooter className="flex justify-end gap-2 p-4 sm:p-6 pt-0">
           <Button variant="outline" size="sm" onClick={handleSetReminder} disabled={isReminderSet}>
             {isReminderSet ? <BellRing /> : <Bell />}
             {isReminderSet ? 'Reminder Set' : 'Set Reminder'}
           </Button>
-          <Button variant="ghost" size="sm" onClick={() => setIsDescriptionVisible(!isDescriptionVisible)} className="ml-auto">
+          <Button variant="ghost" size="sm" onClick={() => setIsDescriptionVisible(!isDescriptionVisible)}>
             <Info />
             <span>{isDescriptionVisible ? 'Hide Details' : 'Show Details'}</span>
           </Button>
