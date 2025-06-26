@@ -1,6 +1,6 @@
 'use client';
 import * as React from 'react';
-import { Bell, Shirt, MapPin, Clock, Info, UserCheck } from 'lucide-react';
+import { Bell, Shirt, MapPin, Clock, Info, UserCheck, BellRing } from 'lucide-react';
 import Image from 'next/image';
 import { events, type Event, venues, type Venue } from '@/lib/data';
 import { Button } from '@/components/ui/button';
@@ -21,6 +21,7 @@ import { PageWrapper } from '@/components/page-wrapper';
 import { cn } from '@/lib/utils';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
+import { AnimatePresence, motion } from 'framer-motion';
 
 const venuesMap = venues.reduce((acc, venue) => {
   acc[venue.name] = venue;
@@ -44,7 +45,7 @@ function VenueModal({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-md">
+      <DialogContent className="m-4 rounded-2xl sm:max-w-md">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <MapPin className="w-5 h-5 text-primary" /> {venue.name}
@@ -85,7 +86,7 @@ function DressCodeModal({
 }) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="m-4 rounded-2xl sm:max-w-md">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <Shirt className="w-5 h-5 text-primary" /> Dress Code: {event.dressCode.title}
@@ -122,9 +123,11 @@ function EventCard({ event }: { event: Event }) {
   const { toast } = useToast();
   const [isDressCodeModalOpen, setIsDressCodeModalOpen] = React.useState(false);
   const [selectedVenue, setSelectedVenue] = React.useState<string | null>(null);
-
+  const [isReminderSet, setIsReminderSet] = React.useState(false);
+  const [isDescriptionVisible, setIsDescriptionVisible] = React.useState(false);
 
   const handleSetReminder = () => {
+    setIsReminderSet(true);
     toast({
       title: 'Reminder Set!',
       description: `We'll notify you before "${event.title}" starts.`,
@@ -142,7 +145,7 @@ function EventCard({ event }: { event: Event }) {
         )}
       >
         <CardHeader className="p-4 sm:p-6">
-          <CardTitle className="text-primary text-lg md:text-xl break-words">{event.title}</CardTitle>
+          <CardTitle className="text-primary text-base sm:text-lg md:text-xl break-words">{event.title}</CardTitle>
         </CardHeader>
         <CardContent className="flex-grow space-y-3 p-4 sm:p-6 pt-0">
           <div className="flex items-center text-sm text-muted-foreground">
@@ -169,19 +172,36 @@ function EventCard({ event }: { event: Event }) {
               ))}
             </div>
           </div>
-          <div className="flex items-start text-sm text-muted-foreground">
-            <Info className="w-4 h-4 mr-2 mt-1 shrink-0" />
-            <span>{event.description}</span>
-          </div>
+          <AnimatePresence>
+            {isDescriptionVisible && (
+               <motion.div
+                key="description"
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: 'auto' }}
+                exit={{ opacity: 0, height: 0 }}
+                transition={{ duration: 0.3, ease: 'easeInOut' }}
+                className="overflow-hidden"
+              >
+                <div className="flex items-start text-sm text-muted-foreground pt-2">
+                  <Info className="w-4 h-4 mr-2 mt-1 shrink-0" />
+                  <span>{event.description}</span>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </CardContent>
-        <CardFooter className="flex flex-wrap gap-2 p-4 sm:p-6 pt-0">
-          <Button variant="outline" size="sm" onClick={handleSetReminder}>
-            <Bell className="w-4 h-4 mr-2" />
-            Set Reminder
+        <CardFooter className="flex items-center gap-2 p-4 sm:p-6 pt-0">
+          <Button variant="outline" size="sm" onClick={handleSetReminder} disabled={isReminderSet}>
+            {isReminderSet ? <BellRing /> : <Bell />}
+            {isReminderSet ? 'Reminder Set' : 'Set Reminder'}
           </Button>
           <Button variant="outline" size="sm" onClick={() => setIsDressCodeModalOpen(true)}>
-            <Shirt className="w-4 h-4 mr-2" />
+            <Shirt />
             Dress Code
+          </Button>
+          <Button variant="ghost" size="icon" onClick={() => setIsDescriptionVisible(!isDescriptionVisible)} className="ml-auto">
+            <Info />
+            <span className="sr-only">{isDescriptionVisible ? 'Hide Details' : 'Show Details'}</span>
           </Button>
         </CardFooter>
       </Card>
@@ -195,10 +215,9 @@ export default function TimetablePage() {
   const [filter, setFilter] = React.useState('All');
 
   const roles = React.useMemo(() => {
-    const uniqueRoles = [...new Set(events.map((e) => e.role))].sort();
-    if (!uniqueRoles.includes('All')) {
-        return ['All', ...uniqueRoles];
-    }
+    const uniqueRoles = ['All', ...new Set(events.map((e) => e.role))].filter(
+      (role, index, self) => self.indexOf(role) === index
+    );
     return uniqueRoles;
   }, []);
 
@@ -237,7 +256,7 @@ export default function TimetablePage() {
             <h1 className="text-2xl sm:text-3xl font-bold font-headline tracking-tight text-foreground">
               Event Timetable
             </h1>
-            <p className="text-muted-foreground mt-1">Your personalized schedule for the conference.</p>
+            <p className="text-muted-foreground mt-1 text-sm sm:text-base">Your personalized schedule for the conference.</p>
           </div>
 
           <div className="mb-8">
@@ -274,7 +293,7 @@ export default function TimetablePage() {
               <TabsList className="inline-flex h-auto p-1">
                 {eventDays.map(([date]) => (
                   <TabsTrigger key={date} value={date} className="text-xs sm:text-sm">
-                    {date.split(',')[0]}
+                    {date.split(',')[0].slice(0,3)}
                   </TabsTrigger>
                 ))}
               </TabsList>
@@ -289,6 +308,7 @@ export default function TimetablePage() {
 
               return (
                 <TabsContent key={date} value={date} className="mt-6">
+                  <h2 className="text-lg sm:text-xl font-semibold mb-4 text-foreground">{date}</h2>
                   {filteredDayEvents.length === 0 ? (
                     <div className="text-center text-muted-foreground py-10">
                       No events scheduled for this day with the selected filter.
