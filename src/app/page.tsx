@@ -74,42 +74,6 @@ function VenueModal({
   );
 }
 
-
-function DressCodeModal({
-  event,
-  open,
-  onOpenChange,
-}: {
-  event: Event;
-  open: boolean;
-  onOpenChange: (open: boolean) => void;
-}) {
-  return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="m-4 rounded-2xl sm:max-w-md">
-        <DialogHeader>
-          <DialogTitle className="flex items-center gap-2">
-            <Shirt className="w-5 h-5 text-primary" /> Dress Code: {event.dressCode.title}
-          </DialogTitle>
-          <DialogDescription>Official guidelines for {event.title}.</DialogDescription>
-        </DialogHeader>
-        <div className="grid gap-4 py-4 max-h-[70vh] overflow-y-auto pr-2">
-          <ul className="space-y-2 text-sm text-muted-foreground list-disc list-inside">
-            {event.dressCode.details.map((tip, i) => (
-              <li key={i}>{tip}</li>
-            ))}
-          </ul>
-        </div>
-        <DialogFooter>
-          <Button variant="ghost" onClick={() => onOpenChange(false)}>
-            Close
-          </Button>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
-  );
-}
-
 const roleColors: Record<string, string> = {
   'General Delegates': 'border-l-status-amber',
   'LOC/COC': 'border-l-status-red',
@@ -121,7 +85,6 @@ const roleColors: Record<string, string> = {
 
 function EventCard({ event }: { event: Event }) {
   const { toast } = useToast();
-  const [isDressCodeModalOpen, setIsDressCodeModalOpen] = React.useState(false);
   const [selectedVenue, setSelectedVenue] = React.useState<string | null>(null);
   const [isReminderSet, setIsReminderSet] = React.useState(false);
   const [isDescriptionVisible, setIsDescriptionVisible] = React.useState(false);
@@ -152,7 +115,7 @@ function EventCard({ event }: { event: Event }) {
             <Clock className="w-4 h-4 mr-2" />
             <span>{event.time}</span>
           </div>
-           <div className="flex items-start text-sm text-muted-foreground">
+          <div className="flex items-start text-sm text-muted-foreground">
             <MapPin className="w-4 h-4 mr-2 mt-1 shrink-0" />
             <div className="flex flex-wrap items-center gap-x-1">
               {event.location.split(', ').map((part, index, arr) => (
@@ -171,6 +134,10 @@ function EventCard({ event }: { event: Event }) {
                 </React.Fragment>
               ))}
             </div>
+          </div>
+          <div className="flex items-center text-sm text-muted-foreground">
+            <Shirt className="w-4 h-4 mr-2" />
+            <span>{event.dressCode.title}</span>
           </div>
           <AnimatePresence>
             {isDescriptionVisible && (
@@ -195,17 +162,12 @@ function EventCard({ event }: { event: Event }) {
             {isReminderSet ? <BellRing /> : <Bell />}
             {isReminderSet ? 'Reminder Set' : 'Set Reminder'}
           </Button>
-          <Button variant="outline" size="sm" onClick={() => setIsDressCodeModalOpen(true)}>
-            <Shirt />
-            Dress Code
-          </Button>
           <Button variant="ghost" size="sm" onClick={() => setIsDescriptionVisible(!isDescriptionVisible)} className="ml-auto">
             <Info />
             <span>{isDescriptionVisible ? 'Hide Details' : 'Show Details'}</span>
           </Button>
         </CardFooter>
       </Card>
-      {isDressCodeModalOpen && <DressCodeModal event={event} open={isDressCodeModalOpen} onOpenChange={setIsDressCodeModalOpen} />}
       {selectedVenue && <VenueModal venueName={selectedVenue} open={!!selectedVenue} onOpenChange={() => setSelectedVenue(null)} />}
     </>
   );
@@ -217,7 +179,8 @@ export default function TimetablePage() {
 
   const roles = React.useMemo(() => {
     const allRoles = events.map((e) => e.role);
-    return ['All', ...[...new Set(allRoles)].filter(r => r && r !== 'All').sort()];
+    const uniqueRoles = [...new Set(allRoles)].filter(r => r && r !== 'All').sort();
+    return ['All', ...uniqueRoles];
   }, []);
 
 
@@ -245,7 +208,7 @@ export default function TimetablePage() {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
 
-    const upcomingDate = sortedDates.find(dateStr => parseDate(dateStr) >= today);
+    const upcomingDate = sortedDates.find(dateStr => parseDate(dateStr).getTime() >= today.getTime());
 
     return upcomingDate || sortedDates[0];
   }, [groupedEvents]);
