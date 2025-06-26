@@ -217,7 +217,7 @@ export default function TimetablePage() {
 
   const roles = React.useMemo(() => {
     const allRoles = events.map((e) => e.role);
-    const uniqueRoles = ['All', ...[...new Set(allRoles)].filter(r => r !== 'All').sort()];
+    const uniqueRoles = ['All', ...[...new Set(allRoles)].filter(r => r && r !== 'All').sort()];
     return uniqueRoles;
   }, []);
 
@@ -252,7 +252,7 @@ export default function TimetablePage() {
   return (
     <PageWrapper>
       <main className="flex-1 pb-16">
-        <header className="relative mb-8 text-primary-foreground">
+        <header className="sticky top-0 z-30 text-primary-foreground">
           <div className="absolute inset-0">
             <Image
               src="https://placehold.co/1200x400.png"
@@ -262,7 +262,7 @@ export default function TimetablePage() {
               className="object-cover"
               priority
             />
-             <div className="absolute inset-0 bg-black/60" />
+             <div className="absolute inset-0 bg-black/70 backdrop-blur-sm" />
           </div>
           
           <div className="relative z-10 p-4 sm:p-6 lg:p-8">
@@ -302,7 +302,7 @@ export default function TimetablePage() {
         </header>
 
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
-          <div className="mb-8">
+          <div className="my-8">
             <h3 className="text-base font-semibold mb-3 flex items-center gap-2">
               <UserCheck className="w-4 h-4 text-primary" />
               Filter by Audience
