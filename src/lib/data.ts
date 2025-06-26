@@ -18,6 +18,15 @@ export type Venue = {
   image: string;
 };
 
+export type UserProfile = {
+  name: string;
+  role: string;
+  localOrganisation: string;
+  whatsappNumber: string;
+  imageUrl?: string;
+  points: number;
+};
+
 export const venues: Venue[] = [
   { name: 'Training Hall', description: 'Dedicated space for workshops and training sessions.', image: 'https://images.unsplash.com/photo-1591115765373-5207764f72e7?w=600&h=400&fit=crop&q=80' },
   { name: 'Main Hall', description: 'The primary hall for large gatherings and keynote presentations.', image: 'https://images.unsplash.com/photo-1528605248644-14dd04022da1?w=600&h=400&fit=crop&q=80' },
@@ -162,7 +171,7 @@ export const events: Event[] = [
     time: '9:00 am–6:00 pm',
     title: 'Registration/Documentation',
     location: 'Registration Desk',
-    role: 'Delegates',
+    role: 'General Delegates',
     description: 'Official registration and documentation for all arriving delegates.',
     dressCode: dressCodeDetails['Not stated']
   },
@@ -172,7 +181,7 @@ export const events: Event[] = [
     time: '10:00 am–12:00 pm',
     title: 'Media Rounds',
     location: 'TBA',
-    role: 'Leadership',
+    role: 'Council Members',
     description: 'Media engagement sessions for committee and leadership members.',
     dressCode: dressCodeDetails['Business']
   },
@@ -182,7 +191,7 @@ export const events: Event[] = [
     time: '12:00 pm–2:00 pm',
     title: 'Courtesy Visit',
     location: 'TBA',
-    role: 'Leadership',
+    role: 'Council Members',
     description: 'Official courtesy visits by the convention leadership.',
     dressCode: dressCodeDetails['Business']
   },
@@ -192,7 +201,7 @@ export const events: Event[] = [
     time: '12:00 pm–2:00 pm',
     title: 'Lunch',
     location: 'Open Space',
-    role: 'Delegates',
+    role: 'All',
     description: 'A casual lunch break for delegates to refresh and network.',
     dressCode: dressCodeDetails['Casual']
   },
@@ -202,7 +211,7 @@ export const events: Event[] = [
     time: '2:15 pm–3:45 pm',
     title: 'Skill Development Session I (Training 1)',
     location: 'Favour Hall',
-    role: 'Delegates',
+    role: 'General Delegates',
     description: 'The first training session aimed at skill development for delegates.',
     dressCode: dressCodeDetails['Formal']
   },
@@ -212,7 +221,7 @@ export const events: Event[] = [
     time: '4:00 pm–6:30 pm',
     title: 'Football Competition Preliminaries',
     location: 'Main Bowl',
-    role: 'LOC/COC',
+    role: 'All',
     description: 'The exciting preliminary matches of the inter-organization football competition.',
     dressCode: dressCodeDetails['Sports Wear']
   },
@@ -222,7 +231,7 @@ export const events: Event[] = [
     time: '7:00 pm–8:30 pm',
     title: 'Collegiate Council Meeting',
     location: 'Favour Hall',
-    role: 'Leadership',
+    role: 'Council Members',
     description: 'A formal meeting for all members of the Collegiate Council.',
     dressCode: dressCodeDetails['Business']
   },
@@ -232,7 +241,7 @@ export const events: Event[] = [
     time: '8:00 pm–11:00 pm',
     title: 'Storytelling Time / Campfire',
     location: 'Main Bowl',
-    role: 'Delegates',
+    role: 'All',
     description: 'A relaxing evening of storytelling and networking around a campfire.',
     dressCode: dressCodeDetails['Casual']
   },
@@ -253,7 +262,7 @@ export const events: Event[] = [
     time: '8:30 am–9:45 am',
     title: 'Morning Show',
     location: 'Marquee Hall',
-    role: 'Delegates',
+    role: 'All',
     description: 'An engaging morning show to kickstart the day with news, interviews, and updates.',
     dressCode: dressCodeDetails['Business']
   },
@@ -263,7 +272,7 @@ export const events: Event[] = [
     time: '10:00 am–11:45 am',
     title: 'Skill Dev. Session II (Training 2 & 3)',
     location: 'Marquee Hall, Favour Hall',
-    role: 'Delegates',
+    role: 'All',
     description: 'Two parallel training sessions focusing on different skill development tracks.',
     dressCode: dressCodeDetails['Business']
   },
@@ -273,7 +282,7 @@ export const events: Event[] = [
     time: '12:00 pm–1:30 pm',
     title: 'Speech Contest / Debate Championship',
     location: 'Favour Hall',
-    role: 'Delegates',
+    role: 'All',
     description: 'Witness the final rounds of the thrilling speech and debate competitions.',
     dressCode: dressCodeDetails['Business']
   },
@@ -283,7 +292,7 @@ export const events: Event[] = [
     time: '12:00 pm–2:15 pm',
     title: 'Collegiate General Assembly',
     location: 'Marquee Hall',
-    role: 'Leadership',
+    role: 'Council Members',
     description: 'The formal general assembly for the collegiate council and local presidents.',
     dressCode: dressCodeDetails['Business']
   },
@@ -471,12 +480,6 @@ export const events: Event[] = [
   },
 ];
 
-
-export const user = {
-  name: 'Alex Doe',
-  role: 'Delegate',
-  points: 1250,
-};
 
 export type Badge = {
   id: string;

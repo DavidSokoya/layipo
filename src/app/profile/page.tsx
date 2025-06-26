@@ -2,7 +2,7 @@
 import { Trophy, Award, CalendarCheck2, Users, Star } from 'lucide-react';
 import Image from 'next/image';
 import type { Badge as BadgeType, Reward } from '@/lib/data';
-import { user, rewards } from '@/lib/data';
+import { rewards } from '@/lib/data';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
@@ -12,6 +12,8 @@ import React from 'react';
 import { Logo } from '@/components/ui/logo';
 import { PageWrapper } from '@/components/page-wrapper';
 import { cn } from '@/lib/utils';
+import { useUser } from '@/hooks/use-user';
+import { Skeleton } from '@/components/ui/skeleton';
 
 const badges: BadgeType[] = [
   { id: '1', title: 'Ice Breaker', description: 'Attended opening.', icon: Award, unlocked: true },
@@ -59,13 +61,72 @@ function RewardCard({ reward, userPoints }: { reward: Reward; userPoints: number
   );
 }
 
+function ProfileLoader() {
+    return (
+        <div className="max-w-6xl mx-auto space-y-8">
+            <div className="mb-8">
+                <Logo />
+            </div>
+            <div className="flex flex-col sm:flex-row items-center gap-6">
+                <Skeleton className="w-24 h-24 rounded-full" />
+                <div className="space-y-2">
+                    <Skeleton className="h-8 w-48" />
+                    <Skeleton className="h-5 w-32" />
+                </div>
+            </div>
+            <Card className="bg-gray-200">
+                <CardHeader>
+                    <Skeleton className="h-7 w-40" />
+                    <Skeleton className="h-4 w-64 mt-2" />
+                </CardHeader>
+                <CardContent className="space-y-2">
+                    <Skeleton className="h-8 w-32 mx-auto" />
+                    <Skeleton className="h-2 w-full" />
+                </CardContent>
+            </Card>
+             <div>
+                <Skeleton className="h-8 w-52 mb-4" />
+                <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+                    {Array.from({ length: 4 }).map((_, i) => (
+                        <Skeleton key={i} className="h-20 rounded-lg" />
+                    ))}
+                </div>
+            </div>
+            <div>
+                <Skeleton className="h-8 w-52 mb-4" />
+                <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                    {Array.from({ length: 3 }).map((_, i) => (
+                        <Skeleton key={i} className="h-80 rounded-lg" />
+                    ))}
+                </div>
+            </div>
+        </div>
+    );
+}
+
+
 export default function ProfilePage() {
+  const { user, isLoading } = useUser();
   const [progress, setProgress] = React.useState(0);
 
   React.useEffect(() => {
-    const timer = setTimeout(() => setProgress((user.points / 5000) * 100), 100);
-    return () => clearTimeout(timer);
-  }, []);
+    if (user) {
+      const timer = setTimeout(() => setProgress((user.points / 5000) * 100), 100);
+      return () => clearTimeout(timer);
+    }
+  }, [user]);
+
+  if (isLoading || !user) {
+    return (
+      <PageWrapper>
+        <main className="flex-1 p-4 md:p-6 lg:p-8 mb-16">
+          <ProfileLoader />
+        </main>
+      </PageWrapper>
+    );
+  }
+  
+  const avatarUrl = user.imageUrl || `https://i.pravatar.cc/150?u=${encodeURIComponent(user.name)}`;
 
   return (
     <PageWrapper>
@@ -76,7 +137,7 @@ export default function ProfilePage() {
           </div>
           <div className="flex flex-col sm:flex-row items-center gap-6">
             <Avatar className="w-24 h-24 border-4 border-primary/20">
-              <AvatarImage src={`https://i.pravatar.cc/150?u=${user.name}`} alt={user.name} />
+              <AvatarImage src={avatarUrl} alt={user.name} />
               <AvatarFallback>{user.name.charAt(0)}</AvatarFallback>
             </Avatar>
             <div>
@@ -94,7 +155,7 @@ export default function ProfilePage() {
             </CardHeader>
             <CardContent className="space-y-2">
               <p className="text-3xl font-bold text-center">
-                {user.points} <span className="text-lg font-normal">Points</span>
+                {user.points.toLocaleString()} <span className="text-lg font-normal">Points</span>
               </p>
               <Progress value={progress} className="w-full h-2 [&>div]:bg-white" />
             </CardContent>

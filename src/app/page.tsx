@@ -13,7 +13,6 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
-  DialogDescription,
   DialogFooter,
 } from '@/components/ui/dialog';
 import { PageWrapper } from '@/components/page-wrapper';
@@ -22,6 +21,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Input } from '@/components/ui/input';
+import { useUser } from '@/hooks/use-user';
 
 const venuesMap = venues.reduce((acc, venue) => {
   acc[venue.name] = venue;
@@ -173,6 +173,7 @@ function EventCard({ event }: { event: Event }) {
 }
 
 export default function TimetablePage() {
+  const { user } = useUser();
   const [filter, setFilter] = React.useState('All');
   const [searchQuery, setSearchQuery] = React.useState('');
 
@@ -216,7 +217,7 @@ export default function TimetablePage() {
   
   const totalDays = eventDays.length;
   const totalEvents = events.length;
-  const totalPoints = 5000; // Placeholder based on profile page
+
 
   const roleDotColors: Record<string, string> = {
     'General Delegates': 'bg-status-amber',
@@ -231,7 +232,7 @@ export default function TimetablePage() {
   return (
     <PageWrapper>
       <main className="flex-1 pb-16">
-        <header className="sticky top-0 z-30 text-primary-foreground backdrop-blur-sm">
+        <header className="sticky top-0 z-30 text-primary-foreground backdrop-blur-sm bg-black/30">
           <div className="absolute inset-0 -z-10">
             <Image
               src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=1200&h=400&fit=crop&q=80"
@@ -243,7 +244,7 @@ export default function TimetablePage() {
             />
           </div>
           
-          <div className="relative z-10 p-4 sm:p-6 lg:p-8 bg-black/30">
+          <div className="relative z-10 p-4 sm:p-6 lg:p-8">
             <div className="flex justify-between items-center mb-4">
               <h1 className="text-xl sm:text-2xl font-bold">Layipo 2025</h1>
               <Button variant="ghost" size="icon" className="text-white hover:bg-white/20">
@@ -272,7 +273,7 @@ export default function TimetablePage() {
                 <p className="text-xs sm:text-sm opacity-80">Sessions</p>
               </div>
               <div>
-                <p className="font-bold text-lg sm:text-xl">{totalPoints.toLocaleString()}</p>
+                <p className="font-bold text-lg sm:text-xl">{(user?.points ?? 0).toLocaleString()}</p>
                 <p className="text-xs sm:text-sm opacity-80">Points</p>
               </div>
             </div>

@@ -2,9 +2,8 @@ import type { Metadata, Viewport } from 'next';
 import './globals.css';
 import { Inter } from 'next/font/google';
 import { cn } from '@/lib/utils';
-import { Toaster } from '@/components/ui/toaster';
-import { Pwa } from '@/components/pwa';
-import { BottomNavigation } from '@/components/ui/bottom-navigation';
+import { ClientStateWrapper } from '@/components/client-state-wrapper';
+
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
 
@@ -26,12 +25,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={cn('font-body antialiased', inter.variable)}>
-        <div className="flex flex-col min-h-screen">
-          <div className="flex-1 w-full">{children}</div>
-          <BottomNavigation />
-        </div>
-        <Toaster />
-        <Pwa />
+        <ClientStateWrapper>{children}</ClientStateWrapper>
       </body>
     </html>
   );

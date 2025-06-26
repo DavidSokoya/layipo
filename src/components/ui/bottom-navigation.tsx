@@ -2,12 +2,13 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Home, User, Badge as BadgeIcon } from 'lucide-react';
+import { Home, User, Badge as BadgeIcon, Sparkles } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useState, useEffect } from 'react';
 
 const navItems = [
   { href: '/', label: 'Timetable', icon: Home },
+  { href: '/style-guide', label: 'Style Me', icon: Sparkles },
   { href: '/badge', label: 'My Badge', icon: BadgeIcon },
   { href: '/profile', label: 'Profile', icon: User },
 ];
@@ -23,7 +24,16 @@ export function BottomNavigation() {
   // To prevent hydration mismatch, we only render the nav on the client
   // after the component has mounted.
   if (!mounted) {
-    return null;
+    return (
+        <nav className="fixed bottom-0 left-0 right-0 h-16 bg-card border-t z-50">
+            <div className="flex justify-around items-center h-full max-w-lg mx-auto">
+                {/* Render placeholders or an empty state on the server */}
+                 {navItems.map((item) => (
+                    <div key={item.href} className="w-full h-full"></div>
+                ))}
+            </div>
+        </nav>
+    );
   }
 
   return (
@@ -40,8 +50,8 @@ export function BottomNavigation() {
                 isActive ? "text-primary" : "text-muted-foreground hover:text-primary"
               )}
             >
-              <item.icon className="w-6 h-6 mb-1" />
-              <span>{item.label}</span>
+              <item.icon className="w-5 h-5 mb-1" />
+              <span className="text-xs text-center">{item.label}</span>
             </Link>
           );
         })}
