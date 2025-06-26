@@ -124,7 +124,7 @@ function EventCard({ event }: { event: Event }) {
 export default function TimetablePage() {
   const [filter, setFilter] = React.useState('All');
 
-  const roles = ['All', ...Array.from(new Set(events.map((e) => e.role)))];
+  const roles = Array.from(new Set(['All', ...events.map((e) => e.role)]));
 
   const groupedEvents = React.useMemo(() => {
     return events.reduce<Record<string, Event[]>>((acc, event) => {
