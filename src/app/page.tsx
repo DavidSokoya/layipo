@@ -218,8 +218,10 @@ export default function TimetablePage() {
 
   const roles = React.useMemo(() => {
     const allRoles = events.map((e) => e.role);
-    const uniqueRoles = ['All', ...Array.from(new Set(allRoles))];
-    return uniqueRoles;
+    const uniqueRolesSet = new Set(allRoles);
+    uniqueRolesSet.delete('All');
+    const sortedRoles = Array.from(uniqueRolesSet).sort();
+    return ['All', ...sortedRoles];
   }, []);
 
 
