@@ -1,6 +1,6 @@
 'use client';
 import * as React from 'react';
-import { Bell, Shirt, MapPin, Clock, Info, UserCheck, BellRing } from 'lucide-react';
+import { Bell, Shirt, MapPin, Clock, Info, UserCheck, BellRing, Search } from 'lucide-react';
 import Image from 'next/image';
 import { events, type Event, venues, type Venue } from '@/lib/data';
 import { Button } from '@/components/ui/button';
@@ -22,6 +22,7 @@ import { cn } from '@/lib/utils';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import { AnimatePresence, motion } from 'framer-motion';
+import { Input } from '@/components/ui/input';
 
 const venuesMap = venues.reduce((acc, venue) => {
   acc[venue.name] = venue;
@@ -140,7 +141,7 @@ function EventCard({ event }: { event: Event }) {
     <>
       <Card
         className={cn(
-          'flex flex-col transition-all duration-300 hover:shadow-xl border-l-4',
+          'flex flex-col transition-all duration-300 hover:shadow-xl border-l-4 hover:scale-[1.02]',
           colorClass
         )}
       >
@@ -199,9 +200,9 @@ function EventCard({ event }: { event: Event }) {
             <Shirt />
             Dress Code
           </Button>
-          <Button variant="ghost" size="icon" onClick={() => setIsDescriptionVisible(!isDescriptionVisible)} className="ml-auto">
+          <Button variant="ghost" size="sm" onClick={() => setIsDescriptionVisible(!isDescriptionVisible)} className="ml-auto">
             <Info />
-            <span className="sr-only">{isDescriptionVisible ? 'Hide Details' : 'Show Details'}</span>
+            <span>{isDescriptionVisible ? 'Hide Details' : 'Show Details'}</span>
           </Button>
         </CardFooter>
       </Card>
@@ -213,12 +214,12 @@ function EventCard({ event }: { event: Event }) {
 
 export default function TimetablePage() {
   const [filter, setFilter] = React.useState('All');
+  const [searchQuery, setSearchQuery] = React.useState('');
 
   const roles = React.useMemo(() => {
     const allRoles = events.map((e) => e.role);
-    const uniqueRoles = ['All', ...new Set(allRoles)];
-    // Ensure 'All' is only present once and at the beginning
-    return Array.from(new Set(uniqueRoles));
+    const uniqueRoles = ['All', ...Array.from(new Set(allRoles))];
+    return uniqueRoles;
   }, []);
 
 
@@ -257,6 +258,17 @@ export default function TimetablePage() {
               Event Timetable
             </h1>
             <p className="text-muted-foreground mt-1 text-sm sm:text-base">Your personalized schedule for the conference.</p>
+          </div>
+
+          <div className="relative mb-8">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+            <Input
+              type="search"
+              placeholder="Search events by title or description..."
+              className="w-full pl-10"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
           </div>
 
           <div className="mb-8">
@@ -302,16 +314,24 @@ export default function TimetablePage() {
 
             {eventDays.map(([date, dayEvents]) => {
               const filteredDayEvents =
-                filter === 'All'
+                (filter === 'All'
                   ? dayEvents
-                  : dayEvents.filter((event) => event.role === filter || event.role === 'All');
+                  : dayEvents.filter((event) => event.role === filter || event.role === 'All')
+                ).filter((event) => {
+                  const lowerCaseQuery = searchQuery.trim().toLowerCase();
+                  if (lowerCaseQuery === '') return true;
+                  return (
+                    event.title.toLowerCase().includes(lowerCaseQuery) ||
+                    event.description.toLowerCase().includes(lowerCaseQuery)
+                  );
+                });
 
               return (
                 <TabsContent key={date} value={date} className="mt-6">
                   <h2 className="text-lg sm:text-xl font-semibold mb-4 text-foreground">{date}</h2>
                   {filteredDayEvents.length === 0 ? (
                     <div className="text-center text-muted-foreground py-10">
-                      No events scheduled for this day with the selected filter.
+                      No events scheduled for this day with the selected filters.
                     </div>
                   ) : (
                     <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
