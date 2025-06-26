@@ -1,7 +1,8 @@
 'use client';
 import * as React from 'react';
 import { Bell, Shirt, MapPin, Clock, Info, UserCheck } from 'lucide-react';
-import { events, type Event } from '@/lib/data';
+import Image from 'next/image';
+import { events, type Event, venues, type Venue } from '@/lib/data';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
@@ -20,6 +21,58 @@ import { PageWrapper } from '@/components/page-wrapper';
 import { cn } from '@/lib/utils';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
+
+const venuesMap = venues.reduce((acc, venue) => {
+  acc[venue.name] = venue;
+  return acc;
+}, {} as Record<string, Venue>);
+
+function VenueModal({
+  venueName,
+  open,
+  onOpenChange,
+}: {
+  venueName: string;
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+}) {
+  const venue = venuesMap[venueName];
+
+  if (!venue) {
+    return null;
+  }
+
+  return (
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent className="sm:max-w-md">
+        <DialogHeader>
+          <DialogTitle className="flex items-center gap-2">
+            <MapPin className="w-5 h-5 text-primary" /> {venue.name}
+          </DialogTitle>
+        </DialogHeader>
+        <div className="grid gap-4 py-4">
+          <div className="aspect-video overflow-hidden rounded-lg">
+            <Image
+              src={venue.image}
+              alt={venue.name}
+              width={600}
+              height={400}
+              className="object-cover w-full h-full"
+              data-ai-hint={venue.hint}
+            />
+          </div>
+          <p className="text-sm text-muted-foreground">{venue.description}</p>
+        </div>
+        <DialogFooter>
+          <Button variant="ghost" onClick={() => onOpenChange(false)}>
+            Close
+          </Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  );
+}
+
 
 function DressCodeModal({
   event,
@@ -71,7 +124,9 @@ const roleColors: Record<string, string> = {
 
 function EventCard({ event }: { event: Event }) {
   const { toast } = useToast();
-  const [isModalOpen, setIsModalOpen] = React.useState(false);
+  const [isDressCodeModalOpen, setIsDressCodeModalOpen] = React.useState(false);
+  const [selectedVenue, setSelectedVenue] = React.useState<string | null>(null);
+
 
   const handleSetReminder = () => {
     toast({
@@ -98,9 +153,25 @@ function EventCard({ event }: { event: Event }) {
             <Clock className="w-4 h-4 mr-2" />
             <span>{event.time}</span>
           </div>
-          <div className="flex items-center text-sm text-muted-foreground">
-            <MapPin className="w-4 h-4 mr-2" />
-            <span>{event.location}</span>
+           <div className="flex items-start text-sm text-muted-foreground">
+            <MapPin className="w-4 h-4 mr-2 mt-1 shrink-0" />
+            <div className="flex flex-wrap items-center gap-x-1">
+              {event.location.split(', ').map((part, index, arr) => (
+                <React.Fragment key={part}>
+                  <button
+                    onClick={() => venuesMap[part.trim()] && setSelectedVenue(part.trim())}
+                    className={cn(
+                      "hover:underline hover:text-primary transition-colors text-left",
+                      !venuesMap[part.trim()] && "pointer-events-none"
+                    )}
+                    disabled={!venuesMap[part.trim()]}
+                  >
+                    {part.trim()}
+                  </button>
+                  {index < arr.length - 1 && <span className="text-muted-foreground/80">,</span>}
+                </React.Fragment>
+              ))}
+            </div>
           </div>
           <div className="flex items-start text-sm text-muted-foreground">
             <Info className="w-4 h-4 mr-2 mt-1 shrink-0" />
@@ -112,13 +183,14 @@ function EventCard({ event }: { event: Event }) {
             <Bell className="w-4 h-4 mr-2" />
             Set Reminder
           </Button>
-          <Button variant="outline" size="sm" onClick={() => setIsModalOpen(true)}>
+          <Button variant="outline" size="sm" onClick={() => setIsDressCodeModalOpen(true)}>
             <Shirt className="w-4 h-4 mr-2" />
             Dress Code
           </Button>
         </CardFooter>
       </Card>
-      {isModalOpen && <DressCodeModal event={event} open={isModalOpen} onOpenChange={setIsModalOpen} />}
+      {isDressCodeModalOpen && <DressCodeModal event={event} open={isDressCodeModalOpen} onOpenChange={setIsDressCodeModalOpen} />}
+      {selectedVenue && <VenueModal venueName={selectedVenue} open={!!selectedVenue} onOpenChange={() => setSelectedVenue(null)} />}
     </>
   );
 }
@@ -126,8 +198,9 @@ function EventCard({ event }: { event: Event }) {
 export default function TimetablePage() {
   const [filter, setFilter] = React.useState('All');
 
-  const uniqueRoles = [...new Set(events.map((e) => e.role))];
-  const roles = ['All', ...uniqueRoles.filter((role) => role !== 'All').sort()];
+  const uniqueRoles = [...new Set(events.map((e) => e.role))].sort();
+  const roles = ['All', ...uniqueRoles.filter((role) => role !== 'All')];
+
 
   const groupedEvents = React.useMemo(() => {
     return events.reduce<Record<string, Event[]>>((acc, event) => {

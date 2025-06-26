@@ -12,6 +12,28 @@ export type Event = {
   };
 };
 
+export type Venue = {
+  name: string;
+  description: string;
+  image: string;
+  hint: string;
+};
+
+export const venues: Venue[] = [
+  { name: 'Training Hall', description: 'Dedicated space for workshops and training sessions.', image: 'https://placehold.co/600x400.png', hint: 'conference room' },
+  { name: 'Main Hall', description: 'The primary hall for large gatherings and keynote presentations.', image: 'https://placehold.co/600x400.png', hint: 'event hall' },
+  { name: 'Favour Hall', description: 'A secondary hall used for parallel sessions and smaller events.', image: 'https://placehold.co/600x400.png', hint: 'meeting room' },
+  { name: 'Marquee Hall', description: 'A large, elegant marquee for major ceremonies and banquets.', image: 'https://placehold.co/600x400.png', hint: 'banquet hall' },
+  { name: 'Main Bowl', description: 'The main outdoor arena for sports and large-scale activities.', image: 'https://placehold.co/600x400.png', hint: 'stadium field' },
+  { name: 'Open Space', description: 'Designated outdoor areas for networking, lunch, and casual gatherings.', image: 'https://placehold.co/600x400.png', hint: 'outdoor park' },
+  { name: 'Registration Desk', description: 'The central point for all delegate registrations and documentation.', image: 'https://placehold.co/600x400.png', hint: 'reception desk' },
+  { name: 'LOC Room', description: 'The dedicated operations room for the Local Organizing Committee.', image: 'https://placehold.co/600x400.png', hint: 'office room' },
+  { name: 'Hotel Restaurants', description: 'Various restaurants within the resort hotels serving meals.', image: 'https://placehold.co/600x400.png', hint: 'restaurant interior' },
+  { name: 'Pool Side', description: 'The area around the swimming pool, used for informal meetings and relaxation.', image: 'https://placehold.co/600x400.png', hint: 'poolside lounge' },
+  { name: 'Car Parks', description: 'Designated parking areas for attendees\' vehicles.', image: 'https://placehold.co/600x400.png', hint: 'parking lot' },
+  { name: 'Ilaji Resort', description: 'The main resort complex hosting the convention.', image: 'https://placehold.co/600x400.png', hint: 'resort hotel' },
+];
+
 const dressCodeDetails = {
   'Casual': {
     title: 'Casual',
@@ -89,7 +111,7 @@ export const events: Event[] = [
     date: 'Wednesday, 2nd July 2025',
     time: '9:00 am–4:00 pm',
     title: 'COC/LOC Arrival',
-    location: 'LOC Room, Ilaji Resort',
+    location: 'LOC Room',
     role: 'LOC/COC',
     description: 'Arrival and check-in for the Convention Organizing Committee and Local Organizing Committee members.',
     dressCode: dressCodeDetails['Casual']
@@ -110,7 +132,7 @@ export const events: Event[] = [
     time: '4:00 pm–6:00 pm',
     title: 'COC/LOC Meeting',
     location: 'Ilaji Resort',
-    role: 'COC/LOC',
+    role: 'COC/COC',
     description: 'An important coordination meeting for all COC and LOC members to finalize preparations.',
     dressCode: dressCodeDetails['Casual']
   },
@@ -241,7 +263,7 @@ export const events: Event[] = [
     date: 'Friday, 4th July 2025',
     time: '10:00 am–11:45 am',
     title: 'Skill Dev. Session II (Training 2 & 3)',
-    location: 'Marquee & Favour Halls',
+    location: 'Marquee Hall, Favour Hall',
     role: 'Delegates',
     description: 'Two parallel training sessions focusing on different skill development tracks.',
     dressCode: dressCodeDetails['Business']
