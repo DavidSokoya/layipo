@@ -127,7 +127,8 @@ function EventCard({ event }: { event: Event }) {
 export default function TimetablePage() {
   const [filter, setFilter] = React.useState('All');
 
-  const roles = Array.from(new Set(['All', ...events.map((e) => e.role)]));
+  const uniqueRoles = [...new Set(events.map((e) => e.role))];
+  const roles = ['All', ...uniqueRoles];
 
   const groupedEvents = React.useMemo(() => {
     return events.reduce<Record<string, Event[]>>((acc, event) => {
@@ -141,6 +142,20 @@ export default function TimetablePage() {
   }, []);
 
   const eventDays = Object.entries(groupedEvents);
+
+  const roleDotColors: Record<string, string> = {
+    Delegates: 'bg-status-amber',
+    'LOC/COC': 'bg-status-red',
+    'LOC/COC/Host President': 'bg-status-red',
+    LOs: 'bg-status-red',
+    'Registered Trainers': 'bg-status-green',
+    'CC/LOP/CD': 'bg-status-blue',
+    'Council Members': 'bg-status-blue',
+    'Council Members/LOPs': 'bg-status-blue',
+    'Noble House Members': 'bg-primary',
+    All: 'bg-muted-foreground',
+  };
+
 
   return (
     <PageWrapper>
@@ -156,28 +171,34 @@ export default function TimetablePage() {
             <p className="text-muted-foreground mt-1">Your personalized schedule for the conference.</p>
           </div>
 
-          <Card className="mb-8 shadow-sm">
-            <CardContent className="p-4 md:p-6">
-              <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
-                <UserCheck className="w-5 h-5 text-primary" />
-                Filter by Audience
-              </h3>
-              <RadioGroup
-                defaultValue="All"
-                onValueChange={setFilter}
-                className="flex flex-wrap gap-x-6 gap-y-4"
-              >
-                {roles.map((role) => (
-                  <div key={role} className="flex items-center space-x-2">
-                    <RadioGroupItem value={role} id={`role-${role}`} />
-                    <Label htmlFor={`role-${role}`} className="cursor-pointer hover:text-primary">
-                      {role}
-                    </Label>
-                  </div>
-                ))}
-              </RadioGroup>
-            </CardContent>
-          </Card>
+          <div className="mb-8">
+            <h3 className="text-base font-semibold mb-3 flex items-center gap-2">
+              <UserCheck className="w-4 h-4 text-primary" />
+              Filter by Audience
+            </h3>
+            <ScrollArea className="w-full -mx-1 whitespace-nowrap">
+                <RadioGroup
+                  defaultValue="All"
+                  onValueChange={setFilter}
+                  className="flex gap-3 pb-3 px-1"
+                >
+                  {roles.map((role) => (
+                    <div key={role}>
+                      <RadioGroupItem value={role} id={`role-${role}`} className="peer sr-only" />
+                      <Label
+                        htmlFor={`role-${role}`}
+                        className="flex items-center gap-2.5 rounded-full border bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:bg-primary peer-data-[state=checked]:text-primary-foreground peer-data-[state=checked]:border-primary cursor-pointer"
+                      >
+                        <div className={cn('h-2 w-2 rounded-full', roleDotColors[role] ?? 'bg-border')} />
+                        {role}
+                      </Label>
+                    </div>
+                  ))}
+                </RadioGroup>
+              <ScrollBar orientation="horizontal" className="h-2"/>
+            </ScrollArea>
+          </div>
+
 
           <Tabs defaultValue={eventDays[0]?.[0]} className="w-full">
             <ScrollArea className="w-full whitespace-nowrap rounded-lg border">
