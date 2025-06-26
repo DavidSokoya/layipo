@@ -218,10 +218,16 @@ export default function TimetablePage() {
 
   const roles = React.useMemo(() => {
     const allRoles = events.map((e) => e.role);
-    const uniqueRolesSet = new Set(allRoles);
-    uniqueRolesSet.delete('All');
-    const sortedRoles = Array.from(uniqueRolesSet).sort();
-    return ['All', ...sortedRoles];
+    const uniqueRoles = [...new Set(allRoles)];
+    uniqueRoles.sort(); // Sort alphabetically
+    if (uniqueRoles.includes('All')) {
+      // Move "All" to the beginning
+      uniqueRoles.splice(uniqueRoles.indexOf('All'), 1);
+      uniqueRoles.unshift('All');
+    } else {
+      uniqueRoles.unshift('All');
+    }
+    return uniqueRoles;
   }, []);
 
 
@@ -303,15 +309,25 @@ export default function TimetablePage() {
 
 
           <Tabs defaultValue={eventDays[0]?.[0]} className="w-full">
-            <ScrollArea className="w-full whitespace-nowrap rounded-lg border">
-              <TabsList className="inline-flex h-auto p-1">
-                {eventDays.map(([date]) => (
-                  <TabsTrigger key={date} value={date} className="text-xs sm:text-sm">
-                    {date.split(',')[0].slice(0,3)}
-                  </TabsTrigger>
-                ))}
+            <ScrollArea className="w-full whitespace-nowrap">
+              <TabsList className="inline-flex h-auto p-0 gap-3 bg-transparent">
+                {eventDays.map(([date]) => {
+                  const dayAbbr = date.split(',')[0].slice(0, 3);
+                  const dayNum = date.split(', ')[1].split(' ')[0].replace(/\D/g, '');
+
+                  return (
+                    <TabsTrigger
+                      key={date}
+                      value={date}
+                      className="flex flex-col items-center justify-center h-auto w-16 rounded-lg p-2 ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-md hover:bg-accent/80 data-[state=inactive]:bg-card"
+                    >
+                      <span className="text-xs font-semibold uppercase tracking-wider">{dayAbbr}</span>
+                      <span className="text-2xl font-bold mt-1">{dayNum}</span>
+                    </TabsTrigger>
+                  );
+                })}
               </TabsList>
-              <ScrollBar orientation="horizontal" />
+              <ScrollBar orientation="horizontal" className="mt-2" />
             </ScrollArea>
 
             {eventDays.map(([date, dayEvents]) => {
