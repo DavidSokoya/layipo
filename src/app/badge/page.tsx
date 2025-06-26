@@ -1,4 +1,5 @@
 'use client';
+import { useState, useEffect } from "react";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { user } from "@/lib/data";
@@ -6,20 +7,48 @@ import { ScanLine } from 'lucide-react';
 import { Logo } from "@/components/ui/logo";
 import { PageWrapper } from "@/components/page-wrapper";
 
-const Barcode = () => (
-  <div className="flex justify-center items-end gap-px h-16 w-full px-4" aria-label="Barcode">
-    {Array.from({ length: 70 }).map((_, i) => {
-      const height = 20 + Math.random() * 80;
-      return (
+const Barcode = () => {
+  const [barHeights, setBarHeights] = useState<number[]>([]);
+
+  useEffect(() => {
+    // This code runs only on the client, after the component has mounted
+    const generatedHeights = Array.from({ length: 70 }).map(
+      () => 20 + Math.random() * 80
+    );
+    setBarHeights(generatedHeights);
+  }, []); // The empty dependency array ensures this effect runs only once
+
+  // On the server, and on the client's first render, barHeights will be empty.
+  // We render a placeholder to avoid the hydration error.
+  if (barHeights.length === 0) {
+    // Render a deterministic skeleton/placeholder to avoid layout shift and hydration errors.
+    return (
+       <div className="flex justify-center items-end gap-px h-16 w-full px-4" aria-label="Barcode loading">
+         {Array.from({ length: 70 }).map((_, i) => (
+           <div
+             key={i}
+             className="bg-primary-foreground/20 w-full"
+             style={{ height: `${(i % 10) * 8 + 20}%` }}
+            />
+         ))}
+       </div>
+    );
+  }
+
+  // Once the effect has run on the client, barHeights is populated,
+  // and we render the "real" barcode with random heights.
+  return (
+    <div className="flex justify-center items-end gap-px h-16 w-full px-4" aria-label="Barcode">
+      {barHeights.map((height, i) => (
         <div
           key={i}
           className="bg-primary-foreground/90 w-full"
           style={{ height: `${height}%` }}
         />
-      );
-    })}
-  </div>
-);
+      ))}
+    </div>
+  );
+};
 
 
 export default function BadgePage() {
