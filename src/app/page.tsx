@@ -7,7 +7,6 @@ import {
   MapPin,
   Clock,
   Info,
-  Sparkles,
   UserCheck,
 } from 'lucide-react';
 import { events, type Event } from '@/lib/data';
@@ -31,10 +30,7 @@ import {
   DialogDescription,
   DialogFooter,
 } from '@/components/ui/dialog';
-import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
-import { getStyleTips } from '@/ai/flows/style-tips-flow';
-import { Separator } from '@/components/ui/separator';
 
 function DressCodeModal({
   event,
@@ -45,40 +41,6 @@ function DressCodeModal({
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }) {
-  const [personalStyle, setPersonalStyle] = React.useState('');
-  const [generatedTips, setGeneratedTips] = React.useState<string[] | null>(null);
-  const [isLoading, setIsLoading] = React.useState(false);
-
-  const handleGetStyleTips = async () => {
-    if (!personalStyle.trim()) return;
-    setIsLoading(true);
-    setGeneratedTips(null);
-    try {
-      const response = await getStyleTips({
-        eventTitle: event.title,
-        dressCodeTitle: event.dressCode.title,
-        dressCodeDetails: event.dressCode.details,
-        personalStyle: personalStyle,
-      });
-      setGeneratedTips(response.tips);
-    } catch (error) {
-      console.error('Error getting style tips:', error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  React.useEffect(() => {
-    if (!open) {
-      setTimeout(() => {
-        setPersonalStyle('');
-        setGeneratedTips(null);
-        setIsLoading(false);
-      }, 300);
-    }
-  }, [open]);
-
-
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[425px]">
@@ -96,47 +58,9 @@ function DressCodeModal({
               <li key={i}>{tip}</li>
             ))}
           </ul>
-
-          <Separator className="my-2" />
-
-          <div className="space-y-3">
-             <div className="flex items-start gap-2.5">
-              <Sparkles className="w-5 h-5 text-accent mt-1 shrink-0" />
-              <div>
-                <Label htmlFor="style" className="font-semibold text-base">
-                  Get Personalized AI Tips
-                </Label>
-                <p className="text-sm text-muted-foreground">Describe your personal style, and we&apos;ll suggest how to adapt it for this event.</p>
-              </div>
-            </div>
-            <Input id="style" placeholder="e.g., modern, minimalist, colorful" value={personalStyle} onChange={(e) => setPersonalStyle(e.target.value)} disabled={isLoading} />
-          </div>
-
-          {isLoading && (
-            <div className="flex items-center justify-center gap-2 text-muted-foreground py-4">
-                <Sparkles className="w-4 h-4 animate-spin" />
-                <span>Generating tips...</span>
-            </div>
-          )}
-
-          {generatedTips && (
-             <div className="p-4 mt-2 space-y-3 rounded-md bg-accent/10 border border-accent/20">
-                <h4 className="font-semibold text-accent flex items-center gap-2"><Sparkles className="w-4 h-4" /> Your Style, Elevated:</h4>
-                <ul className="space-y-2 text-sm text-foreground list-disc list-inside pl-4">
-                    {generatedTips.map((tip, i) => (
-                        <li key={i}>{tip}</li>
-                    ))}
-                </ul>
-             </div>
-          )}
-
         </div>
-        <DialogFooter className="gap-2 sm:justify-end flex-col-reverse sm:flex-row">
-            <Button variant="ghost" onClick={() => onOpenChange(false)}>Close</Button>
-            <Button onClick={handleGetStyleTips} disabled={isLoading || !personalStyle.trim()}>
-                {isLoading && <Sparkles className="w-4 h-4 mr-2 animate-spin" />}
-                {isLoading ? 'Thinking...' : 'Get AI Tips'}
-            </Button>
+        <DialogFooter>
+          <Button variant="ghost" onClick={() => onOpenChange(false)}>Close</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
