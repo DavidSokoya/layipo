@@ -232,6 +232,24 @@ export default function TimetablePage() {
     }, {});
   }, []);
 
+  const initialTab = React.useMemo(() => {
+    const parseDate = (dateStr: string): Date => {
+      const cleanDateStr = dateStr.split(', ')[1].replace(/(\d+)(st|nd|rd|th)/, '$1');
+      return new Date(cleanDateStr);
+    };
+    
+    const sortedDates = Object.keys(groupedEvents).sort((a, b) => {
+      return parseDate(a).getTime() - parseDate(b).getTime();
+    });
+
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    const upcomingDate = sortedDates.find(dateStr => parseDate(dateStr) >= today);
+
+    return upcomingDate || sortedDates[0];
+  }, [groupedEvents]);
+
   const eventDays = Object.entries(groupedEvents);
   
   const totalDays = eventDays.length;
@@ -251,8 +269,8 @@ export default function TimetablePage() {
   return (
     <PageWrapper>
       <main className="flex-1 pb-16">
-        <header className="sticky top-0 z-30 text-primary-foreground">
-          <div className="absolute inset-0">
+        <header className="sticky top-0 z-30 text-primary-foreground bg-black/70 backdrop-blur-sm">
+          <div className="absolute inset-0 -z-10">
             <Image
               src="https://placehold.co/1200x400.png"
               data-ai-hint="conference crowd"
@@ -261,7 +279,7 @@ export default function TimetablePage() {
               className="object-cover"
               priority
             />
-             <div className="absolute inset-0 bg-black/70 backdrop-blur-sm" />
+             <div className="absolute inset-0 bg-black/70" />
           </div>
           
           <div className="relative z-10 p-4 sm:p-6 lg:p-8">
@@ -277,7 +295,7 @@ export default function TimetablePage() {
               <Input
                 type="search"
                 placeholder="Search events..."
-                className="w-full pl-10 bg-transparent border border-white/50 text-primary-foreground placeholder:text-primary-foreground/70"
+                className="w-full pl-10 bg-transparent border-white/50 text-primary-foreground placeholder:text-primary-foreground/70"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
@@ -330,7 +348,7 @@ export default function TimetablePage() {
           </div>
 
 
-          <Tabs defaultValue={eventDays[0]?.[0]} className="w-full">
+          <Tabs defaultValue={initialTab} className="w-full">
             <ScrollArea className="w-full whitespace-nowrap">
               <TabsList className="inline-flex h-auto p-0 gap-3 bg-transparent">
                 {eventDays.map(([date]) => {
