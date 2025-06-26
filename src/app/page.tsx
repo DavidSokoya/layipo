@@ -18,6 +18,8 @@ import {
 import { Logo } from '@/components/ui/logo';
 import { PageWrapper } from '@/components/page-wrapper';
 import { cn } from '@/lib/utils';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 
 function DressCodeModal({
   event,
@@ -55,16 +57,16 @@ function DressCodeModal({
 }
 
 const roleColors: Record<string, string> = {
-  'Delegates': 'border-l-status-amber',
+  Delegates: 'border-l-status-amber',
   'LOC/COC': 'border-l-status-red',
   'LOC/COC/Host President': 'border-l-status-red',
-  'LOs': 'border-l-status-red',
+  LOs: 'border-l-status-red',
   'Registered Trainers': 'border-l-status-green',
   'CC/LOP/CD': 'border-l-status-blue',
   'Council Members': 'border-l-status-blue',
   'Council Members/LOPs': 'border-l-status-blue',
   'Noble House Members': 'border-l-primary',
-  'All': 'border-l-border',
+  All: 'border-l-border',
 };
 
 function EventCard({ event }: { event: Event }) {
@@ -124,7 +126,8 @@ function EventCard({ event }: { event: Event }) {
 export default function TimetablePage() {
   const [filter, setFilter] = React.useState('All');
 
-  const roles = Array.from(new Set(['All', ...events.map((e) => e.role)]));
+  const uniqueRoles = Array.from(new Set(events.map((e) => e.role)));
+  const roles = ['All', ...uniqueRoles];
 
   const groupedEvents = React.useMemo(() => {
     return events.reduce<Record<string, Event[]>>((acc, event) => {
@@ -176,31 +179,41 @@ export default function TimetablePage() {
             </CardContent>
           </Card>
 
-          <div className="space-y-10">
+          <Tabs defaultValue={eventDays[0]?.[0]} className="w-full">
+            <ScrollArea className="w-full whitespace-nowrap rounded-lg border">
+              <TabsList className="inline-flex h-auto p-1">
+                {eventDays.map(([date]) => (
+                  <TabsTrigger key={date} value={date} className="text-xs sm:text-sm">
+                    {date.split(',')[0]}
+                  </TabsTrigger>
+                ))}
+              </TabsList>
+              <ScrollBar orientation="horizontal" />
+            </ScrollArea>
+
             {eventDays.map(([date, dayEvents]) => {
               const filteredDayEvents =
                 filter === 'All'
                   ? dayEvents
                   : dayEvents.filter((event) => event.role === filter);
 
-              if (filteredDayEvents.length === 0) {
-                return null;
-              }
-
               return (
-                <div key={date}>
-                  <h2 className="text-2xl font-bold tracking-tight text-foreground mb-4">
-                    {date}
-                  </h2>
-                  <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-                    {filteredDayEvents.map((event) => (
-                      <EventCard key={event.id} event={event} />
-                    ))}
-                  </div>
-                </div>
+                <TabsContent key={date} value={date} className="mt-6">
+                  {filteredDayEvents.length === 0 ? (
+                    <div className="text-center text-muted-foreground py-10">
+                      No events scheduled for this day with the selected filter.
+                    </div>
+                  ) : (
+                    <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                      {filteredDayEvents.map((event) => (
+                        <EventCard key={event.id} event={event} />
+                      ))}
+                    </div>
+                  )}
+                </TabsContent>
               );
             })}
-          </div>
+          </Tabs>
         </div>
       </main>
     </PageWrapper>
