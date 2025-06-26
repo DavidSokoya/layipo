@@ -54,11 +54,17 @@ function DressCodeModal({
   );
 }
 
-const roleColors: Record<Event['role'], string> = {
-  VIP: 'border-l-status-blue',
-  Trainer: 'border-l-status-green',
-  Delegate: 'border-l-status-amber',
-  LOC: 'border-l-status-red',
+const roleColors: Record<string, string> = {
+  'Delegates': 'border-l-status-amber',
+  'LOC/COC': 'border-l-status-red',
+  'LOC/COC/Host President': 'border-l-status-red',
+  'LOs': 'border-l-status-red',
+  'Registered Trainers': 'border-l-status-green',
+  'CC/LOP/CD': 'border-l-status-blue',
+  'Council Members': 'border-l-status-blue',
+  'Council Members/LOPs': 'border-l-status-blue',
+  'Noble House Members': 'border-l-primary',
+  'All': 'border-l-border',
 };
 
 function EventCard({ event }: { event: Event }) {
@@ -72,12 +78,14 @@ function EventCard({ event }: { event: Event }) {
     });
   };
 
+  const colorClass = roleColors[event.role] || 'border-l-border';
+
   return (
     <>
       <Card
         className={cn(
           'flex flex-col transition-all duration-300 hover:shadow-xl border-l-4',
-          roleColors[event.role]
+          colorClass
         )}
       >
         <CardHeader>
@@ -115,17 +123,21 @@ function EventCard({ event }: { event: Event }) {
 
 export default function TimetablePage() {
   const [filter, setFilter] = React.useState('All');
-  const [filteredEvents, setFilteredEvents] = React.useState<Event[]>(events);
-
-  React.useEffect(() => {
-    if (filter === 'All') {
-      setFilteredEvents(events);
-    } else {
-      setFilteredEvents(events.filter((event) => event.role === filter));
-    }
-  }, [filter]);
 
   const roles = ['All', ...Array.from(new Set(events.map((e) => e.role)))];
+
+  const groupedEvents = React.useMemo(() => {
+    return events.reduce<Record<string, Event[]>>((acc, event) => {
+      const date = event.date;
+      if (!acc[date]) {
+        acc[date] = [];
+      }
+      acc[date].push(event);
+      return acc;
+    }, {});
+  }, []);
+
+  const eventDays = Object.entries(groupedEvents);
 
   return (
     <PageWrapper>
@@ -145,7 +157,7 @@ export default function TimetablePage() {
             <CardContent className="p-4 md:p-6">
               <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
                 <UserCheck className="w-5 h-5 text-primary" />
-                Filter by Role
+                Filter by Audience
               </h3>
               <RadioGroup
                 defaultValue="All"
@@ -164,10 +176,30 @@ export default function TimetablePage() {
             </CardContent>
           </Card>
 
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {filteredEvents.map((event) => (
-              <EventCard key={event.id} event={event} />
-            ))}
+          <div className="space-y-10">
+            {eventDays.map(([date, dayEvents]) => {
+              const filteredDayEvents =
+                filter === 'All'
+                  ? dayEvents
+                  : dayEvents.filter((event) => event.role === filter);
+
+              if (filteredDayEvents.length === 0) {
+                return null;
+              }
+
+              return (
+                <div key={date}>
+                  <h2 className="text-2xl font-bold tracking-tight text-foreground mb-4">
+                    {date}
+                  </h2>
+                  <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                    {filteredDayEvents.map((event) => (
+                      <EventCard key={event.id} event={event} />
+                    ))}
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </div>
       </main>
