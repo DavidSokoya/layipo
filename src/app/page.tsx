@@ -217,8 +217,7 @@ export default function TimetablePage() {
 
   const roles = React.useMemo(() => {
     const allRoles = events.map((e) => e.role);
-    const uniqueRoles = ['All', ...[...new Set(allRoles)].filter(r => r && r !== 'All').sort()];
-    return uniqueRoles;
+    return ['All', ...[...new Set(allRoles)].filter(r => r && r !== 'All').sort()];
   }, []);
 
 
@@ -274,11 +273,11 @@ export default function TimetablePage() {
             </div>
 
             <div className="relative mb-6">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-primary-foreground/70" />
               <Input
                 type="search"
                 placeholder="Search events..."
-                className="w-full pl-10 bg-white/90 text-foreground"
+                className="w-full pl-10 bg-transparent border border-white/50 text-primary-foreground placeholder:text-primary-foreground/70"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
