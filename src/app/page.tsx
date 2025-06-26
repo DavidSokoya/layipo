@@ -1,24 +1,9 @@
 'use client';
-
 import * as React from 'react';
-import {
-  Bell,
-  Shirt,
-  MapPin,
-  Clock,
-  Info,
-  UserCheck,
-} from 'lucide-react';
+import { Bell, Shirt, MapPin, Clock, Info, UserCheck } from 'lucide-react';
 import { events, type Event } from '@/lib/data';
 import { Button } from '@/components/ui/button';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
@@ -30,7 +15,9 @@ import {
   DialogDescription,
   DialogFooter,
 } from '@/components/ui/dialog';
-import { Badge } from '@/components/ui/badge';
+import { Logo } from '@/components/ui/logo';
+import { PageWrapper } from '@/components/page-wrapper';
+import { cn } from '@/lib/utils';
 
 function DressCodeModal({
   event,
@@ -48,9 +35,7 @@ function DressCodeModal({
           <DialogTitle className="flex items-center gap-2">
             <Shirt className="w-5 h-5 text-primary" /> Dress Code: {event.dressCode.title}
           </DialogTitle>
-          <DialogDescription>
-            Official guidelines for {event.title}.
-          </DialogDescription>
+          <DialogDescription>Official guidelines for {event.title}.</DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4 max-h-[70vh] overflow-y-auto pr-2">
           <ul className="space-y-2 text-sm text-muted-foreground list-disc list-inside">
@@ -60,12 +45,21 @@ function DressCodeModal({
           </ul>
         </div>
         <DialogFooter>
-          <Button variant="ghost" onClick={() => onOpenChange(false)}>Close</Button>
+          <Button variant="ghost" onClick={() => onOpenChange(false)}>
+            Close
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
   );
 }
+
+const roleColors: Record<Event['role'], string> = {
+  VIP: 'border-l-status-blue',
+  Trainer: 'border-l-status-green',
+  Delegate: 'border-l-status-amber',
+  LOC: 'border-l-status-red',
+};
 
 function EventCard({ event }: { event: Event }) {
   const { toast } = useToast();
@@ -80,12 +74,14 @@ function EventCard({ event }: { event: Event }) {
 
   return (
     <>
-      <Card className="flex flex-col transition-all duration-300 hover:shadow-lg">
+      <Card
+        className={cn(
+          'flex flex-col transition-all duration-300 hover:shadow-xl border-l-4',
+          roleColors[event.role]
+        )}
+      >
         <CardHeader>
-          <CardTitle className="text-primary">{event.title}</CardTitle>
-          <CardDescription className="flex items-center gap-2 pt-1">
-            <Badge variant="outline">{event.role}</Badge>
-          </CardDescription>
+          <CardTitle className="text-primary-600">{event.title}</CardTitle>
         </CardHeader>
         <CardContent className="flex-grow space-y-3">
           <div className="flex items-center text-sm text-muted-foreground">
@@ -101,7 +97,7 @@ function EventCard({ event }: { event: Event }) {
             <span>{event.description}</span>
           </div>
         </CardContent>
-        <CardFooter className="flex gap-2">
+        <CardFooter className="flex flex-wrap gap-2">
           <Button variant="outline" size="sm" onClick={handleSetReminder}>
             <Bell className="w-4 h-4 mr-2" />
             Set Reminder
@@ -112,9 +108,7 @@ function EventCard({ event }: { event: Event }) {
           </Button>
         </CardFooter>
       </Card>
-      {isModalOpen && (
-        <DressCodeModal event={event} open={isModalOpen} onOpenChange={setIsModalOpen} />
-      )}
+      {isModalOpen && <DressCodeModal event={event} open={isModalOpen} onOpenChange={setIsModalOpen} />}
     </>
   );
 }
@@ -131,42 +125,52 @@ export default function TimetablePage() {
     }
   }, [filter]);
 
-  const roles = ['All', ...Array.from(new Set(events.map(e => e.role)))];
+  const roles = ['All', ...Array.from(new Set(events.map((e) => e.role)))];
 
   return (
-    <main className="flex-1 p-4 md:p-6 lg:p-8">
-      <div className="max-w-6xl mx-auto">
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold font-headline tracking-tight text-primary">Event Timetable</h1>
-          <p className="text-muted-foreground mt-1">
-            Your personalized schedule for the conference.
-          </p>
-        </div>
+    <PageWrapper>
+      <main className="flex-1 p-4 md:p-6 lg:p-8 mb-16">
+        <div className="max-w-6xl mx-auto">
+          <div className="mb-8 flex items-center justify-between">
+            <Logo />
+          </div>
+          <div className="mb-8">
+            <h1 className="text-3xl font-bold font-headline tracking-tight text-foreground">
+              Event Timetable
+            </h1>
+            <p className="text-muted-foreground mt-1">Your personalized schedule for the conference.</p>
+          </div>
 
-        <Card className="mb-8">
-          <CardContent className="p-6">
-            <h3 className="text-lg font-semibold mb-4 flex items-center gap-2"><UserCheck className="w-5 h-5 text-accent"/>Filter by Role</h3>
-            <RadioGroup
-              defaultValue="All"
-              onValueChange={setFilter}
-              className="flex flex-wrap gap-4"
-            >
-              {roles.map(role => (
-                <div key={role} className="flex items-center space-x-2">
-                  <RadioGroupItem value={role} id={`role-${role}`} />
-                  <Label htmlFor={`role-${role}`} className="cursor-pointer hover:text-primary">{role}</Label>
-                </div>
-              ))}
-            </RadioGroup>
-          </CardContent>
-        </Card>
+          <Card className="mb-8 shadow-sm">
+            <CardContent className="p-4 md:p-6">
+              <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
+                <UserCheck className="w-5 h-5 text-primary" />
+                Filter by Role
+              </h3>
+              <RadioGroup
+                defaultValue="All"
+                onValueChange={setFilter}
+                className="flex flex-wrap gap-x-6 gap-y-4"
+              >
+                {roles.map((role) => (
+                  <div key={role} className="flex items-center space-x-2">
+                    <RadioGroupItem value={role} id={`role-${role}`} />
+                    <Label htmlFor={`role-${role}`} className="cursor-pointer hover:text-primary">
+                      {role}
+                    </Label>
+                  </div>
+                ))}
+              </RadioGroup>
+            </CardContent>
+          </Card>
 
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {filteredEvents.map((event) => (
-            <EventCard key={event.id} event={event} />
-          ))}
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {filteredEvents.map((event) => (
+              <EventCard key={event.id} event={event} />
+            ))}
+          </div>
         </div>
-      </div>
-    </main>
+      </main>
+    </PageWrapper>
   );
 }
