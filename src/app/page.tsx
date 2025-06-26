@@ -236,7 +236,7 @@ export default function TimetablePage() {
           <div className="absolute inset-0 -z-10">
             <Image
               src="https://placehold.co/1200x400.png"
-              data-ai-hint="conference crowd"
+              data-ai-hint="youth conference audience"
               alt="Conference background"
               fill
               className="object-cover"
