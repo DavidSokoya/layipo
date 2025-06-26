@@ -110,12 +110,12 @@ function DressCodeModal({
 }
 
 const roleColors: Record<string, string> = {
-  Delegates: 'border-l-status-amber',
+  'General Delegates': 'border-l-status-amber',
   'LOC/COC': 'border-l-status-red',
-  Leadership: 'border-l-status-blue',
+  'Council Members': 'border-l-status-blue',
   'Registered Trainers': 'border-l-status-green',
   'Noble House Members': 'border-l-primary',
-  All: 'border-l-border',
+  'All': 'border-l-border',
 };
 
 function EventCard({ event }: { event: Event }) {
@@ -141,10 +141,10 @@ function EventCard({ event }: { event: Event }) {
           colorClass
         )}
       >
-        <CardHeader>
-          <CardTitle className="text-primary-600">{event.title}</CardTitle>
+        <CardHeader className="p-4 sm:p-6">
+          <CardTitle className="text-primary text-lg md:text-xl break-words">{event.title}</CardTitle>
         </CardHeader>
-        <CardContent className="flex-grow space-y-3">
+        <CardContent className="flex-grow space-y-3 p-4 sm:p-6 pt-0">
           <div className="flex items-center text-sm text-muted-foreground">
             <Clock className="w-4 h-4 mr-2" />
             <span>{event.time}</span>
@@ -174,7 +174,7 @@ function EventCard({ event }: { event: Event }) {
             <span>{event.description}</span>
           </div>
         </CardContent>
-        <CardFooter className="flex flex-wrap gap-2">
+        <CardFooter className="flex flex-wrap gap-2 p-4 sm:p-6 pt-0">
           <Button variant="outline" size="sm" onClick={handleSetReminder}>
             <Bell className="w-4 h-4 mr-2" />
             Set Reminder
@@ -194,8 +194,13 @@ function EventCard({ event }: { event: Event }) {
 export default function TimetablePage() {
   const [filter, setFilter] = React.useState('All');
 
-  const uniqueRoles = [...new Set(events.map((e) => e.role))].sort();
-  const roles = ['All', ...uniqueRoles.filter((role) => role !== 'All')];
+  const roles = React.useMemo(() => {
+    const uniqueRoles = [...new Set(events.map((e) => e.role))].sort();
+    if (!uniqueRoles.includes('All')) {
+        return ['All', ...uniqueRoles];
+    }
+    return uniqueRoles;
+  }, []);
 
 
   const groupedEvents = React.useMemo(() => {
@@ -212,24 +217,24 @@ export default function TimetablePage() {
   const eventDays = Object.entries(groupedEvents);
 
   const roleDotColors: Record<string, string> = {
-    Delegates: 'bg-status-amber',
+    'General Delegates': 'bg-status-amber',
     'LOC/COC': 'bg-status-red',
-    Leadership: 'bg-status-blue',
+    'Council Members': 'bg-status-blue',
     'Registered Trainers': 'bg-status-green',
     'Noble House Members': 'bg-primary',
-    All: 'bg-muted-foreground',
+    'All': 'bg-muted-foreground',
   };
 
 
   return (
     <PageWrapper>
-      <main className="flex-1 p-4 md:p-6 lg:p-8 mb-16">
+      <main className="flex-1 p-4 sm:p-6 mb-16">
         <div className="max-w-6xl mx-auto">
           <div className="mb-8 flex items-center justify-between">
             <Logo />
           </div>
           <div className="mb-8">
-            <h1 className="text-3xl font-bold font-headline tracking-tight text-foreground">
+            <h1 className="text-2xl sm:text-3xl font-bold font-headline tracking-tight text-foreground">
               Event Timetable
             </h1>
             <p className="text-muted-foreground mt-1">Your personalized schedule for the conference.</p>
