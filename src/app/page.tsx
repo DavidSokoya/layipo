@@ -234,7 +234,8 @@ export default function TimetablePage() {
         <header className="sticky top-0 z-30 text-primary-foreground backdrop-blur-sm">
           <div className="absolute inset-0 -z-10">
             <Image
-              src="https://source.unsplash.com/1200x400/?conference,presentation"
+              src="https://source.unsplash.com/1200x400/?youth,conference,audience"
+              data-ai-hint="youth conference audience"
               alt="Conference background"
               fill
               className="object-cover"
