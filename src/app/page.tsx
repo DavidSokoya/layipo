@@ -163,7 +163,7 @@ function EventCard({ event }: { event: Event }) {
           </Button>
           <Button variant="ghost" size="sm" onClick={() => setIsDescriptionVisible(!isDescriptionVisible)}>
             <Info />
-            <span>{isDescriptionVisible ? 'Hide' : 'Details'}</span>
+            <span>Details</span>
           </Button>
         </CardFooter>
       </Card>
@@ -240,7 +240,6 @@ export default function TimetablePage() {
               className="object-cover"
               priority
             />
-             <div className="absolute inset-0 bg-black/70" />
           </div>
           
           <div className="relative z-10 p-4 sm:p-6 lg:p-8">
