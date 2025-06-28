@@ -256,7 +256,7 @@ export default function HomePage() {
                         </Card>
                     </Link>
 
-                    <section className="-mt-6 sm:-mt-8">
+                    <section className="mt-4 sm:mt-6 -mb-6">
                         <ScrollArea className="w-full whitespace-nowrap -mx-4 px-4">
                             <div className="flex w-max space-x-3 py-1">
                                 <Button asChild size="sm" className="text-xs sm:text-sm font-semibold shadow-md bg-status-blue hover:bg-status-blue/90 text-primary-foreground">
@@ -297,7 +297,7 @@ export default function HomePage() {
                         </div>
 
                         {selectedEvents.length > 0 ? (
-                           <ScrollArea className="w-full h-[450px] rounded-lg border p-4">
+                           <ScrollArea className="w-full h-72 rounded-lg border p-4">
                                <div className="grid grid-cols-1 gap-4">
                                    {selectedEvents.map(event => (
                                        <TodayEventCard key={event.id} event={event} />
