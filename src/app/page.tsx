@@ -13,7 +13,6 @@ import { events } from '@/lib/data';
 import { TodayEventCard } from '@/components/today-event-card';
 import { cn } from '@/lib/utils';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
-import { Progress } from '@/components/ui/progress';
 import { Skeleton } from '@/components/ui/skeleton';
 
 
@@ -94,16 +93,7 @@ const FeaturedEventCard = ({ event }: { event: FeaturedEvent }) => (
 
 export default function HomePage() {
   const { user } = useUser();
-  const [progress, setProgress] = React.useState(0);
-
   const demoDate = new Date('2025-07-03T00:00:00');
-
-  React.useEffect(() => {
-    if (user) {
-      const timer = setTimeout(() => setProgress((user.points / 5000) * 100), 100);
-      return () => clearTimeout(timer);
-    }
-  }, [user]);
 
   const parseDate = (dateStr: string): Date => {
     if (!dateStr) return new Date();
@@ -240,22 +230,6 @@ export default function HomePage() {
                 <HomePageHeader />
                 
                 <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 space-y-10 sm:space-y-12">
-                     <Link href="/profile">
-                        <Card className="shadow-lg transition-all hover:shadow-xl hover:scale-[1.02] cursor-pointer bg-gradient-to-br from-blue-500 to-indigo-600 text-primary-foreground">
-                             <CardHeader className="flex flex-row items-center justify-between pb-1 pt-3 px-4">
-                                <CardTitle className="text-sm font-medium text-primary-foreground/80">Your Progress</CardTitle>
-                                <Star className="w-4 h-4 text-primary-foreground/80" />
-                            </CardHeader>
-                             <CardContent className="pt-0 px-4 pb-2">
-                                <div className="text-2xl font-bold">{user.points.toLocaleString()} Points</div>
-                                <p className="text-xs text-primary-foreground/80">
-                                    {5000 - user.points > 0 ? `${(5000 - user.points).toLocaleString()} points to the next reward!` : `You've unlocked all rewards!`}
-                                </p>
-                                <Progress value={progress} className="w-full h-1.5 mt-2 [&>div]:bg-white" />
-                            </CardContent>
-                        </Card>
-                    </Link>
-
                     <section className="-mt-6 -mb-6">
                         <ScrollArea className="w-full whitespace-nowrap -mx-4 px-4">
                             <div className="flex w-max space-x-3 py-1">
@@ -275,7 +249,7 @@ export default function HomePage() {
                     
                     <section>
                         <div className="flex justify-between items-center mb-4">
-                             <h2 className="text-lg font-bold font-headline tracking-tight text-foreground">
+                             <h2 className="text-base font-bold font-headline tracking-tight text-foreground">
                                 {dayStatus === 'Happening' ? `Today's Events` : `${dayStatus} ${dayName}`}
                              </h2>
                              <div className="flex items-center gap-1.5">
@@ -284,7 +258,7 @@ export default function HomePage() {
                                         key={date}
                                         onClick={() => setSelectedDate(date)}
                                         className={cn(
-                                            "w-8 h-8 rounded-full text-xs font-semibold transition-colors flex items-center justify-center",
+                                            "w-7 h-7 rounded-full text-xs font-semibold transition-colors flex items-center justify-center",
                                             selectedDate === date
                                                 ? "bg-primary text-primary-foreground"
                                                 : "bg-muted text-muted-foreground hover:bg-muted/80"
