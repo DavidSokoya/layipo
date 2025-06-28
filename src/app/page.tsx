@@ -1,17 +1,16 @@
-
 'use client';
 import * as React from 'react';
-import { Bell, Search, Calendar, ArrowRight, ChevronDown, ChevronUp } from 'lucide-react';
+import { ArrowRight, ChevronDown, ChevronUp, Star, Users, Award, Trophy, Mic } from 'lucide-react';
 import Image from 'next/image';
 import { events, type Event } from '@/lib/data';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { PageWrapper } from '@/components/page-wrapper';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
-import { Input } from '@/components/ui/input';
 import { useUser } from '@/hooks/use-user';
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
 const featuredItems = [
     {
@@ -72,38 +71,89 @@ const featuredItems = [
     }
 ];
 
+const infoCards = [
+    {
+        title: "Meet the Council",
+        description: "Discover the 2025 JCI Nigeria Collegiate Council, a dynamic group of leaders driven by the Ascend vision.",
+        href: "/council",
+        icon: Users
+    },
+    {
+        title: "Mr & Miss Collegiate",
+        description: "Meet the contestants and judges for this year's pageant. Get ready to vote for your champions!",
+        href: "/contestants",
+        icon: Award
+    },
+    {
+        title: "Football Showdown",
+        description: "The group stage draw is here! Check out the matchups and get ready for the collegiate rivalry to begin.",
+        href: "/football",
+        icon: Trophy
+    }
+]
 
-const FeaturedCard = ({ item }: { item: typeof featuredItems[0] }) => (
-    <Link href={item.href} className="w-56 sm:w-64 flex-shrink-0">
-        <Card className="overflow-hidden transition-all duration-300 hover:shadow-xl group h-full flex flex-col">
-            <div className="aspect-video overflow-hidden relative">
-                <Image
-                    src={item.image}
-                    alt={item.title}
-                    fill
-                    className="object-cover transition-transform group-hover:scale-105"
-                    data-ai-hint={item.dataAiHint}
-                />
+const HomePageHeader = () => {
+    const { user } = useUser();
+    const avatarUrl = user?.imageUrl || `https://i.pravatar.cc/150?u=${encodeURIComponent(user?.name || 'user')}`;
+
+    if (!user) {
+        return (
+            <div className="flex justify-between items-center p-4 bg-card border-b">
+                 <div className="flex items-center gap-4">
+                    <div className="w-16 h-16 bg-muted rounded-full animate-pulse"></div>
+                    <div className="space-y-2">
+                        <div className="w-24 h-5 bg-muted rounded-md animate-pulse"></div>
+                        <div className="w-32 h-8 bg-muted rounded-md animate-pulse"></div>
+                    </div>
+                 </div>
+                 <div className="w-24 h-10 bg-muted rounded-md animate-pulse"></div>
             </div>
-            <CardHeader className="flex-grow p-3 sm:p-4">
-                <CardTitle className="text-sm sm:text-base leading-snug">{item.title}</CardTitle>
-                <CardDescription className="text-xs sm:text-sm mt-1">{item.description}</CardDescription>
-            </CardHeader>
-            <CardFooter className="p-3 sm:p-4 pt-0">
-                <div className="text-xs sm:text-sm font-medium text-primary flex items-center">
-                    See Details <ArrowRight className="ml-2 h-4 w-4" />
+        )
+    }
+
+    return (
+        <div className="flex justify-between items-center p-4 bg-card border-b">
+            <Link href="/profile" className="flex items-center gap-4 group">
+                 <Avatar className="w-16 h-16 border-2 border-primary/20 group-hover:border-primary transition-colors">
+                    <AvatarImage src={avatarUrl} alt={user.name} />
+                    <AvatarFallback>{user.name.charAt(0)}</AvatarFallback>
+                </Avatar>
+                <div>
+                    <p className="text-muted-foreground">Hi, there!</p>
+                    <h1 className="text-2xl font-bold text-foreground group-hover:text-primary transition-colors">{user.name}</h1>
                 </div>
-            </CardFooter>
+            </Link>
+             <Button variant="outline" asChild>
+                <Link href="/profile">
+                    <Star className="w-4 h-4 mr-2 text-amber-500" />
+                    <span>{(user?.points ?? 0).toLocaleString()}</span>
+                </Link>
+            </Button>
+        </div>
+    )
+}
+
+const InfoLinkCard = ({ title, description, href, icon: Icon }: typeof infoCards[0]) => (
+    <Link href={href} className="block group">
+        <Card className="h-full transition-all duration-300 hover:shadow-lg hover:border-primary/50">
+            <CardHeader className="flex flex-row items-center gap-4 p-4">
+                <Icon className="w-8 h-8 text-primary shrink-0" />
+                <div className="flex-1">
+                    <CardTitle className="text-lg">{title}</CardTitle>
+                    <CardDescription>{description}</CardDescription>
+                </div>
+                 <ArrowRight className="w-5 h-5 text-muted-foreground ml-auto group-hover:translate-x-1 transition-transform shrink-0" />
+            </CardHeader>
         </Card>
     </Link>
-);
+)
 
 const TodayEventCard = ({ event }: { event: Event }) => (
     <Link href={`/timetable#${event.id}`} className="block">
         <Card className="transition-all duration-300 hover:shadow-lg hover:bg-muted/50 h-full">
             <CardContent className="p-3 sm:p-4 flex items-center gap-3 sm:gap-4">
                 <div className="bg-primary/10 text-primary p-3 rounded-lg">
-                    <Calendar className="w-5 h-5" />
+                    <Mic className="w-5 h-5" />
                 </div>
                 <div className="flex-1">
                     <p className="font-semibold text-sm leading-snug">{event.title}</p>
@@ -122,14 +172,19 @@ const parseDate = (dateStr: string): Date => {
     return new Date(cleanDateStr);
 };
 
+
 export default function HomePage() {
-    const { user } = useUser();
-    const [searchQuery, setSearchQuery] = React.useState('');
     const [isExpanded, setIsExpanded] = React.useState(false);
 
     const eventDays = React.useMemo(() => {
         const dates = Array.from(new Set(events.map(e => e.date)));
-        return dates.sort((a, b) => parseDate(a).getTime() - parseDate(b).getTime());
+        return dates.sort((a, b) => {
+            const dateA = parseDate(a);
+            const dateB = parseDate(b);
+            if (isNaN(dateA.getTime())) return 1;
+            if (isNaN(dateB.getTime())) return -1;
+            return dateA.getTime() - dateB.getTime();
+        });
     }, []);
 
     const DEMO_DATE = 'Thursday, 3rd July 2025';
@@ -144,7 +199,7 @@ export default function HomePage() {
     const title = React.useMemo(() => {
         const todayForDemo = parseDate(DEMO_DATE);
         const currentSelectedDate = parseDate(selectedDate);
-        if (!currentSelectedDate.getTime()) return "Today's Events";
+        if (isNaN(currentSelectedDate.getTime())) return "Today's Events";
 
         const dayName = selectedDate.split(',')[0];
 
@@ -159,65 +214,16 @@ export default function HomePage() {
         return `Happening on ${dayName}`;
     }, [selectedDate]);
 
-
-    const totalDays = events.reduce((acc, event) => acc.add(event.date), new Set()).size;
-    const totalEvents = events.length;
-
     return (
         <PageWrapper>
             <main className="flex-1 pb-16">
-                <header className="sticky top-0 z-30 h-[calc(100vh/6)] text-primary-foreground backdrop-blur-sm">
-                   <div className="absolute inset-0 -z-10">
-                        <Image
-                            src="https://placehold.co/1200x400.png"
-                            data-ai-hint="youth conference audience"
-                            alt="Conference background"
-                            fill
-                            className="object-cover"
-                            priority
-                        />
-                        <div className="absolute inset-0 bg-black/60" />
-                    </div>
-                    
-                    <div className="relative z-10 flex h-full items-center p-4">
-                        <div className="w-full">
-                            <div className="flex justify-between items-center mb-2">
-                                <h1 className="text-lg sm:text-xl font-bold">Layipo 2025</h1>
-                                <Button variant="ghost" size="icon" className="text-white hover:bg-white/20 -mr-2">
-                                    <Bell className="h-5 w-5" />
-                                </Button>
-                            </div>
-
-                            <div className="relative mb-4">
-                                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-primary-foreground/70" />
-                                <Input
-                                    type="search"
-                                    placeholder="Search events..."
-                                    className="w-full pl-10 bg-transparent border-white/50 text-primary-foreground placeholder:text-primary-foreground/70"
-                                    value={searchQuery}
-                                    onChange={(e) => setSearchQuery(e.target.value)}
-                                />
-                            </div>
-
-                            <div className="grid grid-cols-3 gap-2 sm:gap-4 text-center">
-                                <div>
-                                    <p className="font-bold text-base sm:text-lg">{totalDays}</p>
-                                    <p className="text-xs sm:text-sm opacity-80">Days</p>
-                                </div>
-                                <div>
-                                    <p className="font-bold text-base sm:text-lg">{totalEvents}</p>
-                                    <p className="text-xs sm:text-sm opacity-80">Sessions</p>
-                                </div>
-                                <div>
-                                    <p className="font-bold text-base sm:text-lg">{(user?.points ?? 0).toLocaleString()}</p>
-                                    <p className="text-xs sm:text-sm opacity-80">Points</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </header>
-
+                <HomePageHeader />
+                
                 <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 space-y-10 sm:space-y-12">
+                     <section className="space-y-4">
+                        {infoCards.map((card) => <InfoLinkCard key={card.href} {...card} />)}
+                    </section>
+                
                     <section>
                          <div className="flex flex-wrap items-center justify-between gap-y-2 mb-4">
                             <div className="flex items-center gap-3">
@@ -248,7 +254,7 @@ export default function HomePage() {
                             </div>
                              <Button asChild variant="link" size="sm" className="text-primary -mr-3 sm:mr-0">
                                 <Link href="/timetable">
-                                    View all happenings today <ArrowRight className="ml-1 h-4 w-4" />
+                                    View Full Timetable <ArrowRight className="ml-1 h-4 w-4" />
                                 </Link>
                             </Button>
                         </div>
@@ -277,16 +283,35 @@ export default function HomePage() {
                             </div>
                         )}
                     </section>
-
-                    <section>
+                    
+                     <section>
                         <h2 className="text-xl sm:text-2xl font-bold tracking-tight mb-4">Explore The Event</h2>
                         <ScrollArea className="w-full -mx-4 sm:mx-0">
                             <div className="flex gap-4 pb-4 px-4 sm:px-0">
-                                {featuredItems.map((item) => <FeaturedCard key={item.id} item={item} />)}
+                                {featuredItems.map((item) => (
+                                    <Link key={item.id} href={item.href} className="w-56 sm:w-64 flex-shrink-0">
+                                        <Card className="overflow-hidden transition-all duration-300 hover:shadow-xl group h-full flex flex-col">
+                                            <div className="aspect-video overflow-hidden relative">
+                                                <Image
+                                                    src={item.image}
+                                                    alt={item.title}
+                                                    fill
+                                                    className="object-cover transition-transform group-hover:scale-105"
+                                                    data-ai-hint={item.dataAiHint}
+                                                />
+                                            </div>
+                                            <CardHeader className="flex-grow p-3 sm:p-4">
+                                                <CardTitle className="text-sm sm:text-base leading-snug">{item.title}</CardTitle>
+                                                <CardDescription className="text-xs sm:text-sm mt-1">{item.description}</CardDescription>
+                                            </CardHeader>
+                                        </Card>
+                                    </Link>
+                                ))}
                             </div>
                             <ScrollBar orientation="horizontal" className="h-2" />
                         </ScrollArea>
                     </section>
+
                 </div>
             </main>
         </PageWrapper>
