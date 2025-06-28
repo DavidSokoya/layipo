@@ -1,6 +1,7 @@
+
 'use client';
 import * as React from 'react';
-import { Bell, Shirt, MapPin, Clock, Info, BellRing } from 'lucide-react';
+import { Bell, Shirt, MapPin, Clock, Info, BellRing, ArrowLeft } from 'lucide-react';
 import Image from 'next/image';
 import { events, type Event, venues, type Venue } from '@/lib/data';
 import { Button } from '@/components/ui/button';
@@ -19,6 +20,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Logo } from '@/components/ui/logo';
+import Link from 'next/link';
 
 const venuesMap = venues.reduce((acc, venue) => {
   acc[venue.name] = venue;
@@ -207,7 +209,13 @@ export default function TimetablePage() {
     <PageWrapper>
         <main className="flex-1 p-4 md:p-6 lg:p-8 mb-16">
             <div className="max-w-6xl mx-auto">
-                <div className="mb-8 flex items-center justify-between">
+                 <div className="relative mb-8 flex items-center justify-center">
+                    <Button asChild variant="ghost" size="icon" className="absolute left-0">
+                        <Link href="/">
+                            <ArrowLeft className="h-5 w-5" />
+                            <span className="sr-only">Back to Home</span>
+                        </Link>
+                    </Button>
                     <Logo />
                 </div>
                 <header className="text-center mb-12">

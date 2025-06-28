@@ -11,7 +11,7 @@ import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import { Input } from '@/components/ui/input';
 import { useUser } from '@/hooks/use-user';
 import Link from 'next/link';
-import { Skeleton } from '@/components/ui/skeleton';
+import { cn } from '@/lib/utils';
 
 const featuredItems = [
     {
@@ -110,18 +110,27 @@ const TodayEventCard = ({ event }: { event: Event }) => (
 export default function HomePage() {
     const { user } = useUser();
     const [searchQuery, setSearchQuery] = React.useState('');
-    const [todayEvents, setTodayEvents] = React.useState<Event[]>([]);
-    const [isLoadingToday, setIsLoadingToday] = React.useState(true);
     
-    React.useEffect(() => {
-        // To make the demo more engaging, we'll always show events for the first full day of the conference.
-        const demoDateStr = 'Thursday, 3rd July 2025';
-        
-        const filteredEvents = events.filter(event => event.date === demoDateStr).slice(0, 4);
-        setTodayEvents(filteredEvents);
-        setIsLoadingToday(false);
+    const eventDays = React.useMemo(() => {
+        const dates = Array.from(new Set(events.map(e => e.date)));
+        const parseDate = (dateStr: string): Date => {
+            const cleanDateStr = dateStr.split(', ')[1].replace(/(\d+)(st|nd|rd|th)/, '$1');
+            return new Date(cleanDateStr);
+        };
+        return dates.sort((a, b) => parseDate(a).getTime() - parseDate(b).getTime());
     }, []);
-    
+
+    const DEMO_DATE = 'Thursday, 3rd July 2025';
+    const [selectedDate, setSelectedDate] = React.useState(DEMO_DATE);
+
+    const displayedEvents = React.useMemo(() => {
+        return events.filter(event => event.date === selectedDate).slice(0, 4);
+    }, [selectedDate]);
+
+    const title = selectedDate === DEMO_DATE
+        ? 'Happening Today'
+        : `Happening on ${selectedDate.split(',')[0]}`;
+
     const totalDays = events.reduce((acc, event) => acc.add(event.date), new Set()).size;
     const totalEvents = events.length;
 
@@ -179,26 +188,43 @@ export default function HomePage() {
 
                 <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 space-y-10 sm:space-y-12">
                     <section>
-                        <div className="flex flex-wrap items-center justify-between gap-2 mb-4">
-                            <h2 className="text-xl sm:text-2xl font-bold tracking-tight">Happening Today</h2>
+                         <div className="flex flex-wrap items-center justify-between gap-y-2 mb-4">
+                            <div className="flex items-center gap-3">
+                                <h2 className="text-xl sm:text-2xl font-bold tracking-tight">{title}</h2>
+                                <div className="flex items-center gap-2">
+                                    {eventDays.map((date) => {
+                                        const dayNum = date.split(', ')[1].split(' ')[0].replace(/\D/g, '');
+                                        const isActive = date === selectedDate;
+                                        return (
+                                            <Button
+                                                key={date}
+                                                variant={isActive ? 'default' : 'outline'}
+                                                size="icon"
+                                                className={cn(
+                                                    "h-8 w-8 shrink-0 rounded-full text-xs font-bold",
+                                                    isActive && "shadow-lg"
+                                                )}
+                                                onClick={() => setSelectedDate(date)}
+                                            >
+                                                {dayNum}
+                                            </Button>
+                                        );
+                                    })}
+                                </div>
+                            </div>
                              <Button asChild variant="link" size="sm" className="text-primary -mr-3 sm:mr-0">
                                 <Link href="/timetable">
                                     View All <ArrowRight className="ml-1 h-4 w-4" />
                                 </Link>
                             </Button>
                         </div>
-                        {isLoadingToday ? (
+                        {displayedEvents.length > 0 ? (
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                               <Skeleton className="h-24 w-full rounded-lg" />
-                               <Skeleton className="h-24 w-full rounded-lg" />
-                            </div>
-                        ) : todayEvents.length > 0 ? (
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                {todayEvents.map(event => <TodayEventCard key={event.id} event={event} />)}
+                                {displayedEvents.map(event => <TodayEventCard key={event.id} event={event} />)}
                             </div>
                         ) : (
                             <div className="text-center text-muted-foreground py-10 bg-muted/50 rounded-lg">
-                                <p>No events scheduled for today. Take a rest!</p>
+                                <p>No events scheduled for this day.</p>
                                 <p className="text-sm mt-2">Check the full timetable for other days.</p>
                             </div>
                         )}
