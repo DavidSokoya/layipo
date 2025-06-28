@@ -1,12 +1,10 @@
 'use client';
 import * as React from 'react';
-import { Bell, Shirt, MapPin, Clock, Info, UserCheck, BellRing, Search } from 'lucide-react';
+import { Bell, Shirt, MapPin, Clock, Info, BellRing } from 'lucide-react';
 import Image from 'next/image';
 import { events, type Event, venues, type Venue } from '@/lib/data';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
 import {
   Dialog,
@@ -20,8 +18,6 @@ import { cn } from '@/lib/utils';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import { AnimatePresence, motion } from 'framer-motion';
-import { Input } from '@/components/ui/input';
-import { useUser } from '@/hooks/use-user';
 import { Logo } from '@/components/ui/logo';
 
 const venuesMap = venues.reduce((acc, venue) => {
@@ -176,17 +172,6 @@ function EventCard({ event, id }: { event: Event; id?: string }) {
 }
 
 export default function TimetablePage() {
-  const { user } = useUser();
-  const [filter, setFilter] = React.useState('All');
-  const [searchQuery, setSearchQuery] = React.useState('');
-
-  const roles = React.useMemo(() => {
-    const allRoles = events.map((e) => e.role);
-    const uniqueRoles = [...new Set(allRoles)].filter(r => r && r !== 'All').sort();
-    return ['All', ...uniqueRoles];
-  }, []);
-
-
   const groupedEvents = React.useMemo(() => {
     return events.reduce<Record<string, Event[]>>((acc, event) => {
       const date = event.date;
@@ -218,16 +203,6 @@ export default function TimetablePage() {
 
   const eventDays = Object.entries(groupedEvents);
 
-  const roleDotColors: Record<string, string> = {
-    'General Delegates': 'bg-status-amber',
-    'LOC/COC': 'bg-status-red',
-    'Council Members': 'bg-status-blue',
-    'Registered Trainers': 'bg-status-green',
-    'Noble House Members': 'bg-primary',
-    'All': 'bg-muted-foreground',
-  };
-
-
   return (
     <PageWrapper>
         <main className="flex-1 p-4 md:p-6 lg:p-8 mb-16">
@@ -240,49 +215,9 @@ export default function TimetablePage() {
                         Event Timetable
                     </h1>
                     <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">
-                        Explore the full schedule for Layipo 2025. Use the filters to find sessions relevant to you.
+                        Explore the full schedule for Layipo 2025. Here you can find all sessions, workshops, and activities.
                     </p>
                 </header>
-                 <div className="relative mb-8">
-                  <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-                  <Input
-                    type="search"
-                    placeholder="Search events, topics, or locations..."
-                    className="w-full pl-12 h-12 text-base"
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                  />
-                </div>
-
-
-                <div className="my-8">
-                    <h3 className="text-base font-semibold mb-3 flex items-center gap-2">
-                    <UserCheck className="w-4 h-4 text-primary" />
-                    Filter by Audience
-                    </h3>
-                    <ScrollArea className="w-full -mx-1 whitespace-nowrap">
-                        <RadioGroup
-                        defaultValue="All"
-                        onValueChange={setFilter}
-                        className="flex gap-3 pb-3 px-1"
-                        >
-                        {roles.map((role) => (
-                            <div key={role}>
-                            <RadioGroupItem value={role} id={`role-${role}`} className="peer sr-only" />
-                            <Label
-                                htmlFor={`role-${role}`}
-                                className="flex items-center gap-2.5 rounded-full border bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:bg-primary peer-data-[state=checked]:text-primary-foreground peer-data-[state=checked]:border-primary cursor-pointer"
-                            >
-                                <div className={cn('h-2 w-2 rounded-full', roleDotColors[role] ?? 'bg-border')} />
-                                {role}
-                            </Label>
-                            </div>
-                        ))}
-                        </RadioGroup>
-                    <ScrollBar orientation="horizontal" className="h-2"/>
-                    </ScrollArea>
-                </div>
-
 
                 <Tabs defaultValue={initialTab} className="w-full">
                     <ScrollArea className="w-full whitespace-nowrap">
@@ -307,29 +242,16 @@ export default function TimetablePage() {
                     </ScrollArea>
 
                     {eventDays.map(([date, dayEvents]) => {
-                    const filteredDayEvents =
-                        (filter === 'All'
-                        ? dayEvents
-                        : dayEvents.filter((event) => event.role === filter || event.role === 'All')
-                        ).filter((event) => {
-                        const lowerCaseQuery = searchQuery.trim().toLowerCase();
-                        if (lowerCaseQuery === '') return true;
-                        return (
-                            event.title.toLowerCase().includes(lowerCaseQuery) ||
-                            event.description.toLowerCase().includes(lowerCaseQuery)
-                        );
-                        });
-
                     return (
                         <TabsContent key={date} value={date} className="mt-6">
                         <h2 className="text-lg sm:text-xl font-semibold mb-4 text-foreground">{date}</h2>
-                        {filteredDayEvents.length === 0 ? (
+                        {dayEvents.length === 0 ? (
                             <div className="text-center text-muted-foreground py-10">
-                            No events scheduled for this day with the selected filters.
+                            No events scheduled for this day.
                             </div>
                         ) : (
                             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-                            {filteredDayEvents.map((event) => (
+                            {dayEvents.map((event) => (
                                 <EventCard key={event.id} id={event.id} event={event} />
                             ))}
                             </div>
