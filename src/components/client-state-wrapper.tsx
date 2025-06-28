@@ -12,7 +12,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
 
 const creed = [
-  "That faith in God gives meaning and purpose to human life.",
+  "we believe That faith in God gives meaning and purpose to human life.",
   "That the brotherhood of man transcends the sovereignty of nations.",
   "That economic justice can best be won by free men through free enterprise.",
   "That government should be of laws rather than of men.",
