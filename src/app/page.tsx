@@ -61,6 +61,14 @@ const featuredItems = [
         image: 'https://placehold.co/600x400.png',
         dataAiHint: 'formal banquet',
         href: '/timetable#s9',
+    },
+    {
+        id: 's10',
+        title: 'Tungba Night',
+        description: 'Saturday, 5th July 2025',
+        image: 'https://placehold.co/600x400.png',
+        dataAiHint: 'party night',
+        href: '/timetable#s10',
     }
 ];
 

@@ -1,3 +1,4 @@
+
 'use client';
 
 import * as React from 'react';
@@ -7,9 +8,11 @@ import { PageWrapper } from '@/components/page-wrapper';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
-import { Clock, MapPin, Award, BookCopy, ChevronRight } from 'lucide-react';
+import { Clock, MapPin, Award, BookCopy, ChevronRight, ArrowLeft } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Logo } from '@/components/ui/logo';
+import Link from 'next/link';
+import { Button } from '@/components/ui/button';
 
 function TrainingCard({ training }: { training: Training }) {
   return (
@@ -83,7 +86,13 @@ export default function TrainingsPage() {
         <PageWrapper>
             <main className="flex-1 p-4 md:p-6 lg:p-8 mb-16">
                  <div className="max-w-4xl mx-auto">
-                    <div className="mb-8 flex items-center justify-between">
+                    <div className="relative mb-8 flex items-center justify-center">
+                        <Button asChild variant="ghost" size="icon" className="absolute left-0">
+                            <Link href="/">
+                                <ArrowLeft className="h-5 w-5" />
+                                <span className="sr-only">Back to Home</span>
+                            </Link>
+                        </Button>
                         <Logo />
                     </div>
                     <header className="text-center mb-12">
