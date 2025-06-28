@@ -40,7 +40,7 @@ function FullPageLoader() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.2 }}
-            className="text-muted-foreground text-lg font-medium"
+            className="text-primary text-lg font-bold"
           >
             {creed[index]}
           </motion.p>
