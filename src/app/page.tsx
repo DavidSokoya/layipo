@@ -29,7 +29,6 @@ const HomePageHeader = () => {
                         <div className="w-24 h-6 bg-muted rounded-md animate-pulse"></div>
                     </div>
                  </div>
-                 <div className="w-20 h-9 bg-muted rounded-md animate-pulse"></div>
             </div>
         )
     }
@@ -47,12 +46,6 @@ const HomePageHeader = () => {
                     <h1 className="text-lg font-bold text-foreground group-hover:text-primary transition-colors">Hi, {firstName}</h1>
                 </div>
             </Link>
-             <Button variant="outline" size="sm" asChild>
-                <Link href="/profile">
-                    <Star className="w-4 h-4 mr-2 text-amber-500" />
-                    <span>{(user?.points ?? 0).toLocaleString()}</span>
-                </Link>
-            </Button>
         </div>
     )
 };
@@ -235,17 +228,20 @@ export default function HomePage() {
                 
                 <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 space-y-10 sm:space-y-12">
                     <section>
-                        <div className="flex flex-wrap gap-2 justify-center">
-                             <Button asChild variant="outline" size="sm">
-                                <Link href="/council">Meet the Council</Link>
-                            </Button>
-                            <Button asChild variant="outline" size="sm">
-                                <Link href="/contestants">Mr & Miss Collegiate</Link>
-                            </Button>
-                            <Button asChild variant="outline" size="sm">
-                                <Link href="/football">Football Showdown</Link>
-                            </Button>
-                        </div>
+                        <ScrollArea className="w-full whitespace-nowrap -mx-4 px-4">
+                            <div className="flex w-max space-x-2 mx-auto">
+                                <Button asChild variant="outline" size="sm">
+                                    <Link href="/council">Meet the Council</Link>
+                                </Button>
+                                <Button asChild variant="outline" size="sm">
+                                    <Link href="/contestants">Mr & Miss Collegiate</Link>
+                                </Button>
+                                <Button asChild variant="outline" size="sm">
+                                    <Link href="/football">Football Showdown</Link>
+                                </Button>
+                            </div>
+                            <ScrollBar orientation="horizontal" className="invisible" />
+                        </ScrollArea>
                     </section>
                     
                     <section>
