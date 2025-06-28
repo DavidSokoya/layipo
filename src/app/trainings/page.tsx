@@ -17,19 +17,19 @@ function TrainingCard({ training }: { training: Training }) {
         "flex flex-col overflow-hidden transition-all duration-300 hover:shadow-xl",
         training.special && "bg-gradient-to-br from-primary/90 via-primary/70 to-primary/90 text-primary-foreground shadow-lg"
     )}>
-      <CardHeader className="flex flex-row items-start gap-4 p-4 sm:p-6">
-        <Avatar className="w-16 h-16 border-2 shrink-0 border-white/20">
+      <CardHeader className="flex flex-row items-start gap-4 p-4">
+        <Avatar className="w-12 h-12 sm:w-16 sm:h-16 border-2 shrink-0 border-white/20">
           <AvatarImage src={training.trainerImage} alt={training.trainer} />
           <AvatarFallback>{training.trainer.charAt(0)}</AvatarFallback>
         </Avatar>
         <div className="flex-1">
-          <CardTitle className="text-base sm:text-lg md:text-xl break-words">{training.topic}</CardTitle>
+          <CardTitle className="text-base md:text-lg break-words">{training.topic}</CardTitle>
           <p className={cn("text-sm font-medium mt-1", training.special ? "text-primary-foreground/90" : "text-muted-foreground")}>
             by {training.trainer}
           </p>
         </div>
       </CardHeader>
-      <CardContent className="flex-grow space-y-3 p-4 sm:p-6 pt-0">
+      <CardContent className="flex-grow space-y-3 p-4 pt-0">
          <div className={cn("flex items-center text-sm", training.special ? "text-primary-foreground/90" : "text-muted-foreground")}>
             <Clock className="w-4 h-4 mr-2" />
             <span>{training.time}</span>
@@ -99,7 +99,7 @@ export default function TrainingsPage() {
                         {trainingDays.map(([date, dayTrainings]) => (
                             <section key={date}>
                                 <h2 className="text-2xl font-semibold text-primary mb-6 border-l-4 border-primary pl-4">{date}</h2>
-                                <div className="grid gap-6 md:grid-cols-2">
+                                <div className="grid grid-cols-2 gap-4">
                                     {dayTrainings.map((training) => (
                                         <TrainingCard key={training.id} training={training} />
                                     ))}
