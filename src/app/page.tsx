@@ -13,6 +13,7 @@ import { events } from '@/lib/data';
 import { TodayEventCard } from '@/components/today-event-card';
 import { cn } from '@/lib/utils';
 import { motion } from 'framer-motion';
+import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 
 
 const HomePageHeader = () => {
@@ -70,7 +71,7 @@ type FeaturedEvent = {
 };
 
 const FeaturedEventCard = ({ event }: { event: FeaturedEvent }) => (
-    <Link href={event.href} className="block group">
+    <Link href={event.href} className="block group h-full">
         <Card className="overflow-hidden transition-all duration-300 hover:shadow-xl flex flex-col sm:flex-row h-full">
             <div className="sm:w-1/3 relative overflow-hidden h-36 sm:h-auto">
                 <Image 
@@ -111,7 +112,8 @@ export default function HomePage() {
 
   const parseDate = (dateStr: string): Date => {
     if (!dateStr) return new Date();
-    const datePart = dateStr.split(', ')[1] || dateStr;
+    const datePart = dateStr.split(', ')[1];
+    if (!datePart) return new Date();
     const cleanDateStr = datePart.replace(/(\d+)(st|nd|rd|th)/, '$1');
     return new Date(`${cleanDateStr} 2025`);
   };
@@ -152,8 +154,6 @@ export default function HomePage() {
       return acc;
     }, {} as Record<string, Event>);
   
-    // The user may have requested events that don't exist in the data.
-    // We should handle this gracefully.
     const getEvent = (id: string) => eventMap[id];
   
     return [
@@ -161,13 +161,13 @@ export default function HomePage() {
         ...getEvent('f10'),
         href: '/timetable#f10',
         title: 'Opening Ceremony',
-        dressCode: 'Outfit: Campala',
+        dressCode: `Outfit: ${getEvent('f10')?.dressCode.title || 'Local Fabric'}`,
       },
       {
         ...getEvent('f11'),
         href: '/timetable#f11',
         title: 'Mr & Miss Collegiate',
-        dressCode: `Outfit: ${getEvent('f11')?.dressCode.title || ''}`,
+        dressCode: `Outfit: ${getEvent('f11')?.dressCode.title || 'Casual'}`,
       },
       {
         id: 'trainings',
@@ -183,27 +183,30 @@ export default function HomePage() {
         ...getEvent('f5'),
         href: '/timetable#f5',
         title: 'Collegiate General Assembly',
-        dressCode: 'Outfit: Strictly Formal',
+        dressCode: `Outfit: ${getEvent('f5')?.dressCode.title || 'Business'}`,
       },
       {
         ...getEvent('th9'),
         href: '/timetable#th9',
         title: 'Storytelling / Campfire Night',
-        dressCode: 'Outfit: Rep Your Culture',
+        dressCode: `Outfit: ${getEvent('th9')?.dressCode.title || 'Casual'}`,
       },
       {
         ...getEvent('f4'),
         href: '/timetable#f4',
         title: 'Debate & Speech Finals',
-        dressCode: `Outfit: ${getEvent('f4')?.dressCode.title || ''}`,
+        dressCode: `Outfit: ${getEvent('f4')?.dressCode.title || 'Business'}`,
       },
       {
         ...getEvent('s9'),
         href: '/timetable#s9',
         title: 'Closing Ceremony & Banquet',
-        dressCode: 'Outfit: Black Tie',
+        dressCode: `Outfit: ${getEvent('s9')?.dressCode.title || 'Formal'}`,
       },
-    ].filter(e => e.id) as FeaturedEvent[]; // Filter out any undefined events
+    ].filter(e => e.id && e.title).map(e => ({
+        ...e,
+        image: e.image || 'https://placehold.co/400x400.png'
+    })) as FeaturedEvent[];
   }, []);
 
 
@@ -296,15 +299,6 @@ export default function HomePage() {
                     
                     <section>
                         <h2 className="text-xl font-bold font-headline tracking-tight text-foreground mb-4">
-                            Event Highlights
-                        </h2>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            {featuredEvents.map((event) => <FeaturedEventCard key={event.id} event={event} />)}
-                        </div>
-                    </section>
-                    
-                    <section>
-                        <h2 className="text-xl font-bold font-headline tracking-tight text-foreground mb-4">
                             More Information
                         </h2>
                         <div className="flex flex-wrap gap-2">
@@ -318,6 +312,22 @@ export default function HomePage() {
                                 <Link href="/football">Football Showdown</Link>
                             </Button>
                         </div>
+                    </section>
+
+                    <section>
+                        <h2 className="text-xl font-bold font-headline tracking-tight text-foreground mb-4">
+                            Event Highlights
+                        </h2>
+                         <ScrollArea className="w-full whitespace-nowrap rounded-md">
+                            <div className="flex w-max space-x-4 pb-4">
+                                {featuredEvents.map((event) => (
+                                     <div key={event.id} className="w-[300px] sm:w-[350px] overflow-hidden">
+                                        <FeaturedEventCard event={event} />
+                                    </div>
+                                ))}
+                            </div>
+                            <ScrollBar orientation="horizontal" />
+                        </ScrollArea>
                     </section>
                 </div>
             </main>
