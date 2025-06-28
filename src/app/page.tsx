@@ -142,14 +142,14 @@ export default function HomePage() {
         const dayName = selectedDate.split(',')[0];
 
         if (currentSelectedDate.getTime() === todayForDemo.getTime()) {
-          return 'Happening Today';
+          return "Today's Events";
         }
 
         if (currentSelectedDate.getTime() < todayForDemo.getTime()) {
           return `Happened on ${dayName}`;
         }
 
-        return `Happening on ${dayName}`;
+        return `${dayName}'s Events`;
     }, [selectedDate]);
 
 
@@ -236,7 +236,7 @@ export default function HomePage() {
                             </div>
                              <Button asChild variant="link" size="sm" className="text-primary -mr-3 sm:mr-0">
                                 <Link href="/timetable">
-                                    View All <ArrowRight className="ml-1 h-4 w-4" />
+                                    View Full Timetable <ArrowRight className="ml-1 h-4 w-4" />
                                 </Link>
                             </Button>
                         </div>
