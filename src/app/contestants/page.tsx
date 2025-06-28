@@ -25,6 +25,11 @@ const contestants = [
     }
 ]
 
+const judges = [
+    { name: 'Miss Ibadan 2024', title: 'Special Guest Judge', image: 'https://i.pravatar.cc/150?u=MissIbadan' },
+    { name: '2025 JCI Nigeria Director', title: 'Growth and Development', image: 'https://i.pravatar.cc/150?u=JCIDirector' }
+]
+
 export default function ContestantsPage() {
     return (
         <PageWrapper>
@@ -44,7 +49,7 @@ export default function ContestantsPage() {
                            Meet the Contestants: Mr & Miss Collegiate 2025
                         </h1>
                         <p className="mt-4 text-lg text-muted-foreground max-w-3xl mx-auto">
-                           The spotlight is back, and it’s shining on brilliance! We’re proud to unveil the remarkable young leaders vying for the crown in this year’s Mr & Miss Collegiate. From campuses across the nation, these vibrant individuals bring intellect, charisma, and purpose to the stage.
+                           The spotlight is back, and it’s shining on brilliance! We’re proud to unveil the remarkable young leaders vying for the crown in this year’s Mr & Miss Collegiate.
                         </p>
                         <p className="mt-2 text-base text-muted-foreground max-w-3xl mx-auto">
                             Voting begins soon and only the top 7 with the highest votes will move on, so get ready to vote, rally your campus, and support your champions!
@@ -64,7 +69,6 @@ export default function ContestantsPage() {
                                 </CardHeader>
                                 <CardContent className="flex-grow p-6 pt-0">
                                     <p className="text-muted-foreground">{c.description}</p>
-
                                 </CardContent>
                                 <CardFooter className="p-4 bg-muted/50 mt-auto">
                                     <Button variant="ghost" className="w-full font-bold text-primary">
@@ -79,23 +83,17 @@ export default function ContestantsPage() {
                         <h2 className="text-2xl font-bold font-headline tracking-tight text-foreground sm:text-3xl">
                            Meet Our Esteemed Judges
                         </h2>
-                        <div className="mt-8 flex flex-col md:flex-row justify-center items-center gap-8 md:gap-12">
-                            <div className="text-center">
-                                <Avatar className="w-24 h-24 mx-auto mb-4 border-4 border-primary/20">
-                                    <AvatarImage src="https://i.pravatar.cc/150?u=MissIbadan" alt="Miss Ibadan 2024" />
-                                    <AvatarFallback>MI</AvatarFallback>
-                                </Avatar>
-                                <h3 className="text-xl font-semibold">Miss Ibadan 2024</h3>
-                                <p className="text-muted-foreground">Special Guest Judge</p>
-                            </div>
-                             <div className="text-center">
-                                <Avatar className="w-24 h-24 mx-auto mb-4 border-4 border-primary/20">
-                                    <AvatarImage src="https://i.pravatar.cc/150?u=JCIDirector" alt="JCI Director" />
-                                    <AvatarFallback>JD</AvatarFallback>
-                                </Avatar>
-                                <h3 className="text-xl font-semibold">2025 JCI Nigeria Director</h3>
-                                <p className="text-muted-foreground">Growth and Development</p>
-                            </div>
+                        <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-8">
+                           {judges.map(judge => (
+                                <div key={judge.name} className="text-center">
+                                    <Avatar className="w-24 h-24 mx-auto mb-4 border-4 border-primary/20">
+                                        <AvatarImage src={judge.image} alt={judge.name} />
+                                        <AvatarFallback>{judge.name.charAt(0)}</AvatarFallback>
+                                    </Avatar>
+                                    <h3 className="text-xl font-semibold">{judge.name}</h3>
+                                    <p className="text-muted-foreground">{judge.title}</p>
+                                </div>
+                           ))}
                         </div>
                     </div>
                     
@@ -103,7 +101,7 @@ export default function ContestantsPage() {
                         <CardHeader>
                             <CardTitle>Who will be crowned?</CardTitle>
                             <CardDescription>
-                                Join the excitement at the Collegiate Conference, July 3rd-6th at Ilaji Resort, Ibadan! With special guest judge Miss Ibadan, this competition promises to be unforgettable. Don't miss the talent showcases, interviews, and fashion parades!
+                                Join the excitement at the Collegiate Conference, July 3rd-6th at Ilaji Resort, Ibadan! Don't miss the talent showcases, interviews, and fashion parades!
                             </CardDescription>
                         </CardHeader>
                     </Card>
