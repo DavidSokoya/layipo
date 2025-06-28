@@ -1,4 +1,5 @@
 
+
 export type Event = {
   id: string;
   date: string;
@@ -11,6 +12,8 @@ export type Event = {
     title: string;
     details: string[];
   };
+  image?: string;
+  dataAiHint?: string;
 };
 
 export type Venue = {
@@ -138,7 +141,9 @@ export const events: Event[] = [
     location: 'LOC Room, Ilaji Resort',
     role: 'LOC/COC',
     description: 'Arrival and check-in for the Convention Organizing Committee and Local Organizing Committee members.',
-    dressCode: dressCodeDetails['Casual']
+    dressCode: dressCodeDetails['Casual'],
+    image: 'https://placehold.co/400x400.png',
+    dataAiHint: 'committee meeting',
   },
   {
     id: 'w2',
@@ -148,7 +153,9 @@ export const events: Event[] = [
     location: 'Training Hall, Ilaji Resort',
     role: 'Registered Trainers',
     description: 'The first day of an intensive academy for registered trainers focusing on social enterprise.',
-    dressCode: dressCodeDetails['Formal']
+    dressCode: dressCodeDetails['Formal'],
+    image: 'https://placehold.co/400x400.png',
+    dataAiHint: 'business workshop',
   },
   {
     id: 'w3',
@@ -158,7 +165,9 @@ export const events: Event[] = [
     location: 'Ilaji Resort',
     role: 'LOC/COC',
     description: 'An important coordination meeting for all COC and LOC members to finalize preparations.',
-    dressCode: dressCodeDetails['Casual']
+    dressCode: dressCodeDetails['Casual'],
+    image: 'https://placehold.co/400x400.png',
+    dataAiHint: 'team meeting',
   },
   {
     id: 'w4',
@@ -168,7 +177,9 @@ export const events: Event[] = [
     location: 'Main Hall, Ilaji Resort',
     role: 'LOC/COC',
     description: 'Final branding and setup of key event areas by the organizing committees.',
-    dressCode: dressCodeDetails['Casual']
+    dressCode: dressCodeDetails['Casual'],
+    image: 'https://placehold.co/400x400.png',
+    dataAiHint: 'event setup',
   },
   // Thursday
   {
@@ -179,7 +190,9 @@ export const events: Event[] = [
     location: 'Training Hall, Ilaji Resort',
     role: 'Registered Trainers',
     description: 'The second day of the Social Enterprise Academy, continuing the deep-dive sessions.',
-    dressCode: dressCodeDetails['Formal']
+    dressCode: dressCodeDetails['Formal'],
+    image: 'https://placehold.co/400x400.png',
+    dataAiHint: 'business workshop',
   },
   {
     id: 'th2',
@@ -189,7 +202,9 @@ export const events: Event[] = [
     location: 'Registration Desk, Ilaji Resort',
     role: 'General Delegates',
     description: 'Official registration and documentation for all arriving delegates.',
-    dressCode: dressCodeDetails['Not stated']
+    dressCode: dressCodeDetails['Not stated'],
+    image: 'https://placehold.co/400x400.png',
+    dataAiHint: 'registration desk',
   },
   {
     id: 'th3',
@@ -199,7 +214,9 @@ export const events: Event[] = [
     location: 'TBA',
     role: 'Council Members',
     description: 'Media engagement sessions for committee and leadership members.',
-    dressCode: dressCodeDetails['Business']
+    dressCode: dressCodeDetails['Business'],
+    image: 'https://placehold.co/400x400.png',
+    dataAiHint: 'media interview',
   },
   {
     id: 'th4',
@@ -209,7 +226,9 @@ export const events: Event[] = [
     location: 'TBA',
     role: 'Council Members',
     description: 'Official courtesy visits by the convention leadership.',
-    dressCode: dressCodeDetails['Business']
+    dressCode: dressCodeDetails['Business'],
+    image: 'https://placehold.co/400x400.png',
+    dataAiHint: 'official visit',
   },
   {
     id: 'th5',
@@ -219,7 +238,9 @@ export const events: Event[] = [
     location: 'Open Space, Ilaji Resort',
     role: 'All',
     description: 'A casual lunch break for delegates to refresh and network.',
-    dressCode: dressCodeDetails['Casual']
+    dressCode: dressCodeDetails['Casual'],
+    image: 'https://placehold.co/400x400.png',
+    dataAiHint: 'group lunch',
   },
   {
     id: 'th6',
@@ -229,7 +250,9 @@ export const events: Event[] = [
     location: 'Favour Hall, Ilaji Resort',
     role: 'General Delegates',
     description: 'A powerful session with JCIN Amb. Adepoju Joel on building impactful leadership. Theme: From vision to action: rising together for a sustainable tomorrow.',
-    dressCode: dressCodeDetails['Formal']
+    dressCode: dressCodeDetails['Formal'],
+    image: 'https://placehold.co/400x400.png',
+    dataAiHint: 'leadership seminar',
   },
   {
     id: 'th7',
@@ -239,7 +262,9 @@ export const events: Event[] = [
     location: 'Main Bowl, Ilaji Resort',
     role: 'All',
     description: 'The exciting preliminary matches of the inter-organization football competition.',
-    dressCode: dressCodeDetails['Sports Wear']
+    dressCode: dressCodeDetails['Sports Wear'],
+    image: 'https://placehold.co/400x400.png',
+    dataAiHint: 'football match',
   },
   {
     id: 'th8',
@@ -249,7 +274,9 @@ export const events: Event[] = [
     location: 'Favour Hall, Ilaji Resort',
     role: 'Council Members',
     description: 'A formal meeting for all members of the Collegiate Council.',
-    dressCode: dressCodeDetails['Business']
+    dressCode: dressCodeDetails['Business'],
+    image: 'https://placehold.co/400x400.png',
+    dataAiHint: 'council meeting',
   },
   {
     id: 'th9',
@@ -259,7 +286,9 @@ export const events: Event[] = [
     location: 'Main Bowl, Ilaji Resort',
     role: 'All',
     description: 'A relaxing evening of storytelling and networking around a campfire.',
-    dressCode: dressCodeDetails['Casual']
+    dressCode: dressCodeDetails['Casual'],
+    image: 'https://placehold.co/400x400.png',
+    dataAiHint: 'campfire stories',
   },
   // Friday
   {
@@ -270,7 +299,9 @@ export const events: Event[] = [
     location: 'Hotel Restaurants',
     role: 'All',
     description: 'Breakfast available for all convention attendees at their respective hotels.',
-    dressCode: dressCodeDetails['Casual']
+    dressCode: dressCodeDetails['Casual'],
+    image: 'https://placehold.co/400x400.png',
+    dataAiHint: 'hotel breakfast',
   },
   {
     id: 'f2',
@@ -280,7 +311,9 @@ export const events: Event[] = [
     location: 'Marquee Hall, Ilaji Resort',
     role: 'All',
     description: 'An engaging morning show to kickstart the day with news, interviews, and updates.',
-    dressCode: dressCodeDetails['Business']
+    dressCode: dressCodeDetails['Business'],
+    image: 'https://placehold.co/400x400.png',
+    dataAiHint: 'morning show',
   },
   {
     id: 'f3',
@@ -290,7 +323,9 @@ export const events: Event[] = [
     location: 'Favour Hall, Ilaji Resort',
     role: 'All',
     description: 'Leveraging AI & Tech for Social Impact with trainer Taiwo Tayo Babalola.',
-    dressCode: dressCodeDetails['Business']
+    dressCode: dressCodeDetails['Business'],
+    image: 'https://placehold.co/400x400.png',
+    dataAiHint: 'tech workshop',
   },
    {
     id: 'f3b',
@@ -300,7 +335,9 @@ export const events: Event[] = [
     location: 'Marquee Hall, Ilaji Resort',
     role: 'All',
     description: 'Unlock the power of design thinking and strategy for meaningful change with trainer Tomiwa Anjorin.',
-    dressCode: dressCodeDetails['Business']
+    dressCode: dressCodeDetails['Business'],
+    image: 'https://placehold.co/400x400.png',
+    dataAiHint: 'design thinking',
   },
   {
     id: 'f4',
@@ -310,7 +347,9 @@ export const events: Event[] = [
     location: 'Favour Hall, Ilaji Resort',
     role: 'All',
     description: 'Witness the final rounds of the thrilling speech and debate competitions.',
-    dressCode: dressCodeDetails['Business']
+    dressCode: dressCodeDetails['Business'],
+    image: 'https://placehold.co/400x400.png',
+    dataAiHint: 'public speaking',
   },
   {
     id: 'f5',
@@ -320,7 +359,9 @@ export const events: Event[] = [
     location: 'Marquee Hall, Ilaji Resort',
     role: 'Council Members',
     description: 'The formal general assembly for the collegiate council and local presidents.',
-    dressCode: dressCodeDetails['Business']
+    dressCode: dressCodeDetails['Business'],
+    image: 'https://placehold.co/400x400.png',
+    dataAiHint: 'general assembly',
   },
   {
     id: 'f6',
@@ -330,7 +371,9 @@ export const events: Event[] = [
     location: 'Open Space, Ilaji Resort',
     role: 'All',
     description: 'A well-deserved lunch break for all attendees.',
-    dressCode: dressCodeDetails['Business']
+    dressCode: dressCodeDetails['Business'],
+    image: 'https://placehold.co/400x400.png',
+    dataAiHint: 'group lunch',
   },
   {
     id: 'f7',
@@ -340,7 +383,9 @@ export const events: Event[] = [
     location: 'Favour Hall, Ilaji Resort',
     role: 'All',
     description: 'Building Teams That Thrive with trainer Dr. Oyenike Adeleke.',
-    dressCode: dressCodeDetails['Business']
+    dressCode: dressCodeDetails['Business'],
+    image: 'https://placehold.co/400x400.png',
+    dataAiHint: 'leadership workshop',
   },
    {
     id: 'f8',
@@ -350,7 +395,9 @@ export const events: Event[] = [
     location: 'Marquee Hall, Ilaji Resort',
     role: 'All',
     description: 'A special session by JCI Eko. Theme: Post-grad Playbook: Mindset, Moves, & Mastery.',
-    dressCode: dressCodeDetails['Business']
+    dressCode: dressCodeDetails['Business'],
+    image: 'https://placehold.co/400x400.png',
+    dataAiHint: 'career seminar',
   },
   {
     id: 'f9',
@@ -360,7 +407,9 @@ export const events: Event[] = [
     location: 'Marquee Hall, Ilaji Resort',
     role: 'All',
     description: 'Walk the red carpet and get your photo taken before the grand opening ceremony.',
-    dressCode: dressCodeDetails['Local Fabric']
+    dressCode: dressCodeDetails['Local Fabric'],
+    image: 'https://placehold.co/400x400.png',
+    dataAiHint: 'red carpet',
   },
   {
     id: 'f10',
@@ -370,7 +419,9 @@ export const events: Event[] = [
     location: 'Marquee Hall, Ilaji Resort',
     role: 'All',
     description: 'The official grand opening ceremony of the convention.',
-    dressCode: dressCodeDetails['Local Fabric']
+    dressCode: dressCodeDetails['Local Fabric'],
+    image: 'https://placehold.co/400x400.png',
+    dataAiHint: 'opening ceremony',
   },
   {
     id: 'f11',
@@ -380,7 +431,9 @@ export const events: Event[] = [
     location: 'Marquee Hall, Ilaji Resort',
     role: 'All',
     description: 'A fun and glamorous pageant to crown Mr & Miss Collegiate.',
-    dressCode: dressCodeDetails['Casual']
+    dressCode: dressCodeDetails['Casual'],
+    image: 'https://placehold.co/400x400.png',
+    dataAiHint: 'beauty pageant',
   },
   // Saturday
   {
@@ -391,7 +444,9 @@ export const events: Event[] = [
     location: 'Main Bowl, Ilaji Resort',
     role: 'All',
     description: 'An energizing morning aerobics session to get your body moving.',
-    dressCode: dressCodeDetails['JCI T-shirt/Sports Wear']
+    dressCode: dressCodeDetails['JCI T-shirt/Sports Wear'],
+    image: 'https://placehold.co/400x400.png',
+    dataAiHint: 'group aerobics',
   },
   {
     id: 's2',
@@ -401,7 +456,9 @@ export const events: Event[] = [
     location: 'Main Bowl, Ilaji Resort',
     role: 'Noble House Members',
     description: 'An exclusive breakfast meeting for members of the JCI Nigeria Noble House.',
-    dressCode: dressCodeDetails['Business']
+    dressCode: dressCodeDetails['Business'],
+    image: 'https://placehold.co/400x400.png',
+    dataAiHint: 'breakfast meeting',
   },
   {
     id: 's3',
@@ -411,7 +468,9 @@ export const events: Event[] = [
     location: 'Marquee Hall, Ilaji Resort',
     role: 'All',
     description: 'The daily morning show with highlights, interviews, and a look at the day ahead.',
-    dressCode: dressCodeDetails['Business']
+    dressCode: dressCodeDetails['Business'],
+    image: 'https://placehold.co/400x400.png',
+    dataAiHint: 'morning show',
   },
   {
     id: 's4',
@@ -421,7 +480,9 @@ export const events: Event[] = [
     location: 'Marquee Hall, Ilaji Resort',
     role: 'All',
     description: 'An open Q&A session with the JCI presidency. Your questions answered live.',
-    dressCode: dressCodeDetails['Business']
+    dressCode: dressCodeDetails['Business'],
+    image: 'https://placehold.co/400x400.png',
+    dataAiHint: 'q a session',
   },
   {
     id: 's5',
@@ -431,7 +492,9 @@ export const events: Event[] = [
     location: 'Marquee Hall, Ilaji Resort',
     role: 'All',
     description: 'A session dedicated to reviewing and discussing strategic plans.',
-    dressCode: dressCodeDetails['Business']
+    dressCode: dressCodeDetails['Business'],
+    image: 'https://placehold.co/400x400.png',
+    dataAiHint: 'strategy meeting',
   },
   {
     id: 's6',
@@ -441,7 +504,9 @@ export const events: Event[] = [
     location: 'Marquee Hall, Ilaji Resort',
     role: 'All',
     description: 'A deep dive into the convention\'s main theme with a panel of expert speakers.',
-    dressCode: dressCodeDetails['Business']
+    dressCode: dressCodeDetails['Business'],
+    image: 'https://placehold.co/400x400.png',
+    dataAiHint: 'panel discussion',
   },
   {
     id: 's7',
@@ -451,7 +516,9 @@ export const events: Event[] = [
     location: 'Main Bowl, Ilaji Resort',
     role: 'All',
     description: 'The final match of the football competition. Come cheer for the finalists!',
-    dressCode: dressCodeDetails['Casual']
+    dressCode: dressCodeDetails['Casual'],
+    image: 'https://placehold.co/400x400.png',
+    dataAiHint: 'football final',
   },
   {
     id: 's8',
@@ -461,7 +528,9 @@ export const events: Event[] = [
     location: 'Marquee Hall, Ilaji Resort',
     role: 'All',
     description: 'Red carpet arrivals for the elegant closing ceremony and banquet.',
-    dressCode: dressCodeDetails['Torch of Black (Formal)']
+    dressCode: dressCodeDetails['Torch of Black (Formal)'],
+    image: 'https://placehold.co/400x400.png',
+    dataAiHint: 'red carpet',
   },
   {
     id: 's9',
@@ -471,7 +540,9 @@ export const events: Event[] = [
     location: 'Marquee Hall, Ilaji Resort',
     role: 'All',
     description: 'The official closing banquet and awards ceremony to conclude the convention.',
-    dressCode: dressCodeDetails['Torch of Black (Formal)']
+    dressCode: dressCodeDetails['Torch of Black (Formal)'],
+    image: 'https://placehold.co/400x400.png',
+    dataAiHint: 'awards banquet',
   },
   {
     id: 's10',
@@ -481,7 +552,9 @@ export const events: Event[] = [
     location: 'Marquee Hall, Ilaji Resort',
     role: 'All',
     description: 'A night of music, dance, and celebration to close out the convention.',
-    dressCode: dressCodeDetails['Casual']
+    dressCode: dressCodeDetails['Casual'],
+    image: 'https://placehold.co/400x400.png',
+    dataAiHint: 'party night',
   },
   // Sunday
   {
@@ -492,7 +565,9 @@ export const events: Event[] = [
     location: 'Car Parks',
     role: 'All',
     description: 'Official departure day for all attendees.',
-    dressCode: dressCodeDetails['Not stated']
+    dressCode: dressCodeDetails['Not stated'],
+    image: 'https://placehold.co/400x400.png',
+    dataAiHint: 'people leaving',
   },
   {
     id: 'su2',
@@ -502,7 +577,9 @@ export const events: Event[] = [
     location: 'Pool Side, Ilaji Resort',
     role: 'LOC/COC',
     description: 'A final evaluation meeting for the organizing committees and host president.',
-    dressCode: dressCodeDetails['Not stated']
+    dressCode: dressCodeDetails['Not stated'],
+    image: 'https://placehold.co/400x400.png',
+    dataAiHint: 'evaluation meeting',
   },
 ];
 

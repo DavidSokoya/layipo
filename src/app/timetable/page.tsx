@@ -18,9 +18,9 @@ import { PageWrapper } from '@/components/page-wrapper';
 import { cn } from '@/lib/utils';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
-import { AnimatePresence, motion } from 'framer-motion';
 import { Logo } from '@/components/ui/logo';
 import Link from 'next/link';
+import { Badge } from '@/components/ui/badge';
 
 const venuesMap = venues.reduce((acc, venue) => {
   acc[venue.name] = venue;
@@ -73,20 +73,19 @@ function VenueModal({
   );
 }
 
-const roleColors: Record<string, string> = {
-  'General Delegates': 'border-l-status-amber',
-  'LOC/COC': 'border-l-status-red',
-  'Council Members': 'border-l-status-blue',
-  'Registered Trainers': 'border-l-status-green',
-  'Noble House Members': 'border-l-primary',
-  'All': 'border-l-border',
+const roleBadgeColors: Record<string, string> = {
+  'General Delegates': 'bg-status-amber text-amber-foreground',
+  'LOC/COC': 'bg-status-red text-red-foreground',
+  'Council Members': 'bg-status-blue text-blue-foreground',
+  'Registered Trainers': 'bg-status-green text-green-foreground',
+  'Noble House Members': 'bg-primary text-primary-foreground',
+  'All': 'bg-muted text-muted-foreground',
 };
 
-function EventCard({ event, id }: { event: Event; id?: string }) {
+function EventCard({ event }: { event: Event }) {
   const { toast } = useToast();
   const [selectedVenue, setSelectedVenue] = React.useState<string | null>(null);
   const [isReminderSet, setIsReminderSet] = React.useState(false);
-  const [isDescriptionVisible, setIsDescriptionVisible] = React.useState(false);
 
   const handleSetReminder = () => {
     setIsReminderSet(true);
@@ -96,77 +95,73 @@ function EventCard({ event, id }: { event: Event; id?: string }) {
     });
   };
 
-  const colorClass = roleColors[event.role] || 'border-l-border';
+  const badgeColorClass = roleBadgeColors[event.role] || 'bg-muted text-muted-foreground';
+  const eventImage = event.image || 'https://placehold.co/600x400.png';
 
   return (
     <>
       <Card
-        id={id}
-        className={cn(
-          'flex flex-col transition-all duration-300 hover:shadow-xl border-l-4 hover:scale-[1.02] scroll-mt-24',
-          colorClass
-        )}
+        id={event.id}
+        className='overflow-hidden transition-all duration-300 hover:shadow-xl w-full flex flex-col sm:flex-row group scroll-mt-24'
       >
-        <CardHeader className="p-4 sm:p-6">
-          <CardTitle className="text-base sm:text-lg md:text-xl break-words">{event.title}</CardTitle>
-        </CardHeader>
-        <CardContent className="flex-grow space-y-3 p-4 sm:p-6 pt-0">
-          <div className="flex items-center text-sm text-muted-foreground">
-            <Clock className="w-4 h-4 mr-2" />
-            <span>{event.time}</span>
-          </div>
-          <div className="flex items-start text-sm text-muted-foreground">
-            <MapPin className="w-4 h-4 mr-2 mt-1 shrink-0" />
-            <div className="flex flex-wrap items-center gap-x-1">
-              {event.location.split(', ').map((part, index, arr) => (
-                <React.Fragment key={part}>
-                  <button
-                    onClick={() => venuesMap[part.trim()] && setSelectedVenue(part.trim())}
-                    className={cn(
-                      "hover:underline hover:text-primary transition-colors text-left",
-                      !venuesMap[part.trim()] && "pointer-events-none"
-                    )}
-                    disabled={!venuesMap[part.trim()]}
-                  >
-                    {part.trim()}
-                  </button>
-                  {index < arr.length - 1 && <span className="text-muted-foreground/80">,</span>}
-                </React.Fragment>
-              ))}
+        <div className="sm:w-1/3 relative">
+            <Badge className={cn("absolute top-2 left-2 z-10", badgeColorClass)}>{event.role}</Badge>
+            <div className='overflow-hidden h-48 sm:h-full'>
+                 <Image
+                    src={eventImage}
+                    alt={event.title}
+                    width={400}
+                    height={400}
+                    className="object-cover w-full h-full transition-transform duration-300 group-hover:scale-105"
+                    data-ai-hint={event.dataAiHint}
+                    />
             </div>
-          </div>
-          <div className="flex items-center text-sm text-muted-foreground">
-            <Shirt className="w-4 h-4 mr-2" />
-            <span>{event.dressCode.title}</span>
-          </div>
-          <AnimatePresence>
-            {isDescriptionVisible && (
-               <motion.div
-                key="description"
-                initial={{ opacity: 0, height: 0 }}
-                animate={{ opacity: 1, height: 'auto' }}
-                exit={{ opacity: 0, height: 0 }}
-                transition={{ duration: 0.3, ease: 'easeInOut' }}
-                className="overflow-hidden"
-              >
-                <div className="flex items-start text-sm text-muted-foreground pt-2">
+        </div>
+        <div className="sm:w-2/3 flex flex-col p-4 sm:p-6">
+            <CardHeader className="p-0 pb-3">
+              <CardTitle className="text-lg md:text-xl break-words">{event.title}</CardTitle>
+            </CardHeader>
+            <CardContent className="p-0 flex-grow space-y-2 pb-3">
+                <div className="flex items-center text-sm text-muted-foreground">
+                    <Clock className="w-4 h-4 mr-2" />
+                    <span>{event.time}</span>
+                </div>
+              <div className="flex items-start text-sm text-muted-foreground">
+                <MapPin className="w-4 h-4 mr-2 mt-1 shrink-0" />
+                 <div className="flex flex-wrap items-center gap-x-1">
+                    {event.location.split(', ').map((part, index, arr) => (
+                        <React.Fragment key={part}>
+                        <button
+                            onClick={() => venuesMap[part.trim()] && setSelectedVenue(part.trim())}
+                            className={cn(
+                            "hover:underline hover:text-primary transition-colors text-left",
+                            !venuesMap[part.trim()] && "pointer-events-none"
+                            )}
+                            disabled={!venuesMap[part.trim()]}
+                        >
+                            {part.trim()}
+                        </button>
+                        {index < arr.length - 1 && <span className="text-muted-foreground/80">,</span>}
+                        </React.Fragment>
+                    ))}
+                </div>
+              </div>
+              <div className="flex items-center text-sm text-muted-foreground">
+                <Shirt className="w-4 h-4 mr-2" />
+                <span>{event.dressCode.title}</span>
+              </div>
+              <div className="flex items-start text-sm text-muted-foreground pt-2">
                   <Info className="w-4 h-4 mr-2 mt-1 shrink-0" />
                   <span>{event.description}</span>
                 </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </CardContent>
-        <CardFooter className="flex justify-start gap-2 p-4 sm:p-6 pt-0">
-          <Button variant="outline" size="sm" onClick={handleSetReminder} disabled={isReminderSet}>
-            {isReminderSet ? <BellRing /> : <Bell />}
-            {isReminderSet ? 'Reminder Set' : 'Set Reminder'}
-          </Button>
-          <Button variant="ghost" size="sm" onClick={() => setIsDescriptionVisible(!isDescriptionVisible)}>
-            <Info />
-            <span>Details</span>
-          </Button>
-        </CardFooter>
+            </CardContent>
+            <CardFooter className="p-0 flex justify-start gap-2 pt-0 mt-auto">
+              <Button variant="outline" size="sm" onClick={handleSetReminder} disabled={isReminderSet}>
+                {isReminderSet ? <BellRing /> : <Bell />}
+                <span className='hidden sm:inline'>{isReminderSet ? 'Reminder Set' : 'Set Reminder'}</span>
+              </Button>
+            </CardFooter>
+        </div>
       </Card>
       {selectedVenue && <VenueModal venueName={selectedVenue} open={!!selectedVenue} onOpenChange={() => setSelectedVenue(null)} />}
     </>
@@ -208,7 +203,7 @@ export default function TimetablePage() {
   return (
     <PageWrapper>
         <main className="flex-1 p-4 md:p-6 lg:p-8 mb-16">
-            <div className="max-w-6xl mx-auto">
+            <div className="max-w-4xl mx-auto">
                  <div className="relative mb-8 flex items-center justify-center">
                     <Button asChild variant="ghost" size="icon" className="absolute left-0">
                         <Link href="/">
@@ -258,9 +253,9 @@ export default function TimetablePage() {
                             No events scheduled for this day.
                             </div>
                         ) : (
-                            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+                            <div className="grid gap-6 grid-cols-1">
                             {dayEvents.map((event) => (
-                                <EventCard key={event.id} id={event.id} event={event} />
+                                <EventCard key={event.id} event={event} />
                             ))}
                             </div>
                         )}
