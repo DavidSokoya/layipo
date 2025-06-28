@@ -11,7 +11,7 @@ import type { Event } from '@/lib/data';
 import { events } from '@/lib/data';
 import { TodayEventCard } from '@/components/today-event-card';
 import { cn } from '@/lib/utils';
-import { AnimatePresence, motion } from 'framer-motion';
+import { motion } from 'framer-motion';
 
 
 const infoCards = [
@@ -93,11 +93,11 @@ export default function HomePage() {
   const demoDate = new Date('2025-07-03T00:00:00');
 
   const parseDate = (dateStr: string): Date => {
-    const parts = dateStr.split(', ');
-    const datePart = parts.length > 1 ? parts[1] : parts[0];
+    if (!dateStr) return new Date();
+    // A more robust date parsing
+    const datePart = dateStr.split(', ')[1] || dateStr;
     const cleanDateStr = datePart.replace(/(\d+)(st|nd|rd|th)/, '$1');
-    // Append a fixed year for consistent parsing
-    return new Date(cleanDateStr + ' 2025');
+    return new Date(`${cleanDateStr} 2025`);
   };
 
   const eventDays = React.useMemo(() => {
@@ -125,10 +125,30 @@ export default function HomePage() {
   const [selectedDate, setSelectedDate] = React.useState(getInitialDate);
   
   React.useEffect(() => {
-    if (eventDays.length > 0) {
+    if (eventDays.length > 0 && !selectedDate) {
       setSelectedDate(getInitialDate());
     }
-  }, [eventDays, getInitialDate]);
+  }, [eventDays, getInitialDate, selectedDate]);
+
+  if (!selectedDate) {
+    return (
+        <PageWrapper>
+            <main className="flex-1 pb-24">
+                <HomePageHeader />
+                 <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 space-y-10 sm:space-y-12">
+                     <section>
+                         <div className="grid grid-cols-3 gap-2">
+                            {infoCards.map((card) => <InfoLinkCard key={card.href} {...card} />)}
+                        </div>
+                    </section>
+                    <section>
+                         <p className="text-muted-foreground text-center py-4">Loading events...</p>
+                    </section>
+                </div>
+            </main>
+        </PageWrapper>
+    );
+  }
 
   const selectedEvents = eventDays.find(([date]) => date === selectedDate)?.[1] || [];
   const visibleEvents = isExpanded ? selectedEvents : selectedEvents.slice(0, 3);
