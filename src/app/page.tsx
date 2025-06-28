@@ -147,20 +147,63 @@ export default function HomePage() {
   }, [eventDays, getInitialDate, selectedDate]);
   
   const featuredEvents: FeaturedEvent[] = React.useMemo(() => {
-      const eventMap = events.reduce((acc, event) => {
-          acc[event.id] = event;
-          return acc;
-      }, {} as Record<string, Event>);
-
-      return [
-        { id: 'f10', href: '/timetable#f10', title: 'Opening Ceremony', dressCode: 'Outfit: Campala', ...eventMap['f10'] },
-        { id: 'f11', href: '/timetable#f11', title: 'Mr & Miss Collegiate', dressCode: `Outfit: ${eventMap['f11'].dressCode.title}`, ...eventMap['f11'] },
-        { id: 'trainings', href: '/trainings', title: 'Skill Development Trainings', time: 'Multiple Sessions', location: 'Various Halls', dressCode: 'Outfit: Business Formal', image: 'https://placehold.co/400x400.png', dataAiHint: 'professional training' },
-        { id: 'f5', href: '/timetable#f5', title: 'Collegiate General Assembly', dressCode: 'Outfit: Strictly Formal', ...eventMap['f5'] },
-        { id: 'th9', href: '/timetable#th9', title: 'Storytelling / Campfire Night', dressCode: 'Outfit: Rep Your Culture', ...eventMap['th9'] },
-        { id: 'f4', href: '/timetable#f4', title: 'Debate & Speech Finals', dressCode: `Outfit: ${eventMap['f4'].dressCode.title}`, ...eventMap['f4'] },
-        { id: 's9', href: '/timetable#s9', title: 'Closing Ceremony & Banquet', dressCode: 'Outfit: Black Tie', ...eventMap['s9'] },
-      ];
+    const eventMap = events.reduce((acc, event) => {
+      acc[event.id] = event;
+      return acc;
+    }, {} as Record<string, Event>);
+  
+    // The user may have requested events that don't exist in the data.
+    // We should handle this gracefully.
+    const getEvent = (id: string) => eventMap[id];
+  
+    return [
+      {
+        ...getEvent('f10'),
+        href: '/timetable#f10',
+        title: 'Opening Ceremony',
+        dressCode: 'Outfit: Campala',
+      },
+      {
+        ...getEvent('f11'),
+        href: '/timetable#f11',
+        title: 'Mr & Miss Collegiate',
+        dressCode: `Outfit: ${getEvent('f11')?.dressCode.title || ''}`,
+      },
+      {
+        id: 'trainings',
+        href: '/trainings',
+        title: 'Skill Development Trainings',
+        time: 'Multiple Sessions',
+        location: 'Various Halls',
+        dressCode: 'Outfit: Business Formal',
+        image: 'https://placehold.co/400x400.png',
+        dataAiHint: 'professional training',
+      },
+      {
+        ...getEvent('f5'),
+        href: '/timetable#f5',
+        title: 'Collegiate General Assembly',
+        dressCode: 'Outfit: Strictly Formal',
+      },
+      {
+        ...getEvent('th9'),
+        href: '/timetable#th9',
+        title: 'Storytelling / Campfire Night',
+        dressCode: 'Outfit: Rep Your Culture',
+      },
+      {
+        ...getEvent('f4'),
+        href: '/timetable#f4',
+        title: 'Debate & Speech Finals',
+        dressCode: `Outfit: ${getEvent('f4')?.dressCode.title || ''}`,
+      },
+      {
+        ...getEvent('s9'),
+        href: '/timetable#s9',
+        title: 'Closing Ceremony & Banquet',
+        dressCode: 'Outfit: Black Tie',
+      },
+    ].filter(e => e.id) as FeaturedEvent[]; // Filter out any undefined events
   }, []);
 
 
