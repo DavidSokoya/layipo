@@ -1,3 +1,4 @@
+
 'use client';
 import * as React from 'react';
 import { Bell, Search, Calendar, Sparkles, Trophy, Mic, Award, ArrowRight } from 'lucide-react';
@@ -11,13 +12,6 @@ import { Input } from '@/components/ui/input';
 import { useUser } from '@/hooks/use-user';
 import Link from 'next/link';
 import { Skeleton } from '@/components/ui/skeleton';
-
-const parseDate = (dateStr: string): Date => {
-    const cleanDateStr = dateStr.split(', ')[1].replace(/(\d+)(st|nd|rd|th)/, '$1');
-    const date = new Date(cleanDateStr);
-    date.setHours(12, 0, 0, 0); 
-    return date;
-};
 
 const featuredItems = [
     {
@@ -40,7 +34,7 @@ const featuredItems = [
         id: 'th9',
         title: 'Campfire & Stories',
         description: 'Thursday, 3rd July 2025',
-        image: 'https://images.unsplash.com/photo-1559781815-9d3d3a6153da?w=600&h=400&q=80',
+        image: 'https://images.unsplash.com/photo-1505852597394-c7a393962647?w=600&h=400&q=80',
         dataAiHint: 'campfire night',
         href: '/timetable#th9',
     },
@@ -48,7 +42,7 @@ const featuredItems = [
         id: 'f11',
         title: 'Mr & Miss Collegiate',
         description: 'Friday, 4th July 2025',
-        image: 'https://images.unsplash.com/photo-1519741497674-611481863552?w=600&h=400&q=80',
+        image: 'https://images.unsplash.com/photo-1485871981521-5b1fd3805eee?w=600&h=400&q=80',
         dataAiHint: 'fashion runway',
         href: '/timetable#f11',
     },
@@ -120,13 +114,10 @@ export default function HomePage() {
     const [isLoadingToday, setIsLoadingToday] = React.useState(true);
     
     React.useEffect(() => {
-        const today = new Date();
-        today.setHours(0, 0, 0, 0);
-
-        const filteredEvents = events.filter(event => {
-            const eventDate = parseDate(event.date);
-            return eventDate.getTime() === today.getTime();
-        }).slice(0, 4); 
+        // To make the demo more engaging, we'll always show events for the first full day of the conference.
+        const demoDateStr = 'Thursday, 3rd July 2025';
+        
+        const filteredEvents = events.filter(event => event.date === demoDateStr).slice(0, 4);
         setTodayEvents(filteredEvents);
         setIsLoadingToday(false);
     }, []);
