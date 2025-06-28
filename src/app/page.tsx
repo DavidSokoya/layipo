@@ -256,7 +256,7 @@ export default function HomePage() {
                         </Card>
                     </Link>
 
-                    <section className="mt-4 sm:mt-6 -mb-6">
+                    <section className="-mt-6 -mb-6">
                         <ScrollArea className="w-full whitespace-nowrap -mx-4 px-4">
                             <div className="flex w-max space-x-3 py-1">
                                 <Button asChild size="sm" className="text-xs sm:text-sm font-semibold shadow-md bg-status-blue hover:bg-status-blue/90 text-primary-foreground">
@@ -275,7 +275,7 @@ export default function HomePage() {
                     
                     <section>
                         <div className="flex justify-between items-center mb-4">
-                             <h2 className="text-xl font-bold font-headline tracking-tight text-foreground">
+                             <h2 className="text-lg font-bold font-headline tracking-tight text-foreground">
                                 {dayStatus === 'Happening' ? `Today's Events` : `${dayStatus} ${dayName}`}
                              </h2>
                              <div className="flex items-center gap-1.5">
@@ -284,7 +284,7 @@ export default function HomePage() {
                                         key={date}
                                         onClick={() => setSelectedDate(date)}
                                         className={cn(
-                                            "w-9 h-9 rounded-full text-sm font-semibold transition-colors flex items-center justify-center",
+                                            "w-8 h-8 rounded-full text-xs font-semibold transition-colors flex items-center justify-center",
                                             selectedDate === date
                                                 ? "bg-primary text-primary-foreground"
                                                 : "bg-muted text-muted-foreground hover:bg-muted/80"
@@ -297,7 +297,7 @@ export default function HomePage() {
                         </div>
 
                         {selectedEvents.length > 0 ? (
-                           <ScrollArea className="w-full h-72 rounded-lg border p-4">
+                           <ScrollArea className="w-full h-[22rem] rounded-lg border p-4">
                                <div className="grid grid-cols-1 gap-4">
                                    {selectedEvents.map(event => (
                                        <TodayEventCard key={event.id} event={event} />
