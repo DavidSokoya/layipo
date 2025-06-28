@@ -137,6 +137,9 @@ export default function HomePage() {
                 <HomePageHeader />
                  <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 space-y-10 sm:space-y-12">
                      <section>
+                         <h2 className="text-xl font-bold font-headline tracking-tight text-foreground mb-4">
+                            Explore the Event
+                         </h2>
                          <div className="grid grid-cols-3 gap-2">
                             {infoCards.map((card) => <InfoLinkCard key={card.href} {...card} />)}
                         </div>
@@ -174,7 +177,10 @@ export default function HomePage() {
                 
                 <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 space-y-10 sm:space-y-12">
                      <section>
-                         <div className="grid grid-cols-3 gap-2">
+                        <h2 className="text-xl font-bold font-headline tracking-tight text-foreground mb-4">
+                            Explore the Event
+                        </h2>
+                        <div className="grid grid-cols-3 gap-2">
                             {infoCards.map((card) => <InfoLinkCard key={card.href} {...card} />)}
                         </div>
                     </section>
@@ -218,7 +224,7 @@ export default function HomePage() {
                                      <div className="mt-4 text-center">
                                         <Button variant="ghost" onClick={() => setIsExpanded(!isExpanded)} className="text-primary">
                                             {isExpanded ? "Show Less" : "View all for today"}
-                                            {isExpanded ? <ChevronUp className="ml-2 h-4 w-4" /> : <ChevronDown className="ml-2 h-4" />}
+                                            {isExpanded ? <ChevronUp className="ml-2 h-4 w-4" /> : <ChevronDown className="ml-2 h-4 w-4" />}
                                         </Button>
                                     </div>
                                 )}
