@@ -2,7 +2,7 @@
 import * as React from 'react';
 import { Star, ChevronDown, ChevronUp, ChevronRight, Clock, MapPin, Shirt, CalendarDays } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { PageWrapper } from '@/components/page-wrapper';
 import { useUser } from '@/hooks/use-user';
 import Link from 'next/link';
@@ -14,6 +14,8 @@ import { TodayEventCard } from '@/components/today-event-card';
 import { cn } from '@/lib/utils';
 import { motion } from 'framer-motion';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
+import { Progress } from '@/components/ui/progress';
+import { Skeleton } from '@/components/ui/skeleton';
 
 
 const HomePageHeader = () => {
@@ -22,11 +24,12 @@ const HomePageHeader = () => {
 
     if (!user) {
         return (
-            <div className="flex justify-between items-center p-3 bg-card border-b">
+            <div className="flex justify-between items-center p-4 bg-card border-b">
                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 bg-muted rounded-full animate-pulse"></div>
-                    <div>
-                        <div className="w-24 h-6 bg-muted rounded-md animate-pulse"></div>
+                    <Skeleton className="w-12 h-12 rounded-full" />
+                    <div className="space-y-2">
+                        <Skeleton className="h-6 w-24" />
+                        <Skeleton className="h-4 w-32" />
                     </div>
                  </div>
             </div>
@@ -36,14 +39,18 @@ const HomePageHeader = () => {
     const firstName = user.name.split(' ')[0];
 
     return (
-        <div className="flex justify-between items-center p-3 bg-card border-b">
+        <div className="flex justify-between items-center p-4 bg-card border-b">
             <Link href="/profile" className="flex items-center gap-3 group">
-                 <Avatar className="w-10 h-10 border-2 border-primary/20 group-hover:border-primary transition-colors">
+                 <Avatar className="w-12 h-12 border-2 border-primary/20 group-hover:border-primary transition-colors">
                     <AvatarImage src={avatarUrl} alt={user.name} />
                     <AvatarFallback>{firstName.charAt(0)}</AvatarFallback>
                 </Avatar>
                 <div>
-                    <h1 className="text-lg font-bold text-foreground group-hover:text-primary transition-colors">Hi, {firstName}</h1>
+                    <h1 className="text-xl font-bold text-foreground group-hover:text-primary transition-colors">Hi, {firstName}</h1>
+                    <p className="text-sm text-muted-foreground flex items-center gap-1.5">
+                        <Star className="w-4 h-4 text-amber-400" />
+                        <span>{user.points.toLocaleString()} Points</span>
+                    </p>
                 </div>
             </Link>
         </div>
@@ -87,9 +94,18 @@ const FeaturedEventCard = ({ event }: { event: FeaturedEvent }) => (
 
 
 export default function HomePage() {
+  const { user } = useUser();
   const [isExpanded, setIsExpanded] = React.useState(false);
+  const [progress, setProgress] = React.useState(0);
 
   const demoDate = new Date('2025-07-03T00:00:00');
+
+  React.useEffect(() => {
+    if (user) {
+      const timer = setTimeout(() => setProgress((user.points / 5000) * 100), 100);
+      return () => clearTimeout(timer);
+    }
+  }, [user]);
 
   const parseDate = (dateStr: string): Date => {
     if (!dateStr) return new Date();
@@ -189,7 +205,7 @@ export default function HomePage() {
   }, []);
 
 
-  if (!selectedDate) {
+  if (!user || !selectedDate) {
     return (
         <PageWrapper>
             <main className="flex-1 pb-24">
@@ -227,6 +243,22 @@ export default function HomePage() {
                 <HomePageHeader />
                 
                 <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 space-y-10 sm:space-y-12">
+                     <Link href="/profile">
+                        <Card className="shadow-lg transition-all hover:shadow-xl hover:scale-[1.02] cursor-pointer">
+                            <CardHeader className="flex flex-row items-center justify-between pb-2">
+                                <CardTitle className="text-sm font-medium">Your Progress</CardTitle>
+                                <Star className="w-4 h-4 text-muted-foreground" />
+                            </CardHeader>
+                            <CardContent>
+                                <div className="text-2xl font-bold">{user.points.toLocaleString()} Points</div>
+                                <p className="text-xs text-muted-foreground">
+                                    {5000 - user.points > 0 ? `${(5000 - user.points).toLocaleString()} points to the next reward!` : `You've unlocked all rewards!`}
+                                </p>
+                                <Progress value={progress} className="w-full h-2 mt-4" />
+                            </CardContent>
+                        </Card>
+                    </Link>
+
                     <section>
                         <ScrollArea className="w-full whitespace-nowrap -mx-4 px-4">
                             <div className="flex w-max space-x-2 mx-auto">
