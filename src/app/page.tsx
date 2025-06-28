@@ -1,7 +1,7 @@
 
 'use client';
 import * as React from 'react';
-import { Bell, Search, Calendar, ArrowRight } from 'lucide-react';
+import { Bell, Search, Calendar, ArrowRight, ChevronDown, ChevronUp } from 'lucide-react';
 import Image from 'next/image';
 import { events, type Event } from '@/lib/data';
 import { Button } from '@/components/ui/button';
@@ -123,9 +123,10 @@ const parseDate = (dateStr: string): Date => {
 export default function HomePage() {
     const { user } = useUser();
     const [searchQuery, setSearchQuery] = React.useState('');
-    
+    const [isExpanded, setIsExpanded] = React.useState(false);
+
     const eventDays = React.useMemo(() => {
-        const dates = Array.from(new Set(events.map(e => e.date)));
+        const dates = Array.from(new Set(events.map(e => e.date.replace('Wed,', 'Wed'))));
         return dates.sort((a, b) => parseDate(a).getTime() - parseDate(b).getTime());
     }, []);
 
@@ -133,8 +134,10 @@ export default function HomePage() {
     const [selectedDate, setSelectedDate] = React.useState(DEMO_DATE);
 
     const displayedEvents = React.useMemo(() => {
-        return events.filter(event => event.date === selectedDate);
+        return events.filter(event => event.date.replace('Wed,', 'Wed') === selectedDate);
     }, [selectedDate]);
+    
+    const eventsToShow = isExpanded ? displayedEvents : displayedEvents.slice(0, 3);
 
     const title = React.useMemo(() => {
         const todayForDemo = parseDate(DEMO_DATE);
@@ -226,7 +229,10 @@ export default function HomePage() {
                                                     "h-10 w-10 sm:h-8 sm:w-8 shrink-0 rounded-full text-xs font-bold",
                                                     isActive && "shadow-lg"
                                                 )}
-                                                onClick={() => setSelectedDate(date)}
+                                                onClick={() => {
+                                                    setSelectedDate(date);
+                                                    setIsExpanded(false);
+                                                }}
                                             >
                                                 {dayAbbr}
                                             </Button>
@@ -241,9 +247,23 @@ export default function HomePage() {
                             </Button>
                         </div>
                         {displayedEvents.length > 0 ? (
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                {displayedEvents.map(event => <TodayEventCard key={event.id} event={event} />)}
-                            </div>
+                            <>
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                    {eventsToShow.map(event => <TodayEventCard key={event.id} event={event} />)}
+                                </div>
+                                {displayedEvents.length > 3 && (
+                                    <div className="mt-4 text-center">
+                                        <Button
+                                            variant="outline"
+                                            onClick={() => setIsExpanded(!isExpanded)}
+                                            className="w-full sm:w-auto"
+                                        >
+                                            {isExpanded ? 'Show Less' : `View all ${displayedEvents.length} events for today`}
+                                            {isExpanded ? <ChevronUp className="ml-2 h-4 w-4" /> : <ChevronDown className="ml-2 h-4 w-4" />}
+                                        </Button>
+                                    </div>
+                                )}
+                            </>
                         ) : (
                             <div className="text-center text-muted-foreground py-10 bg-muted/50 rounded-lg">
                                 <p>No events scheduled for this day.</p>
