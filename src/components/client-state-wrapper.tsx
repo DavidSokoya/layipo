@@ -1,3 +1,4 @@
+
 'use client';
 
 import * as React from 'react';
@@ -43,7 +44,7 @@ function FullPageLoader() {
     <div className="flex flex-col gap-8 items-center justify-center h-screen bg-background text-center p-8">
       <Logo />
 
-      <div className="grid grid-cols-3 gap-3">
+      <div className="flex items-center justify-center gap-3">
         {colors.map((color, i) => (
           <motion.div
             key={i}
