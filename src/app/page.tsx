@@ -133,7 +133,7 @@ export default function HomePage() {
     const [selectedDate, setSelectedDate] = React.useState(DEMO_DATE);
 
     const displayedEvents = React.useMemo(() => {
-        return events.filter(event => event.date === selectedDate).slice(0, 4);
+        return events.filter(event => event.date === selectedDate);
     }, [selectedDate]);
 
     const title = React.useMemo(() => {
@@ -142,14 +142,14 @@ export default function HomePage() {
         const dayName = selectedDate.split(',')[0];
 
         if (currentSelectedDate.getTime() === todayForDemo.getTime()) {
-          return "Today's Events";
+          return "Happening Today";
         }
 
         if (currentSelectedDate.getTime() < todayForDemo.getTime()) {
           return `Happened on ${dayName}`;
         }
 
-        return `${dayName}'s Events`;
+        return `Happening on ${dayName}`;
     }, [selectedDate]);
 
 
@@ -236,7 +236,7 @@ export default function HomePage() {
                             </div>
                              <Button asChild variant="link" size="sm" className="text-primary -mr-3 sm:mr-0">
                                 <Link href="/timetable">
-                                    View Full Timetable <ArrowRight className="ml-1 h-4 w-4" />
+                                    View all happenings today <ArrowRight className="ml-1 h-4 w-4" />
                                 </Link>
                             </Button>
                         </div>
