@@ -249,7 +249,7 @@ export default function HomePage() {
                 
                 <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 space-y-10 sm:space-y-12">
                     <section>
-                        <div className="flex flex-wrap gap-2 justify-center">
+                        <div className="flex gap-2 justify-center">
                              <Button asChild variant="outline" size="sm">
                                 <Link href="/council">Meet the Council</Link>
                             </Button>
