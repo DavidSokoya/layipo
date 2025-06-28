@@ -2,14 +2,14 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Home, User, Badge as BadgeIcon, Sparkles } from 'lucide-react';
+import { Home, User, Badge as BadgeIcon, BookOpen } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useState, useEffect } from 'react';
 
 const navItems = [
   { href: '/', label: 'Timetable', icon: Home },
-  { href: '/style-guide', label: 'Style Me', icon: Sparkles },
   { href: '/badge', label: 'My Badge', icon: BadgeIcon },
+  { href: '/trainings', label: 'Trainings', icon: BookOpen },
   { href: '/profile', label: 'Profile', icon: User },
 ];
 

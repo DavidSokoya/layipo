@@ -27,6 +27,20 @@ export type UserProfile = {
   points: number;
 };
 
+export type Training = {
+  id: string;
+  topic: string;
+  trainer: string;
+  trainerImage: string;
+  trainerProfile: string;
+  date: string;
+  time: string;
+  venue: string;
+  theme?: string;
+  special?: boolean;
+};
+
+
 export const venues: Venue[] = [
   { name: 'Training Hall', description: 'Dedicated space for workshops and training sessions.', image: 'https://images.unsplash.com/photo-1591115765373-5207764f72e7?w=600&h=400&fit=crop&q=80' },
   { name: 'Main Hall', description: 'The primary hall for large gatherings and keynote presentations.', image: 'https://images.unsplash.com/photo-1528605248644-14dd04022da1?w=600&h=400&fit=crop&q=80' },
@@ -502,4 +516,60 @@ export const rewards: Reward[] = [
     { id: '2', title: 'Exclusive T-Shirt', cost: 1500, description: 'A limited edition T-shirt, only available to top point earners.', image: 'https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=600&h=400&fit=crop&q=80' },
     { id: '3', title: 'VIP Seating Voucher', cost: 3000, description: 'Get front-row seats at the next keynote session.', image: 'https://images.unsplash.com/photo-1579548122080-c35fd6820ecb?w=600&h=400&fit=crop&q=80' },
     { id: '4', title: 'Mentorship Session', cost: 5000, description: 'A one-on-one session with a JCI National President.', image: 'https://images.unsplash.com/photo-1556157382-97eda2d62296?w=600&h=400&fit=crop&q=80' },
+];
+
+export const trainings: Training[] = [
+  {
+    id: 't1',
+    date: 'Thursday, 3rd July 2025',
+    time: '2:15 PM - 3:45 PM',
+    topic: 'Personal Branding & Advocacy for Sustainable Leadership',
+    trainer: 'JCIN AMb. Adepoju Joel',
+    trainerImage: 'https://i.pravatar.cc/150?u=AdepojuJoel',
+    trainerProfile: 'A renowned expert in leadership and personal development, JCIN Amb. Adepoju Joel specializes in empowering young leaders to create sustainable impact. His dynamic approach combines personal branding with actionable advocacy strategies.',
+    venue: 'Favour Hall',
+    theme: 'From vision to action: rising together for a sustainable tomorrow',
+  },
+  {
+    id: 't2',
+    date: 'Friday, 4th July 2025',
+    time: '10:00 AM - 11:45 AM',
+    topic: 'Digital Skills for the Future-Leveraging AI & Tech for Social Impact',
+    trainer: 'Taiwo Tayo Babalola',
+    trainerImage: 'https://i.pravatar.cc/150?u=TaiwoTayoBabalola',
+    trainerProfile: 'A tech evangelist and AI specialist, Taiwo Tayo Babalola is passionate about leveraging technology for social good. He has a proven track record of helping organizations and individuals navigate the digital landscape.',
+    venue: 'Favour Hall',
+  },
+  {
+    id: 't3',
+    date: 'Friday, 4th July 2025',
+    time: '10:00 AM - 11:45 AM',
+    topic: 'Design Thinking For Social Innovation',
+    trainer: 'Tomiwa Anjorin',
+    trainerImage: 'https://i.pravatar.cc/150?u=TomiwaAnjorin',
+    trainerProfile: 'As a leading voice in social innovation, Tomiwa Anjorin champions design thinking as a core methodology for solving complex community problems. His workshops are known for being highly interactive and outcome-driven.',
+    venue: 'Marquee Hall',
+  },
+  {
+    id: 't4',
+    date: 'Friday, 4th July 2025',
+    time: '2:30 PM - 3:45 PM',
+    topic: 'Inclusive Leadership- Building Teams That Thrive',
+    trainer: 'Dr. Oyenike Adeleke',
+    trainerImage: 'https://i.pravatar.cc/150?u=DrOyenikeAdeleke',
+    trainerProfile: 'With a Ph.D. in Organizational Psychology, Dr. Oyenike Adeleke is a sought-after consultant on inclusive leadership. Her work focuses on building high-performance teams where diversity and collaboration thrive.',
+    venue: 'Favour Hall',
+  },
+  {
+    id: 't5',
+    date: 'Friday, 4th July 2025',
+    time: '2:30 PM - 4:30 PM',
+    topic: 'Life After School',
+    trainer: 'JCI Eko',
+    trainerImage: 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=150&h=150&fit=crop&q=80',
+    trainerProfile: 'JCI Eko is a premier local organization known for its impactful community projects and professional development programs. Their flagship "Life After School" initiative has guided thousands of graduates in their transition to the professional world.',
+    venue: 'Marquee Hall',
+    theme: 'Post-grad Playbook: Mindset, moves, & mastery',
+    special: true,
+  },
 ];
