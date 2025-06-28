@@ -83,7 +83,7 @@ const roleColors: Record<string, string> = {
   'All': 'border-l-border',
 };
 
-function EventCard({ event }: { event: Event }) {
+function EventCard({ event, id }: { event: Event; id?: string }) {
   const { toast } = useToast();
   const [selectedVenue, setSelectedVenue] = React.useState<string | null>(null);
   const [isReminderSet, setIsReminderSet] = React.useState(false);
@@ -102,8 +102,9 @@ function EventCard({ event }: { event: Event }) {
   return (
     <>
       <Card
+        id={id}
         className={cn(
-          'flex flex-col transition-all duration-300 hover:shadow-xl border-l-4 hover:scale-[1.02]',
+          'flex flex-col transition-all duration-300 hover:shadow-xl border-l-4 hover:scale-[1.02] scroll-mt-24',
           colorClass
         )}
       >
@@ -328,7 +329,7 @@ export default function TimetablePage() {
                         ) : (
                             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
                             {filteredDayEvents.map((event) => (
-                                <EventCard key={event.id} event={event} />
+                                <EventCard key={event.id} id={event.id} event={event} />
                             ))}
                             </div>
                         )}

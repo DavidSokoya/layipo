@@ -2,7 +2,7 @@
 import * as React from 'react';
 import { Bell, Search, Calendar, Sparkles, Trophy, Mic, Award, ArrowRight } from 'lucide-react';
 import Image from 'next/image';
-import { events, type Event, trainings } from '@/lib/data';
+import { events, type Event } from '@/lib/data';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { PageWrapper } from '@/components/page-wrapper';
@@ -12,49 +12,64 @@ import { useUser } from '@/hooks/use-user';
 import Link from 'next/link';
 import { Skeleton } from '@/components/ui/skeleton';
 
-// A helper function to parse date strings like "Wednesday, 2nd July 2025"
 const parseDate = (dateStr: string): Date => {
     const cleanDateStr = dateStr.split(', ')[1].replace(/(\d+)(st|nd|rd|th)/, '$1');
     const date = new Date(cleanDateStr);
-    // Fix for potential timezone issues where new Date() might result in the previous day.
     date.setHours(12, 0, 0, 0); 
     return date;
 };
 
 const featuredItems = [
     {
-        title: 'Skill Development',
-        description: `${trainings.length} sessions to boost your skills.`,
-        image: 'https://images.unsplash.com/photo-1591115765373-5207764f72e7?w=600&h=400&q=80',
-        dataAiHint: 'workshop training',
-        href: '/trainings',
-        icon: Sparkles
+        id: 'f10',
+        title: 'OJUDE LAYIPO Opening Ceremony',
+        description: 'Friday, 4th July 2025',
+        image: 'https://images.unsplash.com/photo-1542621334-a254cf47763b?w=600&h=400&q=80',
+        dataAiHint: 'grand ceremony',
+        href: '/timetable#f10',
     },
     {
-        title: 'Football Finals',
-        description: 'The ultimate showdown.',
+        id: 'th7',
+        title: 'Football Competition',
+        description: 'Preliminaries & Finals',
         image: 'https://images.unsplash.com/photo-1579952363873-27f3bade9f55?w=600&h=400&q=80',
         dataAiHint: 'football stadium',
-        href: '/timetable',
-        icon: Trophy
+        href: '/timetable#th7',
     },
     {
+        id: 'th9',
         title: 'Campfire & Stories',
-        description: 'Relax and connect.',
-        image: 'https://images.unsplash.com/photo-1508827420312-b5f4fe45c97b?w=600&h=400&q=80',
+        description: 'Thursday, 3rd July 2025',
+        image: 'https://images.unsplash.com/photo-1559781815-9d3d3a6153da?w=600&h=400&q=80',
         dataAiHint: 'campfire night',
-        href: '/timetable',
-        icon: Mic
+        href: '/timetable#th9',
     },
     {
+        id: 'f11',
         title: 'Mr & Miss Collegiate',
-        description: 'Glamour and talent on display.',
-        image: 'https://images.unsplash.com/photo-1504194954202-60c3a6423a60?w=600&h=400&q=80',
+        description: 'Friday, 4th July 2025',
+        image: 'https://images.unsplash.com/photo-1519741497674-611481863552?w=600&h=400&q=80',
         dataAiHint: 'fashion runway',
-        href: '/timetable',
-        icon: Award
+        href: '/timetable#f11',
+    },
+    {
+        id: 'f4',
+        title: 'Speech & Debate Finals',
+        description: 'Friday, 4th July 2025',
+        image: 'https://images.unsplash.com/photo-1587825140708-dfaf72ae4b04?w=600&h=400&q=80',
+        dataAiHint: 'public speaking',
+        href: '/timetable#f4',
+    },
+    {
+        id: 's9',
+        title: 'Banquet & Closing Ceremony',
+        description: 'Saturday, 5th July 2025',
+        image: 'https://images.unsplash.com/photo-1527632946328-3d73b3768686?w=600&h=400&q=80',
+        dataAiHint: 'formal banquet',
+        href: '/timetable#s9',
     }
 ];
+
 
 const FeaturedCard = ({ item }: { item: typeof featuredItems[0] }) => (
     <Link href={item.href} className="w-64 flex-shrink-0">
@@ -74,7 +89,7 @@ const FeaturedCard = ({ item }: { item: typeof featuredItems[0] }) => (
             </CardHeader>
             <CardFooter className="p-4 pt-0">
                 <div className="text-sm font-medium text-primary flex items-center">
-                    Explore <ArrowRight className="ml-2 h-4 w-4" />
+                    See Details <ArrowRight className="ml-2 h-4 w-4" />
                 </div>
             </CardFooter>
         </Card>
@@ -82,7 +97,7 @@ const FeaturedCard = ({ item }: { item: typeof featuredItems[0] }) => (
 );
 
 const TodayEventCard = ({ event }: { event: Event }) => (
-    <Link href={`/timetable`} className="block">
+    <Link href={`/timetable#${event.id}`} className="block">
         <Card className="transition-all duration-300 hover:shadow-lg hover:bg-muted/50">
             <CardContent className="p-4 flex items-center gap-4">
                 <div className="bg-primary/10 text-primary p-3 rounded-lg">
@@ -111,7 +126,7 @@ export default function HomePage() {
         const filteredEvents = events.filter(event => {
             const eventDate = parseDate(event.date);
             return eventDate.getTime() === today.getTime();
-        }).slice(0, 4); // Show max 4 events for today
+        }).slice(0, 4); 
         setTodayEvents(filteredEvents);
         setIsLoadingToday(false);
     }, []);
@@ -132,7 +147,7 @@ export default function HomePage() {
                             className="object-cover"
                             priority
                         />
-                        <div className="absolute inset-0 bg-black/40" />
+                        <div className="absolute inset-0 bg-black/60" />
                     </div>
                     
                     <div className="relative z-10 p-4 sm:p-6 lg:p-8">
@@ -202,7 +217,7 @@ export default function HomePage() {
                         <h2 className="text-2xl font-bold mb-4">Explore The Event</h2>
                         <ScrollArea className="w-full">
                             <div className="flex gap-4 pb-4">
-                                {featuredItems.map((item, index) => <FeaturedCard key={index} item={item} />)}
+                                {featuredItems.map((item) => <FeaturedCard key={item.id} item={item} />)}
                             </div>
                             <ScrollBar orientation="horizontal" className="h-2" />
                         </ScrollArea>
