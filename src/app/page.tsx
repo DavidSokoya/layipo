@@ -14,6 +14,7 @@ import { TodayEventCard } from '@/components/today-event-card';
 import { cn } from '@/lib/utils';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import { Skeleton } from '@/components/ui/skeleton';
+import { Progress } from '@/components/ui/progress';
 
 
 const HomePageHeader = () => {
@@ -94,6 +95,15 @@ const FeaturedEventCard = ({ event }: { event: FeaturedEvent }) => (
 export default function HomePage() {
   const { user } = useUser();
   const demoDate = new Date('2025-07-03T00:00:00');
+  const [progress, setProgress] = React.useState(0);
+
+
+  React.useEffect(() => {
+    if (user) {
+      const timer = setTimeout(() => setProgress((user.points / 5000) * 100), 100);
+      return () => clearTimeout(timer);
+    }
+  }, [user]);
 
   const parseDate = (dateStr: string): Date => {
     if (!dateStr) return new Date();
@@ -232,7 +242,7 @@ export default function HomePage() {
                 <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 space-y-10 sm:space-y-12">
                     <section className="-mt-6 -mb-6">
                         <ScrollArea className="w-full whitespace-nowrap -mx-4 px-4">
-                            <div className="flex w-max space-x-3 py-1">
+                            <div className="flex w-max space-x-2 py-4">
                                 <Button asChild size="sm" className="text-xs sm:text-sm font-semibold shadow-md bg-status-blue hover:bg-status-blue/90 text-primary-foreground">
                                     <Link href="/council">Meet the Council</Link>
                                 </Button>
@@ -247,8 +257,20 @@ export default function HomePage() {
                         </ScrollArea>
                     </section>
                     
+                    <Card className="bg-gradient-to-br from-indigo-500 via-sky-500 to-cyan-400 text-primary-foreground shadow-lg -my-2">
+                        <CardHeader className="p-3">
+                            <CardTitle className="text-base">Your Progress</CardTitle>
+                        </CardHeader>
+                        <CardContent className="space-y-1 p-3 pt-0">
+                            <p className="text-xl font-bold text-center">
+                                {user.points.toLocaleString()} <span className="text-sm font-normal">Points</span>
+                            </p>
+                            <Progress value={progress} className="w-full h-1.5 [&>div]:bg-white" />
+                        </CardContent>
+                    </Card>
+
                     <section>
-                        <div className="flex justify-between items-center mb-4">
+                        <div className="flex justify-between items-center mb-6">
                              <h2 className="text-base font-bold font-headline tracking-tight text-foreground">
                                 {dayStatus === 'Happening' ? `Today's Events` : `${dayStatus} ${dayName}`}
                              </h2>
@@ -258,7 +280,7 @@ export default function HomePage() {
                                         key={date}
                                         onClick={() => setSelectedDate(date)}
                                         className={cn(
-                                            "w-7 h-7 rounded-full text-xs font-semibold transition-colors flex items-center justify-center",
+                                            "w-6 h-6 rounded-full text-[10px] font-semibold transition-colors flex items-center justify-center",
                                             selectedDate === date
                                                 ? "bg-primary text-primary-foreground"
                                                 : "bg-muted text-muted-foreground hover:bg-muted/80"
@@ -271,7 +293,7 @@ export default function HomePage() {
                         </div>
 
                         {selectedEvents.length > 0 ? (
-                           <ScrollArea className="w-full h-[22rem] rounded-lg border p-4">
+                           <ScrollArea className="w-full h-[17rem] rounded-lg border p-3">
                                <div className="grid grid-cols-1 gap-4">
                                    {selectedEvents.map(event => (
                                        <TodayEventCard key={event.id} event={event} />
