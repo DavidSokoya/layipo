@@ -1,7 +1,7 @@
 
 'use client';
 import * as React from 'react';
-import { Bell, Search, Calendar, Sparkles, Trophy, Mic, Award, ArrowRight } from 'lucide-react';
+import { Bell, Search, Calendar, ArrowRight } from 'lucide-react';
 import Image from 'next/image';
 import { events, type Event } from '@/lib/data';
 import { Button } from '@/components/ui/button';
@@ -66,7 +66,7 @@ const featuredItems = [
 
 
 const FeaturedCard = ({ item }: { item: typeof featuredItems[0] }) => (
-    <Link href={item.href} className="w-64 flex-shrink-0">
+    <Link href={item.href} className="w-56 sm:w-64 flex-shrink-0">
         <Card className="overflow-hidden transition-all duration-300 hover:shadow-xl group h-full flex flex-col">
             <div className="aspect-video overflow-hidden relative">
                 <Image
@@ -77,12 +77,12 @@ const FeaturedCard = ({ item }: { item: typeof featuredItems[0] }) => (
                     data-ai-hint={item.dataAiHint}
                 />
             </div>
-            <CardHeader className="flex-grow p-4">
-                <CardTitle className="text-base">{item.title}</CardTitle>
-                <CardDescription className="text-sm mt-1">{item.description}</CardDescription>
+            <CardHeader className="flex-grow p-3 sm:p-4">
+                <CardTitle className="text-sm sm:text-base leading-snug">{item.title}</CardTitle>
+                <CardDescription className="text-xs sm:text-sm mt-1">{item.description}</CardDescription>
             </CardHeader>
-            <CardFooter className="p-4 pt-0">
-                <div className="text-sm font-medium text-primary flex items-center">
+            <CardFooter className="p-3 sm:p-4 pt-0">
+                <div className="text-xs sm:text-sm font-medium text-primary flex items-center">
                     See Details <ArrowRight className="ml-2 h-4 w-4" />
                 </div>
             </CardFooter>
@@ -92,16 +92,16 @@ const FeaturedCard = ({ item }: { item: typeof featuredItems[0] }) => (
 
 const TodayEventCard = ({ event }: { event: Event }) => (
     <Link href={`/timetable#${event.id}`} className="block">
-        <Card className="transition-all duration-300 hover:shadow-lg hover:bg-muted/50">
-            <CardContent className="p-4 flex items-center gap-4">
+        <Card className="transition-all duration-300 hover:shadow-lg hover:bg-muted/50 h-full">
+            <CardContent className="p-3 sm:p-4 flex items-center gap-3 sm:gap-4">
                 <div className="bg-primary/10 text-primary p-3 rounded-lg">
                     <Calendar className="w-5 h-5" />
                 </div>
                 <div className="flex-1">
-                    <p className="font-semibold text-sm">{event.title}</p>
-                    <p className="text-xs text-muted-foreground">{event.time} &bull; {event.location}</p>
+                    <p className="font-semibold text-sm leading-snug">{event.title}</p>
+                    <p className="text-xs text-muted-foreground mt-1">{event.time} &bull; {event.location}</p>
                 </div>
-                 <ArrowRight className="w-4 h-4 text-muted-foreground" />
+                 <ArrowRight className="w-4 h-4 text-muted-foreground ml-auto self-start shrink-0" />
             </CardContent>
         </Card>
     </Link>
@@ -141,10 +141,10 @@ export default function HomePage() {
                         <div className="absolute inset-0 bg-black/60" />
                     </div>
                     
-                    <div className="relative z-10 p-4 sm:p-6 lg:p-8">
+                    <div className="relative z-10 p-4 sm:p-6">
                         <div className="flex justify-between items-center mb-4">
                             <h1 className="text-xl sm:text-2xl font-bold">Layipo 2025</h1>
-                            <Button variant="ghost" size="icon" className="text-white hover:bg-white/20">
+                            <Button variant="ghost" size="icon" className="text-white hover:bg-white/20 -mr-2">
                                 <Bell className="h-5 w-5" />
                             </Button>
                         </div>
@@ -160,7 +160,7 @@ export default function HomePage() {
                             />
                         </div>
 
-                        <div className="grid grid-cols-3 gap-4 text-center">
+                        <div className="grid grid-cols-3 gap-2 sm:gap-4 text-center">
                             <div>
                                 <p className="font-bold text-lg sm:text-xl">{totalDays}</p>
                                 <p className="text-xs sm:text-sm opacity-80">Days</p>
@@ -177,23 +177,23 @@ export default function HomePage() {
                     </div>
                 </header>
 
-                <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-12">
+                <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 space-y-10 sm:space-y-12">
                     <section>
-                        <div className="flex justify-between items-center mb-4">
-                            <h2 className="text-2xl font-bold">Happening Today</h2>
-                            <Button asChild variant="ghost">
+                        <div className="flex flex-wrap items-center justify-between gap-2 mb-4">
+                            <h2 className="text-xl sm:text-2xl font-bold tracking-tight">Happening Today</h2>
+                             <Button asChild variant="link" size="sm" className="text-primary -mr-3 sm:mr-0">
                                 <Link href="/timetable">
-                                    View Full Timetable <ArrowRight className="ml-2 h-4 w-4" />
+                                    View All <ArrowRight className="ml-1 h-4 w-4" />
                                 </Link>
                             </Button>
                         </div>
                         {isLoadingToday ? (
-                            <div className="space-y-4">
-                               <Skeleton className="h-20 w-full rounded-lg" />
-                               <Skeleton className="h-20 w-full rounded-lg" />
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                               <Skeleton className="h-24 w-full rounded-lg" />
+                               <Skeleton className="h-24 w-full rounded-lg" />
                             </div>
                         ) : todayEvents.length > 0 ? (
-                            <div className="grid gap-4">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 {todayEvents.map(event => <TodayEventCard key={event.id} event={event} />)}
                             </div>
                         ) : (
@@ -205,9 +205,9 @@ export default function HomePage() {
                     </section>
 
                     <section>
-                        <h2 className="text-2xl font-bold mb-4">Explore The Event</h2>
-                        <ScrollArea className="w-full">
-                            <div className="flex gap-4 pb-4">
+                        <h2 className="text-xl sm:text-2xl font-bold tracking-tight mb-4">Explore The Event</h2>
+                        <ScrollArea className="w-full -mx-4 sm:mx-0">
+                            <div className="flex gap-4 pb-4 px-4 sm:px-0">
                                 {featuredItems.map((item) => <FeaturedCard key={item.id} item={item} />)}
                             </div>
                             <ScrollBar orientation="horizontal" className="h-2" />
