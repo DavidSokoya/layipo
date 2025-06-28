@@ -2,13 +2,12 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Home, User, Badge as BadgeIcon, BookOpen, CalendarDays } from 'lucide-react';
+import { Home, User, Badge as BadgeIcon, BookOpen } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useState, useEffect } from 'react';
 
 const navItems = [
   { href: '/', label: 'Home', icon: Home },
-  { href: '/timetable', label: 'Timetable', icon: CalendarDays },
   { href: '/badge', label: 'My Badge', icon: BadgeIcon },
   { href: '/trainings', label: 'Trainings', icon: BookOpen },
   { href: '/profile', label: 'Profile', icon: User },
