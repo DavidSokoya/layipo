@@ -297,15 +297,12 @@ export default function HomePage() {
                         </div>
 
                         {selectedEvents.length > 0 ? (
-                           <ScrollArea className="w-full whitespace-nowrap rounded-md -mx-4 px-4">
-                               <div className="flex w-max space-x-4 pb-4">
+                           <ScrollArea className="w-full h-[450px] rounded-lg border p-4">
+                               <div className="grid grid-cols-1 gap-4">
                                    {selectedEvents.map(event => (
-                                       <div key={event.id} className="w-[280px] overflow-hidden">
-                                           <TodayEventCard event={event} />
-                                       </div>
+                                       <TodayEventCard key={event.id} event={event} />
                                    ))}
                                </div>
-                               <ScrollBar orientation="horizontal" />
                            </ScrollArea>
                         ) : (
                             <p className="text-muted-foreground text-center py-4">No events scheduled for this day.</p>
