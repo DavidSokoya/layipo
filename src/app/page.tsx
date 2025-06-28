@@ -18,7 +18,7 @@ const featuredItems = [
         id: 'f10',
         title: 'OJUDE LAYIPO Opening Ceremony',
         description: 'Friday, 4th July 2025',
-        image: 'https://images.unsplash.com/photo-1542621334-a254cf47763b?w=600&h=400&q=80',
+        image: 'https://placehold.co/600x400.png',
         dataAiHint: 'grand ceremony',
         href: '/timetable#f10',
     },
@@ -26,7 +26,7 @@ const featuredItems = [
         id: 'th7',
         title: 'Football Competition',
         description: 'Preliminaries & Finals',
-        image: 'https://images.unsplash.com/photo-1579952363873-27f3bade9f55?w=600&h=400&q=80',
+        image: 'https://placehold.co/600x400.png',
         dataAiHint: 'football stadium',
         href: '/timetable#th7',
     },
@@ -34,7 +34,7 @@ const featuredItems = [
         id: 'th9',
         title: 'Campfire & Stories',
         description: 'Thursday, 3rd July 2025',
-        image: 'https://images.unsplash.com/photo-1559752254-e7c44923725c?w=600&h=400&q=80',
+        image: 'https://placehold.co/600x400.png',
         dataAiHint: 'campfire night',
         href: '/timetable#th9',
     },
@@ -42,7 +42,7 @@ const featuredItems = [
         id: 'f11',
         title: 'Mr & Miss Collegiate',
         description: 'Friday, 4th July 2025',
-        image: 'https://images.unsplash.com/photo-1534452203293-494d7ddbf7e0?w=600&h=400&q=80',
+        image: 'https://placehold.co/600x400.png',
         dataAiHint: 'fashion show',
         href: '/timetable#f11',
     },
@@ -50,7 +50,7 @@ const featuredItems = [
         id: 'f4',
         title: 'Speech & Debate Finals',
         description: 'Friday, 4th July 2025',
-        image: 'https://images.unsplash.com/photo-1587825140708-dfaf72ae4b04?w=600&h=400&q=80',
+        image: 'https://placehold.co/600x400.png',
         dataAiHint: 'public speaking',
         href: '/timetable#f4',
     },
@@ -58,7 +58,7 @@ const featuredItems = [
         id: 's9',
         title: 'Banquet & Closing Ceremony',
         description: 'Saturday, 5th July 2025',
-        image: 'https://images.unsplash.com/photo-1527632946328-3d73b3768686?w=600&h=400&q=80',
+        image: 'https://placehold.co/600x400.png',
         dataAiHint: 'formal banquet',
         href: '/timetable#s9',
     }
@@ -131,7 +131,7 @@ export default function HomePage() {
                 <header className="sticky top-0 z-30 text-primary-foreground backdrop-blur-sm">
                    <div className="absolute inset-0 -z-10">
                         <Image
-                            src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=1200&h=400&fit=crop&q=80"
+                            src="https://placehold.co/1200x400.png"
                             data-ai-hint="youth conference audience"
                             alt="Conference background"
                             fill

@@ -60,6 +60,7 @@ function VenueModal({
               width={600}
               height={400}
               className="object-cover w-full h-full"
+              data-ai-hint={venue.dataAiHint}
             />
           </div>
           <p className="text-sm text-muted-foreground">{venue.description}</p>

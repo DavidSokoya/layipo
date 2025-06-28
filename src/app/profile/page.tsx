@@ -45,6 +45,7 @@ function RewardCard({ reward, userPoints }: { reward: Reward; userPoints: number
           width={600}
           height={400}
           className="object-cover w-full h-full transition-transform hover:scale-105"
+          data-ai-hint={reward.dataAiHint}
         />
       </div>
       <CardHeader>
