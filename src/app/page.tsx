@@ -249,6 +249,20 @@ export default function HomePage() {
                 
                 <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 space-y-10 sm:space-y-12">
                     <section>
+                        <div className="flex flex-wrap gap-2 justify-center">
+                             <Button asChild variant="outline" size="sm">
+                                <Link href="/council">Meet the Council</Link>
+                            </Button>
+                            <Button asChild variant="outline" size="sm">
+                                <Link href="/contestants">Mr & Miss Collegiate</Link>
+                            </Button>
+                            <Button asChild variant="outline" size="sm">
+                                <Link href="/football">Football Showdown</Link>
+                            </Button>
+                        </div>
+                    </section>
+                    
+                    <section>
                         <div className="flex justify-between items-center mb-4">
                              <h2 className="text-xl font-bold font-headline tracking-tight text-foreground">
                                 {dayStatus === 'Happening' ? `Today's Events` : `${dayStatus} ${dayName}`}
@@ -295,23 +309,6 @@ export default function HomePage() {
                         ) : (
                             <p className="text-muted-foreground text-center py-4">No events scheduled for this day.</p>
                         )}
-                    </section>
-                    
-                    <section>
-                        <h2 className="text-xl font-bold font-headline tracking-tight text-foreground mb-4">
-                            More Information
-                        </h2>
-                        <div className="flex flex-wrap gap-2">
-                             <Button asChild variant="outline" size="sm">
-                                <Link href="/council">Meet the Council</Link>
-                            </Button>
-                            <Button asChild variant="outline" size="sm">
-                                <Link href="/contestants">Mr & Miss Collegiate</Link>
-                            </Button>
-                            <Button asChild variant="outline" size="sm">
-                                <Link href="/football">Football Showdown</Link>
-                            </Button>
-                        </div>
                     </section>
 
                     <section>
