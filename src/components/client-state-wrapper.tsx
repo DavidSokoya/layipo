@@ -24,7 +24,7 @@ function FullPageLoader() {
   React.useEffect(() => {
     const interval = setInterval(() => {
         setIndex((prevIndex) => (prevIndex + 1) % creed.length);
-    }, 3000); // Change creed every 3 seconds
+    }, 500);
 
     return () => clearInterval(interval);
   }, []);
@@ -39,7 +39,7 @@ function FullPageLoader() {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
-            transition={{ duration: 0.5 }}
+            transition={{ duration: 0.2 }}
             className="text-muted-foreground text-lg font-medium"
           >
             {creed[index]}
