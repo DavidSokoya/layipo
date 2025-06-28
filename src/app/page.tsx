@@ -25,8 +25,7 @@ const HomePageHeader = () => {
             <div className="flex justify-between items-center p-3 bg-card border-b">
                  <div className="flex items-center gap-3">
                     <div className="w-10 h-10 bg-muted rounded-full animate-pulse"></div>
-                    <div className="space-y-1">
-                        <div className="w-20 h-4 bg-muted rounded-md animate-pulse"></div>
+                    <div>
                         <div className="w-24 h-6 bg-muted rounded-md animate-pulse"></div>
                     </div>
                  </div>
@@ -45,8 +44,7 @@ const HomePageHeader = () => {
                     <AvatarFallback>{firstName.charAt(0)}</AvatarFallback>
                 </Avatar>
                 <div>
-                    <p className="text-sm text-muted-foreground">Hi, there!</p>
-                    <h1 className="text-lg font-bold text-foreground group-hover:text-primary transition-colors">{firstName}</h1>
+                    <h1 className="text-lg font-bold text-foreground group-hover:text-primary transition-colors">Hi, {firstName}</h1>
                 </div>
             </Link>
              <Button variant="outline" size="sm" asChild>
@@ -249,7 +247,7 @@ export default function HomePage() {
                 
                 <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 space-y-10 sm:space-y-12">
                     <section>
-                        <div className="flex gap-2 justify-center">
+                        <div className="flex flex-wrap gap-2 justify-center">
                              <Button asChild variant="outline" size="sm">
                                 <Link href="/council">Meet the Council</Link>
                             </Button>
