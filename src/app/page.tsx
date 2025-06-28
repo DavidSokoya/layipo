@@ -245,11 +245,11 @@ export default function HomePage() {
                 <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 space-y-10 sm:space-y-12">
                      <Link href="/profile">
                         <Card className="shadow-lg transition-all hover:shadow-xl hover:scale-[1.02] cursor-pointer bg-gradient-to-br from-blue-500 to-indigo-600 text-primary-foreground">
-                             <CardHeader className="flex flex-row items-center justify-between pb-1 pt-4 px-4">
+                             <CardHeader className="flex flex-row items-center justify-between pb-1 pt-3 px-4">
                                 <CardTitle className="text-sm font-medium text-primary-foreground/80">Your Progress</CardTitle>
                                 <Star className="w-4 h-4 text-primary-foreground/80" />
                             </CardHeader>
-                             <CardContent className="pt-0 px-4 pb-3">
+                             <CardContent className="pt-0 px-4 pb-2">
                                 <div className="text-2xl font-bold">{user.points.toLocaleString()} Points</div>
                                 <p className="text-xs text-primary-foreground/80">
                                     {5000 - user.points > 0 ? `${(5000 - user.points).toLocaleString()} points to the next reward!` : `You've unlocked all rewards!`}
@@ -259,16 +259,16 @@ export default function HomePage() {
                         </Card>
                     </Link>
 
-                    <section>
+                    <section className="-mt-6 sm:-mt-8">
                         <ScrollArea className="w-full whitespace-nowrap -mx-4 px-4">
-                            <div className="flex w-max space-x-2 mx-auto">
-                                <Button asChild variant="outline" size="sm">
+                            <div className="flex w-max space-x-3 py-1">
+                                <Button asChild size="sm" className="text-xs sm:text-sm font-semibold shadow-md bg-status-blue hover:bg-status-blue/90 text-primary-foreground">
                                     <Link href="/council">Meet the Council</Link>
                                 </Button>
-                                <Button asChild variant="outline" size="sm">
+                                <Button asChild size="sm" className="text-xs sm:text-sm font-semibold shadow-md bg-status-green hover:bg-status-green/90 text-primary-foreground">
                                     <Link href="/contestants">Mr & Miss Collegiate</Link>
                                 </Button>
-                                <Button asChild variant="outline" size="sm">
+                                <Button asChild size="sm" className="text-xs sm:text-sm font-semibold shadow-md bg-status-amber hover:bg-status-amber/90 text-foreground">
                                     <Link href="/football">Football Showdown</Link>
                                 </Button>
                             </div>
