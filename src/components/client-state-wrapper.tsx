@@ -46,7 +46,6 @@ function FullPageLoader() {
           </motion.p>
         </AnimatePresence>
       </div>
-      <p className="font-semibold text-primary">We Believe...</p>
     </div>
   );
 }
