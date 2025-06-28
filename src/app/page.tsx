@@ -116,7 +116,8 @@ const TodayEventCard = ({ event }: { event: Event }) => (
 );
 
 const parseDate = (dateStr: string): Date => {
-    const cleanDateStr = dateStr.split(', ')[1].replace(/(\d+)(st|nd|rd|th)/, '$1');
+    if (!dateStr) return new Date(NaN);
+    const cleanDateStr = dateStr.split(', ')[1]?.replace(/(\d+)(st|nd|rd|th)/, '$1');
     return new Date(cleanDateStr);
 };
 
@@ -126,7 +127,7 @@ export default function HomePage() {
     const [isExpanded, setIsExpanded] = React.useState(false);
 
     const eventDays = React.useMemo(() => {
-        const dates = Array.from(new Set(events.map(e => e.date.replace('Wed,', 'Wed'))));
+        const dates = Array.from(new Set(events.map(e => e.date)));
         return dates.sort((a, b) => parseDate(a).getTime() - parseDate(b).getTime());
     }, []);
 
@@ -134,7 +135,7 @@ export default function HomePage() {
     const [selectedDate, setSelectedDate] = React.useState(DEMO_DATE);
 
     const displayedEvents = React.useMemo(() => {
-        return events.filter(event => event.date.replace('Wed,', 'Wed') === selectedDate);
+        return events.filter(event => event.date === selectedDate);
     }, [selectedDate]);
     
     const eventsToShow = isExpanded ? displayedEvents : displayedEvents.slice(0, 3);
