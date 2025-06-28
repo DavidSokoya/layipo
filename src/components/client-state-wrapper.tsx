@@ -7,18 +7,50 @@ import { Toaster } from '@/components/ui/toaster';
 import { Pwa } from '@/components/pwa';
 import { BottomNavigation } from '@/components/ui/bottom-navigation';
 import { Logo } from './ui/logo';
+import { AnimatePresence, motion } from 'framer-motion';
+
+const creed = [
+  "That faith in God gives meaning and purpose to human life.",
+  "That the brotherhood of man transcends the sovereignty of nations.",
+  "That economic justice can best be won by free men through free enterprise.",
+  "That government should be of laws rather than of men.",
+  "That earth’s great treasure lies in human personality.",
+  "And that service to humanity is the best work of life."
+];
 
 function FullPageLoader() {
-    return (
-        <div className="flex flex-col gap-4 items-center justify-center h-screen bg-background">
-            <Logo />
-            <div className="flex items-center gap-2 text-muted-foreground">
-                 <div className="w-4 h-4 border-2 border-primary border-t-transparent rounded-full animate-spin"></div>
-                <span>Loading your experience...</span>
-            </div>
-        </div>
-    );
+  const [index, setIndex] = React.useState(0);
+
+  React.useEffect(() => {
+    const interval = setInterval(() => {
+        setIndex((prevIndex) => (prevIndex + 1) % creed.length);
+    }, 3000); // Change creed every 3 seconds
+
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <div className="flex flex-col gap-8 items-center justify-center h-screen bg-background text-center p-8">
+      <Logo />
+      <div className="w-full max-w-md h-24 flex items-center justify-center">
+        <AnimatePresence mode="wait">
+          <motion.p
+            key={index}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.5 }}
+            className="text-muted-foreground text-lg font-medium"
+          >
+            {creed[index]}
+          </motion.p>
+        </AnimatePresence>
+      </div>
+      <p className="font-semibold text-primary">We Believe...</p>
+    </div>
+  );
 }
+
 
 export function ClientStateWrapper({ children }: { children: React.ReactNode }) {
   const { user, isLoading } = useUser();
