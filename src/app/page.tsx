@@ -1,6 +1,6 @@
 'use client';
 import * as React from 'react';
-import { Star, Users, Award, Trophy, Clock, MapPin, ChevronDown, ChevronUp } from 'lucide-react';
+import { Star, Users, Award, Trophy, ChevronDown, ChevronUp } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { PageWrapper } from '@/components/page-wrapper';
@@ -183,7 +183,7 @@ export default function HomePage() {
                         </div>
 
                         {selectedEvents.length > 0 ? (
-                           <AnimatePresence initial={false}>
+                           <>
                                 <motion.div
                                     layout
                                     className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4"
@@ -198,11 +198,11 @@ export default function HomePage() {
                                      <div className="mt-4 text-center">
                                         <Button variant="ghost" onClick={() => setIsExpanded(!isExpanded)} className="text-primary">
                                             {isExpanded ? "Show Less" : "View all for today"}
-                                            {isExpanded ? <ChevronUp className="ml-2 h-4 w-4" /> : <ChevronDown className="ml-2 h-4 w-4" />}
+                                            {isExpanded ? <ChevronUp className="ml-2 h-4 w-4" /> : <ChevronDown className="ml-2 h-4" />}
                                         </Button>
                                     </div>
                                 )}
-                           </AnimatePresence>
+                           </>
                         ) : (
                             <p className="text-muted-foreground text-center py-4">No events scheduled for this day.</p>
                         )}
