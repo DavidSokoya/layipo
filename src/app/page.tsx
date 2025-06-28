@@ -38,32 +38,34 @@ const HomePageHeader = () => {
 
     if (!user) {
         return (
-            <div className="flex justify-between items-center p-4 bg-card border-b">
-                 <div className="flex items-center gap-4">
-                    <div className="w-16 h-16 bg-muted rounded-full animate-pulse"></div>
-                    <div className="space-y-2">
-                        <div className="w-24 h-5 bg-muted rounded-md animate-pulse"></div>
-                        <div className="w-32 h-8 bg-muted rounded-md animate-pulse"></div>
+            <div className="flex justify-between items-center p-3 bg-card border-b">
+                 <div className="flex items-center gap-3">
+                    <div className="w-12 h-12 bg-muted rounded-full animate-pulse"></div>
+                    <div className="space-y-1">
+                        <div className="w-20 h-4 bg-muted rounded-md animate-pulse"></div>
+                        <div className="w-28 h-7 bg-muted rounded-md animate-pulse"></div>
                     </div>
                  </div>
-                 <div className="w-24 h-10 bg-muted rounded-md animate-pulse"></div>
+                 <div className="w-20 h-9 bg-muted rounded-md animate-pulse"></div>
             </div>
         )
     }
+    
+    const firstName = user.name.split(' ')[0];
 
     return (
-        <div className="flex justify-between items-center p-4 bg-card border-b">
-            <Link href="/profile" className="flex items-center gap-4 group">
-                 <Avatar className="w-16 h-16 border-2 border-primary/20 group-hover:border-primary transition-colors">
+        <div className="flex justify-between items-center p-3 bg-card border-b">
+            <Link href="/profile" className="flex items-center gap-3 group">
+                 <Avatar className="w-12 h-12 border-2 border-primary/20 group-hover:border-primary transition-colors">
                     <AvatarImage src={avatarUrl} alt={user.name} />
-                    <AvatarFallback>{user.name.charAt(0)}</AvatarFallback>
+                    <AvatarFallback>{firstName.charAt(0)}</AvatarFallback>
                 </Avatar>
                 <div>
-                    <p className="text-muted-foreground">Hi, there!</p>
-                    <h1 className="text-2xl font-bold text-foreground group-hover:text-primary transition-colors">{user.name}</h1>
+                    <p className="text-sm text-muted-foreground">Hi, there!</p>
+                    <h1 className="text-xl font-bold text-foreground group-hover:text-primary transition-colors">{firstName}</h1>
                 </div>
             </Link>
-             <Button variant="outline" asChild>
+             <Button variant="outline" size="sm" asChild>
                 <Link href="/profile">
                     <Star className="w-4 h-4 mr-2 text-amber-500" />
                     <span>{(user?.points ?? 0).toLocaleString()}</span>
