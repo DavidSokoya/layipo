@@ -512,10 +512,10 @@ export type Reward = {
 }
 
 export const rewards: Reward[] = [
-    { id: '1', title: 'JCI Branded Mug', cost: 500, description: 'Start your day with a reminder of your JCI journey.', image: 'https://images.unsplash.com/photo-1541167760496-1628856ab772?w=600&h=400&fit=crop&q=80' },
-    { id: '2', title: 'Exclusive T-Shirt', cost: 1500, description: 'A limited edition T-shirt, only available to top point earners.', image: 'https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=600&h=400&fit=crop&q=80' },
-    { id: '3', title: 'VIP Seating Voucher', cost: 3000, description: 'Get front-row seats at the next keynote session.', image: 'https://images.unsplash.com/photo-1579548122080-c35fd6820ecb?w=600&h=400&fit=crop&q=80' },
-    { id: '4', title: 'Mentorship Session', cost: 5000, description: 'A one-on-one session with a JCI National President.', image: 'https://images.unsplash.com/photo-1556157382-97eda2d62296?w=600&h=400&fit=crop&q=80' },
+    { id: '1', title: 'JCI Branded Mug', cost: 500, description: 'Start your day with a reminder of your JCI journey.', image: 'https://images.unsplash.com/photo-1541167760496-1628856ab772?w=600&h=400&q=80' },
+    { id: '2', title: 'Exclusive T-Shirt', cost: 1500, description: 'A limited edition T-shirt, only available to top point earners.', image: 'https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=600&h=400&q=80' },
+    { id: '3', title: 'VIP Seating Voucher', cost: 3000, description: 'Get front-row seats at the next keynote session.', image: 'https://images.unsplash.com/photo-1579548122080-c35fd6820ecb?w=600&h=400&q=80' },
+    { id: '4', title: 'Mentorship Session', cost: 5000, description: 'A one-on-one session with a JCI National President.', image: 'https://images.unsplash.com/photo-1556157382-97eda2d62296?w=600&h=400&q=80' },
 ];
 
 export const trainings: Training[] = [
@@ -526,7 +526,7 @@ export const trainings: Training[] = [
     topic: 'Personal Branding & Advocacy for Sustainable Leadership',
     trainer: 'JCIN AMb. Adepoju Joel',
     trainerImage: 'https://i.pravatar.cc/150?u=AdepojuJoel',
-    trainerProfile: 'A renowned expert in leadership and personal development, JCIN Amb. Adepoju Joel specializes in empowering young leaders to create sustainable impact. His dynamic approach combines personal branding with actionable advocacy strategies.',
+    trainerProfile: 'A powerful voice in leadership, learning, and soft skills, JCIN Amb. Adepoju Joel has been at the forefront of building a generation of impactful leaders. From leading massive youth trainings in Oyo State to speaking on global platforms, he brings energy, clarity, and real-world stories that resonate across borders.',
     venue: 'Favour Hall',
     theme: 'From vision to action: rising together for a sustainable tomorrow',
   },
@@ -537,7 +537,7 @@ export const trainings: Training[] = [
     topic: 'Digital Skills for the Future-Leveraging AI & Tech for Social Impact',
     trainer: 'Taiwo Tayo Babalola',
     trainerImage: 'https://i.pravatar.cc/150?u=TaiwoTayoBabalola',
-    trainerProfile: 'A tech evangelist and AI specialist, Taiwo Tayo Babalola is passionate about leveraging technology for social good. He has a proven track record of helping organizations and individuals navigate the digital landscape.',
+    trainerProfile: 'With over ten years of experience in digital transformation and business intelligence, Taiwo Tayo Babalola has helped major companies like Sterling Bank and Airtel make smarter, data-driven decisions. He specializes in demonstrating how to use tech and AI to create tangible social change.',
     venue: 'Favour Hall',
   },
   {
@@ -547,13 +547,13 @@ export const trainings: Training[] = [
     topic: 'Design Thinking For Social Innovation',
     trainer: 'Tomiwa Anjorin',
     trainerImage: 'https://i.pravatar.cc/150?u=TomiwaAnjorin',
-    trainerProfile: 'As a leading voice in social innovation, Tomiwa Anjorin champions design thinking as a core methodology for solving complex community problems. His workshops are known for being highly interactive and outcome-driven.',
+    trainerProfile: "With a solid track record of helping government and private institutions like the Central Bank and Lagos State Government build effective strategies and systems, Tomiwa Anjorin brings experience that goes beyond theory. He doesn't just talk innovation; he teaches how to design it for meaningful change.",
     venue: 'Marquee Hall',
   },
   {
     id: 't4',
     date: 'Saturday, 5th July 2025',
-    time: '2:30 PM - 3:45 PM',
+    time: '2:30 PM - 4:30 PM',
     topic: 'Inclusive Leadership- Building Teams That Thrive',
     trainer: 'Dr. Oyenike Adeleke',
     trainerImage: 'https://i.pravatar.cc/150?u=DrOyenikeAdeleke',
