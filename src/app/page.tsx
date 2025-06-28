@@ -107,16 +107,17 @@ const TodayEventCard = ({ event }: { event: Event }) => (
     </Link>
 );
 
+const parseDate = (dateStr: string): Date => {
+    const cleanDateStr = dateStr.split(', ')[1].replace(/(\d+)(st|nd|rd|th)/, '$1');
+    return new Date(cleanDateStr);
+};
+
 export default function HomePage() {
     const { user } = useUser();
     const [searchQuery, setSearchQuery] = React.useState('');
     
     const eventDays = React.useMemo(() => {
         const dates = Array.from(new Set(events.map(e => e.date)));
-        const parseDate = (dateStr: string): Date => {
-            const cleanDateStr = dateStr.split(', ')[1].replace(/(\d+)(st|nd|rd|th)/, '$1');
-            return new Date(cleanDateStr);
-        };
         return dates.sort((a, b) => parseDate(a).getTime() - parseDate(b).getTime());
     }, []);
 
@@ -127,9 +128,22 @@ export default function HomePage() {
         return events.filter(event => event.date === selectedDate).slice(0, 4);
     }, [selectedDate]);
 
-    const title = selectedDate === DEMO_DATE
-        ? 'Happening Today'
-        : `Happening on ${selectedDate.split(',')[0]}`;
+    const title = React.useMemo(() => {
+        const todayForDemo = parseDate(DEMO_DATE);
+        const currentSelectedDate = parseDate(selectedDate);
+        const dayName = selectedDate.split(',')[0];
+
+        if (currentSelectedDate.getTime() === todayForDemo.getTime()) {
+          return 'Happening Today';
+        }
+
+        if (currentSelectedDate.getTime() < todayForDemo.getTime()) {
+          return `Happened on ${dayName}`;
+        }
+
+        return `Happening on ${dayName}`;
+    }, [selectedDate]);
+
 
     const totalDays = events.reduce((acc, event) => acc.add(event.date), new Set()).size;
     const totalEvents = events.length;
@@ -193,7 +207,7 @@ export default function HomePage() {
                                 <h2 className="text-xl sm:text-2xl font-bold tracking-tight">{title}</h2>
                                 <div className="flex items-center gap-2">
                                     {eventDays.map((date) => {
-                                        const dayNum = date.split(', ')[1].split(' ')[0].replace(/\D/g, '');
+                                        const dayAbbr = date.split(',')[0].slice(0, 3);
                                         const isActive = date === selectedDate;
                                         return (
                                             <Button
@@ -201,12 +215,12 @@ export default function HomePage() {
                                                 variant={isActive ? 'default' : 'outline'}
                                                 size="icon"
                                                 className={cn(
-                                                    "h-8 w-8 shrink-0 rounded-full text-xs font-bold",
+                                                    "h-10 w-10 sm:h-8 sm:w-8 shrink-0 rounded-full text-xs font-bold",
                                                     isActive && "shadow-lg"
                                                 )}
                                                 onClick={() => setSelectedDate(date)}
                                             >
-                                                {dayNum}
+                                                {dayAbbr}
                                             </Button>
                                         );
                                     })}

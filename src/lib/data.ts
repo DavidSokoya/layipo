@@ -131,7 +131,7 @@ export const events: Event[] = [
   // Wednesday
   {
     id: 'w1',
-    date: 'Wednesday, 2nd July 2025',
+    date: 'Wed, 2nd July 2025',
     time: '9:00 am–4:00 pm',
     title: 'COC/LOC Arrival',
     location: 'LOC Room',
@@ -141,7 +141,7 @@ export const events: Event[] = [
   },
   {
     id: 'w2',
-    date: 'Wednesday, 2nd July 2025',
+    date: 'Wed, 2nd July 2025',
     time: '9:00 am–7:00 pm',
     title: 'JCI Nigeria Social Enterprise Academy – Day I',
     location: 'Training Hall',
@@ -151,7 +151,7 @@ export const events: Event[] = [
   },
   {
     id: 'w3',
-    date: 'Wednesday, 2nd July 2025',
+    date: 'Wed, 2nd July 2025',
     time: '4:00 pm–6:00 pm',
     title: 'COC/LOC Meeting',
     location: 'Ilaji Resort',
@@ -161,7 +161,7 @@ export const events: Event[] = [
   },
   {
     id: 'w4',
-    date: 'Wednesday, 2nd July 2025',
+    date: 'Wed, 2nd July 2025',
     time: '6:00 pm–10:00 pm',
     title: 'Branding/Setup (Registration Desk, Event Halls)',
     location: 'Main Hall',
