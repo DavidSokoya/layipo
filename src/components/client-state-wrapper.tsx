@@ -25,7 +25,7 @@ function FullPageLoader() {
   React.useEffect(() => {
     const interval = setInterval(() => {
       setIndex((prevIndex) => (prevIndex + 1) % creed.length);
-    }, 2000); // A bit slower to allow reading the creed
+    }, 1800); 
 
     return () => clearInterval(interval);
   }, []);
@@ -43,11 +43,11 @@ function FullPageLoader() {
     <div className="flex flex-col gap-8 items-center justify-center h-screen bg-background text-center p-8">
       <Logo />
 
-      <div className="grid grid-cols-3 gap-4">
+      <div className="grid grid-cols-3 gap-3">
         {colors.map((color, i) => (
           <motion.div
             key={i}
-            className={cn('w-10 h-10 rounded-lg', color)}
+            className={cn('w-10 h-3 rounded', color)}
             animate={{
               scale: i === index ? 1.2 : 1,
               opacity: i === index ? 1 : 0.5,
