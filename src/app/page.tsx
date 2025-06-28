@@ -1,11 +1,12 @@
 'use client';
 import * as React from 'react';
-import { Star, Users, Award, Trophy, ChevronDown, ChevronUp, ChevronRight } from 'lucide-react';
+import { Star, ChevronDown, ChevronUp, ChevronRight, Clock, MapPin, Shirt } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { PageWrapper } from '@/components/page-wrapper';
 import { useUser } from '@/hooks/use-user';
 import Link from 'next/link';
+import Image from 'next/image';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import type { Event } from '@/lib/data';
 import { events } from '@/lib/data';
@@ -13,27 +14,6 @@ import { TodayEventCard } from '@/components/today-event-card';
 import { cn } from '@/lib/utils';
 import { motion } from 'framer-motion';
 
-
-const infoCards = [
-    {
-        title: "Meet the Council",
-        href: "/council",
-        icon: Users,
-        description: "Get to know the 2025 JCI Nigeria Collegiate Council."
-    },
-    {
-        title: "Mr & Miss Collegiate",
-        href: "/contestants",
-        icon: Award,
-        description: "See the brilliant leaders vying for this year's crown."
-    },
-    {
-        title: "Football Showdown",
-        href: "/football",
-        icon: Trophy,
-        description: "Check the groups for the LÁYÍPO ‘25 Football Showdown."
-    }
-];
 
 const HomePageHeader = () => {
     const { user } = useUser();
@@ -43,10 +23,10 @@ const HomePageHeader = () => {
         return (
             <div className="flex justify-between items-center p-3 bg-card border-b">
                  <div className="flex items-center gap-3">
-                    <div className="w-12 h-12 bg-muted rounded-full animate-pulse"></div>
+                    <div className="w-10 h-10 bg-muted rounded-full animate-pulse"></div>
                     <div className="space-y-1">
                         <div className="w-20 h-4 bg-muted rounded-md animate-pulse"></div>
-                        <div className="w-28 h-7 bg-muted rounded-md animate-pulse"></div>
+                        <div className="w-24 h-6 bg-muted rounded-md animate-pulse"></div>
                     </div>
                  </div>
                  <div className="w-20 h-9 bg-muted rounded-md animate-pulse"></div>
@@ -59,13 +39,13 @@ const HomePageHeader = () => {
     return (
         <div className="flex justify-between items-center p-3 bg-card border-b">
             <Link href="/profile" className="flex items-center gap-3 group">
-                 <Avatar className="w-12 h-12 border-2 border-primary/20 group-hover:border-primary transition-colors">
+                 <Avatar className="w-10 h-10 border-2 border-primary/20 group-hover:border-primary transition-colors">
                     <AvatarImage src={avatarUrl} alt={user.name} />
                     <AvatarFallback>{firstName.charAt(0)}</AvatarFallback>
                 </Avatar>
                 <div>
                     <p className="text-sm text-muted-foreground">Hi, there!</p>
-                    <h1 className="text-xl font-bold text-foreground group-hover:text-primary transition-colors">{firstName}</h1>
+                    <h1 className="text-lg font-bold text-foreground group-hover:text-primary transition-colors">{firstName}</h1>
                 </div>
             </Link>
              <Button variant="outline" size="sm" asChild>
@@ -78,21 +58,49 @@ const HomePageHeader = () => {
     )
 };
 
-const InfoLinkCard = ({ title, href, icon: Icon, description }: (typeof infoCards)[0]) => (
-  <Link href={href} className="block group">
-    <Card className="transition-all duration-300 hover:shadow-lg hover:border-primary/50">
-      <CardContent className="p-4 flex items-center gap-4">
-        <div className="bg-primary/10 p-3 rounded-lg">
-          <Icon className="w-8 h-8 text-primary" />
-        </div>
-        <div className="flex-1">
-          <p className="font-semibold text-base">{title}</p>
-          <p className="text-sm text-muted-foreground">{description}</p>
-        </div>
-        <ChevronRight className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-colors" />
-      </CardContent>
-    </Card>
-  </Link>
+type FeaturedEvent = {
+  id: string;
+  href: string;
+  title: string;
+  time: string;
+  location: string;
+  dressCode: string;
+  image: string;
+  dataAiHint?: string;
+};
+
+const FeaturedEventCard = ({ event }: { event: FeaturedEvent }) => (
+    <Link href={event.href} className="block group">
+        <Card className="overflow-hidden transition-all duration-300 hover:shadow-xl flex flex-col sm:flex-row h-full">
+            <div className="sm:w-1/3 relative overflow-hidden h-36 sm:h-auto">
+                <Image 
+                  src={event.image || 'https://placehold.co/400x400.png'} 
+                  alt={event.title}
+                  data-ai-hint={event.dataAiHint}
+                  fill 
+                  className="object-cover transition-transform duration-300 group-hover:scale-105"
+                />
+            </div>
+            <div className="sm:w-2/3 flex flex-col p-4">
+                <h3 className="font-bold text-base leading-tight">{event.title}</h3>
+                <div className="flex items-center text-xs text-muted-foreground mt-2">
+                    <Clock className="w-3 h-3 mr-2 shrink-0" />
+                    <span>{event.time}</span>
+                </div>
+                <div className="flex items-center text-xs text-muted-foreground mt-1">
+                    <MapPin className="w-3 h-3 mr-2 shrink-0" />
+                    <span className='truncate'>{event.location}</span>
+                </div>
+                <div className="flex items-center text-xs text-muted-foreground mt-1">
+                    <Shirt className="w-3 h-3 mr-2 shrink-0" />
+                    <span>{event.dressCode}</span>
+                </div>
+                <div className="mt-auto pt-2 text-primary font-semibold text-sm flex items-center">
+                    View Details <ChevronRight className="w-4 h-4 ml-1 transition-transform duration-300 group-hover:translate-x-1" />
+                </div>
+            </div>
+        </Card>
+    </Link>
 );
 
 
@@ -103,7 +111,6 @@ export default function HomePage() {
 
   const parseDate = (dateStr: string): Date => {
     if (!dateStr) return new Date();
-    // A more robust date parsing
     const datePart = dateStr.split(', ')[1] || dateStr;
     const cleanDateStr = datePart.replace(/(\d+)(st|nd|rd|th)/, '$1');
     return new Date(`${cleanDateStr} 2025`);
@@ -138,6 +145,24 @@ export default function HomePage() {
       setSelectedDate(getInitialDate());
     }
   }, [eventDays, getInitialDate, selectedDate]);
+  
+  const featuredEvents: FeaturedEvent[] = React.useMemo(() => {
+      const eventMap = events.reduce((acc, event) => {
+          acc[event.id] = event;
+          return acc;
+      }, {} as Record<string, Event>);
+
+      return [
+        { id: 'f10', href: '/timetable#f10', title: 'Opening Ceremony', dressCode: 'Outfit: Campala', ...eventMap['f10'] },
+        { id: 'f11', href: '/timetable#f11', title: 'Mr & Miss Collegiate', dressCode: `Outfit: ${eventMap['f11'].dressCode.title}`, ...eventMap['f11'] },
+        { id: 'trainings', href: '/trainings', title: 'Skill Development Trainings', time: 'Multiple Sessions', location: 'Various Halls', dressCode: 'Outfit: Business Formal', image: 'https://placehold.co/400x400.png', dataAiHint: 'professional training' },
+        { id: 'f5', href: '/timetable#f5', title: 'Collegiate General Assembly', dressCode: 'Outfit: Strictly Formal', ...eventMap['f5'] },
+        { id: 'th9', href: '/timetable#th9', title: 'Storytelling / Campfire Night', dressCode: 'Outfit: Rep Your Culture', ...eventMap['th9'] },
+        { id: 'f4', href: '/timetable#f4', title: 'Debate & Speech Finals', dressCode: `Outfit: ${eventMap['f4'].dressCode.title}`, ...eventMap['f4'] },
+        { id: 's9', href: '/timetable#s9', title: 'Closing Ceremony & Banquet', dressCode: 'Outfit: Black Tie', ...eventMap['s9'] },
+      ];
+  }, []);
+
 
   if (!selectedDate) {
     return (
@@ -228,10 +253,27 @@ export default function HomePage() {
                     
                     <section>
                         <h2 className="text-xl font-bold font-headline tracking-tight text-foreground mb-4">
-                            Explore the Event
+                            Event Highlights
                         </h2>
-                        <div className="grid grid-cols-1 gap-4">
-                            {infoCards.map((card) => <InfoLinkCard key={card.href} {...card} />)}
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            {featuredEvents.map((event) => <FeaturedEventCard key={event.id} event={event} />)}
+                        </div>
+                    </section>
+                    
+                    <section>
+                        <h2 className="text-xl font-bold font-headline tracking-tight text-foreground mb-4">
+                            More Information
+                        </h2>
+                        <div className="flex flex-wrap gap-2">
+                             <Button asChild variant="outline" size="sm">
+                                <Link href="/council">Meet the Council</Link>
+                            </Button>
+                            <Button asChild variant="outline" size="sm">
+                                <Link href="/contestants">Mr & Miss Collegiate</Link>
+                            </Button>
+                            <Button asChild variant="outline" size="sm">
+                                <Link href="/football">Football Showdown</Link>
+                            </Button>
                         </div>
                     </section>
                 </div>
