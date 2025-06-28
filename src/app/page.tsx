@@ -1,6 +1,6 @@
 'use client';
 import * as React from 'react';
-import { Star, ChevronDown, ChevronUp, ChevronRight, Clock, MapPin, Shirt, CalendarDays } from 'lucide-react';
+import { Star, ChevronRight, Clock, MapPin, Shirt, CalendarDays } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { PageWrapper } from '@/components/page-wrapper';
@@ -12,7 +12,6 @@ import type { Event } from '@/lib/data';
 import { events } from '@/lib/data';
 import { TodayEventCard } from '@/components/today-event-card';
 import { cn } from '@/lib/utils';
-import { motion } from 'framer-motion';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import { Progress } from '@/components/ui/progress';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -95,7 +94,6 @@ const FeaturedEventCard = ({ event }: { event: FeaturedEvent }) => (
 
 export default function HomePage() {
   const { user } = useUser();
-  const [isExpanded, setIsExpanded] = React.useState(false);
   const [progress, setProgress] = React.useState(0);
 
   const demoDate = new Date('2025-07-03T00:00:00');
@@ -221,7 +219,6 @@ export default function HomePage() {
   }
 
   const selectedEvents = eventDays.find(([date]) => date === selectedDate)?.[1] || [];
-  const visibleEvents = isExpanded ? selectedEvents : selectedEvents.slice(0, 3);
 
   const getDayStatus = (date: Date) => {
     const today = new Date(demoDate);
@@ -300,26 +297,16 @@ export default function HomePage() {
                         </div>
 
                         {selectedEvents.length > 0 ? (
-                           <>
-                                <motion.div
-                                    layout
-                                    className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4"
-                                >
-                                    {visibleEvents.map(event => (
-                                        <motion.div layout key={event.id}>
-                                            <TodayEventCard event={event} />
-                                        </motion.div>
-                                    ))}
-                                </motion.div>
-                                {selectedEvents.length > 3 && (
-                                     <div className="mt-4 text-center">
-                                        <Button variant="ghost" onClick={() => setIsExpanded(!isExpanded)} className="text-primary">
-                                            {isExpanded ? "Show Less" : "View all for today"}
-                                            {isExpanded ? <ChevronUp className="ml-2 h-4 w-4" /> : <ChevronDown className="ml-2 h-4 w-4" />}
-                                        </Button>
-                                    </div>
-                                )}
-                           </>
+                           <ScrollArea className="w-full whitespace-nowrap rounded-md -mx-4 px-4">
+                               <div className="flex w-max space-x-4 pb-4">
+                                   {selectedEvents.map(event => (
+                                       <div key={event.id} className="w-[280px] overflow-hidden">
+                                           <TodayEventCard event={event} />
+                                       </div>
+                                   ))}
+                               </div>
+                               <ScrollBar orientation="horizontal" />
+                           </ScrollArea>
                         ) : (
                             <p className="text-muted-foreground text-center py-4">No events scheduled for this day.</p>
                         )}
