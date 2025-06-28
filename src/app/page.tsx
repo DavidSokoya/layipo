@@ -243,18 +243,34 @@ export default function HomePage() {
                 <HomePageHeader />
                 
                 <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 space-y-10 sm:space-y-12">
+                    <section>
+                        <h2 className="text-xl font-bold font-headline tracking-tight text-foreground mb-4">
+                            Event Highlights
+                        </h2>
+                         <ScrollArea className="w-full whitespace-nowrap rounded-md">
+                            <div className="flex w-max space-x-4 pb-4">
+                                {featuredEvents.map((event) => (
+                                     <div key={event.id} className="w-[300px] sm:w-[350px] overflow-hidden">
+                                        <FeaturedEventCard event={event} />
+                                    </div>
+                                ))}
+                            </div>
+                            <ScrollBar orientation="horizontal" />
+                        </ScrollArea>
+                    </section>
+                    
                      <Link href="/profile">
-                        <Card className="shadow-lg transition-all hover:shadow-xl hover:scale-[1.02] cursor-pointer">
+                        <Card className="shadow-lg transition-all hover:shadow-xl hover:scale-[1.02] cursor-pointer bg-gradient-to-br from-indigo-500 via-sky-500 to-cyan-400 text-primary-foreground">
                             <CardHeader className="flex flex-row items-center justify-between pb-2">
-                                <CardTitle className="text-sm font-medium">Your Progress</CardTitle>
-                                <Star className="w-4 h-4 text-muted-foreground" />
+                                <CardTitle className="text-sm font-medium text-primary-foreground/80">Your Progress</CardTitle>
+                                <Star className="w-4 h-4 text-primary-foreground/80" />
                             </CardHeader>
-                            <CardContent>
+                            <CardContent className="pt-0">
                                 <div className="text-2xl font-bold">{user.points.toLocaleString()} Points</div>
-                                <p className="text-xs text-muted-foreground">
+                                <p className="text-xs text-primary-foreground/80">
                                     {5000 - user.points > 0 ? `${(5000 - user.points).toLocaleString()} points to the next reward!` : `You've unlocked all rewards!`}
                                 </p>
-                                <Progress value={progress} className="w-full h-2 mt-4" />
+                                <Progress value={progress} className="w-full h-1.5 mt-2 [&>div]:bg-white" />
                             </CardContent>
                         </Card>
                     </Link>
@@ -325,21 +341,6 @@ export default function HomePage() {
                         )}
                     </section>
 
-                    <section>
-                        <h2 className="text-xl font-bold font-headline tracking-tight text-foreground mb-4">
-                            Event Highlights
-                        </h2>
-                         <ScrollArea className="w-full whitespace-nowrap rounded-md">
-                            <div className="flex w-max space-x-4 pb-4">
-                                {featuredEvents.map((event) => (
-                                     <div key={event.id} className="w-[300px] sm:w-[350px] overflow-hidden">
-                                        <FeaturedEventCard event={event} />
-                                    </div>
-                                ))}
-                            </div>
-                            <ScrollBar orientation="horizontal" />
-                        </ScrollArea>
-                    </section>
                 </div>
             </main>
         </PageWrapper>
