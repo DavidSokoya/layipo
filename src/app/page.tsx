@@ -1,6 +1,6 @@
 'use client';
 import * as React from 'react';
-import { Star, Users, Award, Trophy, ChevronDown, ChevronUp } from 'lucide-react';
+import { Star, Users, Award, Trophy, ChevronDown, ChevronUp, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { PageWrapper } from '@/components/page-wrapper';
@@ -18,17 +18,20 @@ const infoCards = [
     {
         title: "Meet the Council",
         href: "/council",
-        icon: Users
+        icon: Users,
+        description: "Get to know the 2025 JCI Nigeria Collegiate Council."
     },
     {
         title: "Mr & Miss Collegiate",
         href: "/contestants",
-        icon: Award
+        icon: Award,
+        description: "See the brilliant leaders vying for this year's crown."
     },
     {
         title: "Football Showdown",
         href: "/football",
-        icon: Trophy
+        icon: Trophy,
+        description: "Check the groups for the LÁYÍPO ‘25 Football Showdown."
     }
 ];
 
@@ -75,15 +78,21 @@ const HomePageHeader = () => {
     )
 };
 
-const InfoLinkCard = ({ title, href, icon: Icon }: typeof infoCards[0]) => (
-     <Link href={href} className="block group">
-        <Card className="h-full transition-all duration-300 hover:shadow-lg hover:border-primary/50">
-            <CardContent className="p-3 flex flex-col items-center justify-center text-center gap-1.5">
-                <Icon className="w-6 h-6 text-primary" />
-                <p className="font-semibold text-xs text-center">{title}</p>
-            </CardContent>
-        </Card>
-    </Link>
+const InfoLinkCard = ({ title, href, icon: Icon, description }: (typeof infoCards)[0]) => (
+  <Link href={href} className="block group">
+    <Card className="transition-all duration-300 hover:shadow-lg hover:border-primary/50">
+      <CardContent className="p-4 flex items-center gap-4">
+        <div className="bg-primary/10 p-3 rounded-lg">
+          <Icon className="w-8 h-8 text-primary" />
+        </div>
+        <div className="flex-1">
+          <p className="font-semibold text-base">{title}</p>
+          <p className="text-sm text-muted-foreground">{description}</p>
+        </div>
+        <ChevronRight className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-colors" />
+      </CardContent>
+    </Card>
+  </Link>
 );
 
 
@@ -137,14 +146,6 @@ export default function HomePage() {
                 <HomePageHeader />
                  <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 space-y-10 sm:space-y-12">
                      <section>
-                         <h2 className="text-xl font-bold font-headline tracking-tight text-foreground mb-4">
-                            Explore the Event
-                         </h2>
-                         <div className="grid grid-cols-3 gap-2">
-                            {infoCards.map((card) => <InfoLinkCard key={card.href} {...card} />)}
-                        </div>
-                    </section>
-                    <section>
                          <p className="text-muted-foreground text-center py-4">Loading events...</p>
                     </section>
                 </div>
@@ -176,15 +177,6 @@ export default function HomePage() {
                 <HomePageHeader />
                 
                 <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 space-y-10 sm:space-y-12">
-                     <section>
-                        <h2 className="text-xl font-bold font-headline tracking-tight text-foreground mb-4">
-                            Explore the Event
-                        </h2>
-                        <div className="grid grid-cols-3 gap-2">
-                            {infoCards.map((card) => <InfoLinkCard key={card.href} {...card} />)}
-                        </div>
-                    </section>
-                    
                     <section>
                         <div className="flex justify-between items-center mb-4">
                              <h2 className="text-xl font-bold font-headline tracking-tight text-foreground">
@@ -232,6 +224,15 @@ export default function HomePage() {
                         ) : (
                             <p className="text-muted-foreground text-center py-4">No events scheduled for this day.</p>
                         )}
+                    </section>
+                    
+                    <section>
+                        <h2 className="text-xl font-bold font-headline tracking-tight text-foreground mb-4">
+                            Explore the Event
+                        </h2>
+                        <div className="grid grid-cols-1 gap-4">
+                            {infoCards.map((card) => <InfoLinkCard key={card.href} {...card} />)}
+                        </div>
                     </section>
                 </div>
             </main>
