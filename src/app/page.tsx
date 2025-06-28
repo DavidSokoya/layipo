@@ -1,6 +1,6 @@
 'use client';
 import * as React from 'react';
-import { Star, ChevronDown, ChevronUp, ChevronRight, Clock, MapPin, Shirt } from 'lucide-react';
+import { Star, ChevronDown, ChevronUp, ChevronRight, Clock, MapPin, Shirt, CalendarDays } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { PageWrapper } from '@/components/page-wrapper';
@@ -61,17 +61,15 @@ type FeaturedEvent = {
   id: string;
   href: string;
   title: string;
-  time: string;
-  location: string;
-  dressCode: string;
+  date: string;
   image: string;
   dataAiHint?: string;
 };
 
 const FeaturedEventCard = ({ event }: { event: FeaturedEvent }) => (
     <Link href={event.href} className="block group h-full">
-        <Card className="overflow-hidden transition-all duration-300 hover:shadow-xl flex flex-col sm:flex-row h-full">
-            <div className="sm:w-1/3 relative overflow-hidden h-36 sm:h-auto">
+        <Card className="overflow-hidden transition-all duration-300 hover:shadow-xl flex flex-col h-full">
+            <div className="relative overflow-hidden h-36">
                 <Image 
                   src={event.image || 'https://placehold.co/400x400.png'} 
                   alt={event.title}
@@ -80,19 +78,11 @@ const FeaturedEventCard = ({ event }: { event: FeaturedEvent }) => (
                   className="object-cover transition-transform duration-300 group-hover:scale-105"
                 />
             </div>
-            <div className="sm:w-2/3 flex flex-col p-4">
-                <h3 className="font-bold text-base leading-tight">{event.title}</h3>
+            <div className="flex flex-col p-4 flex-grow">
+                <h3 className="font-bold text-base leading-tight flex-grow">{event.title}</h3>
                 <div className="flex items-center text-xs text-muted-foreground mt-2">
-                    <Clock className="w-3 h-3 mr-2 shrink-0" />
-                    <span>{event.time}</span>
-                </div>
-                <div className="flex items-center text-xs text-muted-foreground mt-1">
-                    <MapPin className="w-3 h-3 mr-2 shrink-0" />
-                    <span className='truncate'>{event.location}</span>
-                </div>
-                <div className="flex items-center text-xs text-muted-foreground mt-1">
-                    <Shirt className="w-3 h-3 mr-2 shrink-0" />
-                    <span>{event.dressCode}</span>
+                    <CalendarDays className="w-3 h-3 mr-2 shrink-0" />
+                    <span>{event.date}</span>
                 </div>
                 <div className="mt-auto pt-2 text-primary font-semibold text-sm flex items-center">
                     View Details <ChevronRight className="w-4 h-4 ml-1 transition-transform duration-300 group-hover:translate-x-1" />
@@ -159,21 +149,19 @@ export default function HomePage() {
         ...getEvent('f10'),
         href: '/timetable#f10',
         title: 'Opening Ceremony',
-        dressCode: `Outfit: ${getEvent('f10')?.dressCode.title || 'Local Fabric'}`,
+        date: getEvent('f10')?.date || '',
       },
       {
         ...getEvent('f11'),
         href: '/timetable#f11',
         title: 'Mr & Miss Collegiate',
-        dressCode: `Outfit: ${getEvent('f11')?.dressCode.title || 'Casual'}`,
+        date: getEvent('f11')?.date || '',
       },
       {
         id: 'trainings',
         href: '/trainings',
         title: 'Skill Development Trainings',
-        time: 'Multiple Sessions',
-        location: 'Various Halls',
-        dressCode: 'Outfit: Business Formal',
+        date: 'Multiple Days',
         image: 'https://placehold.co/400x400.png',
         dataAiHint: 'professional training',
       },
@@ -181,25 +169,25 @@ export default function HomePage() {
         ...getEvent('f5'),
         href: '/timetable#f5',
         title: 'Collegiate General Assembly',
-        dressCode: `Outfit: ${getEvent('f5')?.dressCode.title || 'Business'}`,
+        date: getEvent('f5')?.date || '',
       },
       {
         ...getEvent('th9'),
         href: '/timetable#th9',
         title: 'Storytelling / Campfire Night',
-        dressCode: `Outfit: ${getEvent('th9')?.dressCode.title || 'Casual'}`,
+        date: getEvent('th9')?.date || '',
       },
       {
         ...getEvent('f4'),
         href: '/timetable#f4',
         title: 'Debate & Speech Finals',
-        dressCode: `Outfit: ${getEvent('f4')?.dressCode.title || 'Business'}`,
+        date: getEvent('f4')?.date || '',
       },
       {
         ...getEvent('s9'),
         href: '/timetable#s9',
         title: 'Closing Ceremony & Banquet',
-        dressCode: `Outfit: ${getEvent('s9')?.dressCode.title || 'Formal'}`,
+        date: getEvent('s9')?.date || '',
       },
     ].filter(e => e.id && e.title).map(e => ({
         ...e,
