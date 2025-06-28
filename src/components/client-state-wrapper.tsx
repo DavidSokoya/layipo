@@ -31,34 +31,19 @@ function FullPageLoader() {
     return () => clearInterval(interval);
   }, []);
   
-  const colors = [
-    'bg-status-red',
-    'bg-status-amber',
-    'bg-status-green',
-    'bg-status-blue',
-    'bg-primary',
-    'bg-accent',
-  ];
 
   return (
     <div className="flex flex-col gap-8 items-center justify-center h-screen bg-background text-center p-8">
       <Logo />
 
-      <div className="flex items-center justify-center gap-3">
-        {colors.map((color, i) => (
-          <motion.div
-            key={i}
-            className={cn('w-10 h-3 rounded', color)}
-            animate={{
-              scale: i === index ? 1.2 : 1,
-              opacity: i === index ? 1 : 0.5,
-            }}
-            transition={{ type: 'spring', stiffness: 500, damping: 30 }}
-          />
-        ))}
-      </div>
+      <div
+        className="w-12 h-12 rounded-full animate-spin"
+        style={{
+          background: `conic-gradient(from 180deg at 50% 50%, hsl(var(--status-red)) 0deg, hsl(var(--status-amber)) 60deg, hsl(var(--status-green)) 120deg, hsl(var(--status-blue)) 180deg, hsl(var(--primary)) 240deg, hsl(var(--accent)) 300deg, hsl(var(--status-red)) 360deg)`
+        }}
+      />
       
-      <div className="w-full max-w-md h-24 flex items-center justify-center">
+      <div className="w-full max-w-md h-12 flex items-center justify-center">
         <AnimatePresence mode="wait">
           <motion.p
             key={index}
