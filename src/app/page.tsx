@@ -118,6 +118,7 @@ const TodayEventCard = ({ event }: { event: Event }) => (
 const parseDate = (dateStr: string): Date => {
     if (!dateStr) return new Date(NaN);
     const cleanDateStr = dateStr.split(', ')[1]?.replace(/(\d+)(st|nd|rd|th)/, '$1');
+    if (!cleanDateStr) return new Date(NaN);
     return new Date(cleanDateStr);
 };
 
@@ -143,6 +144,8 @@ export default function HomePage() {
     const title = React.useMemo(() => {
         const todayForDemo = parseDate(DEMO_DATE);
         const currentSelectedDate = parseDate(selectedDate);
+        if (!currentSelectedDate.getTime()) return "Today's Events";
+
         const dayName = selectedDate.split(',')[0];
 
         if (currentSelectedDate.getTime() === todayForDemo.getTime()) {
@@ -163,7 +166,7 @@ export default function HomePage() {
     return (
         <PageWrapper>
             <main className="flex-1 pb-16">
-                <header className="sticky top-0 z-30 text-primary-foreground backdrop-blur-sm">
+                <header className="sticky top-0 z-30 h-[calc(100vh/6)] text-primary-foreground backdrop-blur-sm">
                    <div className="absolute inset-0 -z-10">
                         <Image
                             src="https://placehold.co/1200x400.png"
@@ -176,37 +179,39 @@ export default function HomePage() {
                         <div className="absolute inset-0 bg-black/60" />
                     </div>
                     
-                    <div className="relative z-10 p-4 sm:p-6">
-                        <div className="flex justify-between items-center mb-4">
-                            <h1 className="text-xl sm:text-2xl font-bold">Layipo 2025</h1>
-                            <Button variant="ghost" size="icon" className="text-white hover:bg-white/20 -mr-2">
-                                <Bell className="h-5 w-5" />
-                            </Button>
-                        </div>
-
-                        <div className="relative mb-6">
-                            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-primary-foreground/70" />
-                            <Input
-                                type="search"
-                                placeholder="Search events..."
-                                className="w-full pl-10 bg-transparent border-white/50 text-primary-foreground placeholder:text-primary-foreground/70"
-                                value={searchQuery}
-                                onChange={(e) => setSearchQuery(e.target.value)}
-                            />
-                        </div>
-
-                        <div className="grid grid-cols-3 gap-2 sm:gap-4 text-center">
-                            <div>
-                                <p className="font-bold text-lg sm:text-xl">{totalDays}</p>
-                                <p className="text-xs sm:text-sm opacity-80">Days</p>
+                    <div className="relative z-10 flex h-full items-center p-4">
+                        <div className="w-full">
+                            <div className="flex justify-between items-center mb-2">
+                                <h1 className="text-lg sm:text-xl font-bold">Layipo 2025</h1>
+                                <Button variant="ghost" size="icon" className="text-white hover:bg-white/20 -mr-2">
+                                    <Bell className="h-5 w-5" />
+                                </Button>
                             </div>
-                            <div>
-                                <p className="font-bold text-lg sm:text-xl">{totalEvents}</p>
-                                <p className="text-xs sm:text-sm opacity-80">Sessions</p>
+
+                            <div className="relative mb-4">
+                                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-primary-foreground/70" />
+                                <Input
+                                    type="search"
+                                    placeholder="Search events..."
+                                    className="w-full pl-10 bg-transparent border-white/50 text-primary-foreground placeholder:text-primary-foreground/70"
+                                    value={searchQuery}
+                                    onChange={(e) => setSearchQuery(e.target.value)}
+                                />
                             </div>
-                            <div>
-                                <p className="font-bold text-lg sm:text-xl">{(user?.points ?? 0).toLocaleString()}</p>
-                                <p className="text-xs sm:text-sm opacity-80">Points</p>
+
+                            <div className="grid grid-cols-3 gap-2 sm:gap-4 text-center">
+                                <div>
+                                    <p className="font-bold text-base sm:text-lg">{totalDays}</p>
+                                    <p className="text-xs sm:text-sm opacity-80">Days</p>
+                                </div>
+                                <div>
+                                    <p className="font-bold text-base sm:text-lg">{totalEvents}</p>
+                                    <p className="text-xs sm:text-sm opacity-80">Sessions</p>
+                                </div>
+                                <div>
+                                    <p className="font-bold text-base sm:text-lg">{(user?.points ?? 0).toLocaleString()}</p>
+                                    <p className="text-xs sm:text-sm opacity-80">Points</p>
+                                </div>
                             </div>
                         </div>
                     </div>
