@@ -7,15 +7,15 @@ import { PageWrapper } from '@/components/page-wrapper';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
-import { Clock, MapPin, Award, BookCopy } from 'lucide-react';
+import { Clock, MapPin, Award, BookCopy, ChevronRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Logo } from '@/components/ui/logo';
 
 function TrainingCard({ training }: { training: Training }) {
   return (
     <Card className={cn(
-        "flex flex-col overflow-hidden transition-all duration-300 hover:shadow-xl",
-        training.special && "bg-gradient-to-br from-primary/90 via-primary/70 to-primary/90 text-primary-foreground shadow-lg"
+        "flex flex-col overflow-hidden transition-all duration-300 hover:shadow-xl group",
+        training.special ? "bg-gradient-to-br from-primary/90 via-primary/70 to-primary/90 text-primary-foreground shadow-lg" : "bg-card"
     )}>
       <CardHeader className="flex flex-row items-start gap-4 p-4">
         <Avatar className="w-12 h-12 sm:w-16 sm:h-16 border-2 shrink-0 border-white/20">
@@ -42,10 +42,10 @@ function TrainingCard({ training }: { training: Training }) {
         <Accordion type="single" collapsible className="w-full">
             <AccordionItem value="item-1" className="border-b-0">
                 <AccordionTrigger className={cn(
-                    "text-sm justify-start gap-2 py-2 hover:no-underline",
-                    training.special && "hover:text-primary-foreground/80 text-primary-foreground/90"
+                    "text-sm justify-start items-center gap-1 p-0 font-semibold hover:no-underline [&>svg:last-child]:hidden group-hover:text-primary transition-colors",
+                    training.special && "hover:text-primary-foreground/80 text-primary-foreground/90 group-hover:text-white"
                 )}>
-                    Show Details
+                    Details <ChevronRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
                 </AccordionTrigger>
                 <AccordionContent className={cn("text-sm pt-2 space-y-3", training.special ? "text-primary-foreground/80" : "text-muted-foreground")}>
                    {training.theme && (
@@ -88,18 +88,18 @@ export default function TrainingsPage() {
                     </div>
                     <header className="text-center mb-12">
                         <h1 className="text-3xl font-bold font-headline tracking-tight text-foreground sm:text-4xl lg:text-5xl">
-                            Conference Trainings
+                           Grow with JCI
                         </h1>
-                        <p className="mt-4 text-lg text-muted-foreground">
-                            Enhance your skills and broaden your horizons with our expert-led sessions.
+                        <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">
+                            Enhance your skills and broaden your horizons with our expert-led sessions. Each training is designed to empower you with new knowledge and practical abilities.
                         </p>
                     </header>
 
                     <div className="space-y-12">
                         {trainingDays.map(([date, dayTrainings]) => (
                             <section key={date}>
-                                <h2 className="text-2xl font-semibold text-primary mb-6 border-l-4 border-primary pl-4">{date}</h2>
-                                <div className="grid grid-cols-2 gap-4">
+                                <h2 className="text-2xl font-semibold text-foreground mb-6 pb-2 border-b-2 border-primary/20">{date}</h2>
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                     {dayTrainings.map((training) => (
                                         <TrainingCard key={training.id} training={training} />
                                     ))}

@@ -552,7 +552,7 @@ export const trainings: Training[] = [
   },
   {
     id: 't4',
-    date: 'Friday, 4th July 2025',
+    date: 'Saturday, 5th July 2025',
     time: '2:30 PM - 3:45 PM',
     topic: 'Inclusive Leadership- Building Teams That Thrive',
     trainer: 'Dr. Oyenike Adeleke',
@@ -562,7 +562,7 @@ export const trainings: Training[] = [
   },
   {
     id: 't5',
-    date: 'Friday, 4th July 2025',
+    date: 'Saturday, 5th July 2025',
     time: '2:30 PM - 4:30 PM',
     topic: 'Life After School',
     trainer: 'JCI Eko',
