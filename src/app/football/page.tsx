@@ -4,7 +4,7 @@
 import { PageWrapper } from '@/components/page-wrapper';
 import { Button } from '@/components/ui/button';
 import { Logo } from '@/components/ui/logo';
-import { ArrowLeft, Trophy, Futbol } from 'lucide-react';
+import { ArrowLeft, Trophy } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -16,6 +16,21 @@ const groups = {
     "Group C": ["JCIN LAUTECH", "JCIN Eksu", "JCIN FUTA", "JCIN Fedpole"],
     "Group D": ["JCIN Unilag", "JCIN Lasu", "JCIN Yabatech", "JCIN Unilorin"],
 };
+
+const FootballIcon = ({ className }: { className?: string }) => (
+    <svg 
+        xmlns="http://www.w3.org/2000/svg" 
+        fill="none" 
+        viewBox="0 0 24 24" 
+        strokeWidth="2"
+        stroke="currentColor" 
+        className={className}
+    >
+      <path strokeLinecap="round" strokeLinejoin="round" d="M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+      <path strokeLinecap="round" strokeLinejoin="round" d="M9 9.563C9 9.252 9.252 9 9.563 9h4.874c.311 0 .563.252.563.563v4.874c0 .311-.252.563-.563.563H9.564A.562.562 0 0 1 9 14.437V9.564Z" />
+      <path strokeLinecap="round" strokeLinejoin="round" d="M12 3v2.25m6.364.386-1.591 1.591M21 12h-2.25m-.386 6.364-1.591-1.591M12 18.75V21m-4.773-4.227-1.591 1.591M5.25 12H3m4.227-4.773L6 6" />
+    </svg>
+);
 
 export default function FootballPage() {
     return (
@@ -86,7 +101,7 @@ export default function FootballPage() {
                                     <CardContent className="space-y-3">
                                         {teams.map(team => (
                                             <div key={team} className="flex items-center gap-3">
-                                                <Futbol className="w-5 h-5 text-white/50" />
+                                                <FootballIcon className="w-5 h-5 text-white/50" />
                                                 <p className="font-medium">{team}</p>
                                             </div>
                                         ))}
