@@ -1,4 +1,3 @@
-
 'use client';
 
 import * as React from 'react';
@@ -80,8 +79,6 @@ const councilMembers: CouncilMember[] = [
     },
 ];
 
-const filterRoles = ['All', 'Chairperson', 'Director', 'Secretary'];
-
 function MemberProfileModal({ member, open, onOpenChange }: { member: CouncilMember | null, open: boolean, onOpenChange: (open: boolean) => void }) {
     if (!member) return null;
 
@@ -106,18 +103,10 @@ function MemberProfileModal({ member, open, onOpenChange }: { member: CouncilMem
 }
 
 export default function CouncilPage() {
-    const [filter, setFilter] = React.useState('All');
     const [selectedMember, setSelectedMember] = React.useState<CouncilMember | null>(null);
 
-    const filteredMembers = React.useMemo(() => {
-        return councilMembers.filter(member => {
-            const matchesFilter = filter === 'All' || member.role === filter;
-            return matchesFilter;
-        });
-    }, [filter]);
-
     const groupedMembers = React.useMemo(() => {
-        return filteredMembers.reduce((acc, member) => {
+        return councilMembers.reduce((acc, member) => {
             const category = member.category;
             if (!acc[category]) {
                 acc[category] = [];
@@ -125,7 +114,7 @@ export default function CouncilPage() {
             acc[category].push(member);
             return acc;
         }, {} as Record<string, CouncilMember[]>);
-    }, [filteredMembers]);
+    }, []);
 
     return (
         <PageWrapper>
@@ -148,21 +137,6 @@ export default function CouncilPage() {
                            A dynamic group of leaders driven by the Ascend vision.
                         </p>
                     </header>
-
-                    <div className="space-y-4 mb-8">
-                        <div className="flex flex-wrap gap-2">
-                            {filterRoles.map(role => (
-                                <Button 
-                                    key={role}
-                                    variant={filter === role ? 'default' : 'outline'}
-                                    size="sm"
-                                    onClick={() => setFilter(role)}
-                                >
-                                    {role}
-                                </Button>
-                            ))}
-                        </div>
-                    </div>
                     
                     <div className="space-y-8">
                         <AnimatePresence>
@@ -206,7 +180,7 @@ export default function CouncilPage() {
                                 )
                             ))}
                         </AnimatePresence>
-                         {filteredMembers.length === 0 && (
+                         {councilMembers.length === 0 && (
                             <div className="text-center py-10">
                                 <p className="text-muted-foreground">No members found.</p>
                             </div>
