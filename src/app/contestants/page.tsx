@@ -1,28 +1,79 @@
 'use client';
 
+import * as React from 'react';
 import { PageWrapper } from '@/components/page-wrapper';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Logo } from '@/components/ui/logo';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, Crown, Vote, User, Award } from 'lucide-react';
 import Link from 'next/link';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { motion, AnimatePresence } from 'framer-motion';
+import { cn } from '@/lib/utils';
 
-const contestants = [
+type Contestant = {
+    name: string;
+    school: string;
+    image: string;
+    bio: string;
+    contestantNumber: number;
+    gender: 'male' | 'female';
+}
+
+const femaleFinalists: Contestant[] = [
     {
         name: "Mary Idoko",
         school: "JCIN Nsuk",
         image: "https://i.pravatar.cc/150?u=MaryIdoko",
-        description: "Brings a spark of creativity and determination. Get ready to witness her exceptional talent and skills as she take on the challenge. Let's cheer her on! 🎉💪",
+        bio: "An aspiring diplomat with a passion for community service. Mary believes in empowering young women to become leaders in their fields and is dedicated to driving positive change through advocacy and action.",
         contestantNumber: 15,
+        gender: 'female',
     },
     {
         name: "Praise Apo",
         school: "JCIN UNIBEN",
         image: "https://i.pravatar.cc/150?u=PraiseApo",
-        description: "Praise is bold, brilliant, and beautifully confident. She embodies the true spirit of leadership and excellence. Join us in cheering her on as she vies for the crown. Your support means the world!",
+        bio: "A natural-born leader and advocate for mental health awareness. Praise aims to use the platform to destigmatize mental health conversations and promote wellness initiatives across campuses.",
         contestantNumber: 12,
+        gender: 'female',
+    },
+    {
+        name: "Chidinma Eze",
+        school: "JCIN UNILAG",
+        image: "https://i.pravatar.cc/150?u=ChidinmaEze",
+        bio: "A law student with a flair for creative writing and public speaking. Chidinma is passionate about youth engagement in politics and hopes to inspire a new generation of active citizens.",
+        contestantNumber: 8,
+        gender: 'female',
     }
+]
+
+const maleFinalists: Contestant[] = [
+    {
+        name: "David Adeleke",
+        school: "JCIN OAU",
+        image: "https://i.pravatar.cc/150?u=DavidAdeleke",
+        bio: "A tech enthusiast and innovator, David is developing an app to connect student entrepreneurs with mentors and funding. He believes technology is the key to solving Africa's most pressing challenges.",
+        contestantNumber: 7,
+        gender: 'male',
+    },
+    {
+        name: "Samuel Johnson",
+        school: "JCIN UI",
+        image: "https://i.pravatar.cc/150?u=SamuelJohnson",
+        bio: "A medical student dedicated to improving rural healthcare access. Samuel has volunteered on several medical outreaches and dreams of building a network of mobile clinics.",
+        contestantNumber: 11,
+        gender: 'male',
+    },
+     {
+        name: "Femi Adebayo",
+        school: "JCIN LAUTECH",
+        image: "https://i.pravatar.cc/150?u=FemiAdebayo",
+        bio: "An artist and social activist, Femi uses his work to comment on social justice issues. He wants to establish an arts foundation for underprivileged youth to express their creativity.",
+        contestantNumber: 5,
+        gender: 'male',
+    },
 ]
 
 const judges = [
@@ -30,7 +81,109 @@ const judges = [
     { name: '2025 JCI Nigeria Director', title: 'Growth and Development', image: 'https://i.pravatar.cc/150?u=JCIDirector' }
 ]
 
+const CountdownTimer = ({ targetDate }: { targetDate: string }) => {
+    const calculateTimeLeft = () => {
+        const difference = +new Date(targetDate) - +new Date();
+        let timeLeft = {};
+
+        if (difference > 0) {
+            timeLeft = {
+                days: Math.floor(difference / (1000 * 60 * 60 * 24)),
+                hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
+                minutes: Math.floor((difference / 1000 / 60) % 60),
+                seconds: Math.floor((difference / 1000) % 60),
+            };
+        }
+        return timeLeft as { days: number, hours: number, minutes: number, seconds: number };
+    };
+
+    const [timeLeft, setTimeLeft] = React.useState(calculateTimeLeft());
+
+    React.useEffect(() => {
+        const timer = setTimeout(() => {
+            setTimeLeft(calculateTimeLeft());
+        }, 1000);
+
+        return () => clearTimeout(timer);
+    });
+
+    const timerComponents = Object.keys(timeLeft).length ? Object.entries(timeLeft).map(([interval, value]) => (
+        <div key={interval} className="flex flex-col items-center">
+            <span className="text-xl sm:text-2xl font-bold font-mono text-primary">{String(value).padStart(2, '0')}</span>
+            <span className="text-xs uppercase text-muted-foreground">{interval}</span>
+        </div>
+    )) : <span className="text-xl font-bold text-primary">The moment is here!</span>;
+
+    return (
+        <Card className="bg-primary/10">
+            <CardHeader className="p-4">
+                <CardDescription className="text-center text-primary font-semibold">Coronation Night Countdown</CardDescription>
+                <div className="flex justify-around items-center mt-2">
+                    {timerComponents}
+                </div>
+            </CardHeader>
+        </Card>
+    );
+};
+
+function ContestantCard({ contestant, onSelect }: { contestant: Contestant, onSelect: () => void }) {
+    return (
+        <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.3 }}
+            layout
+        >
+            <Card className="flex flex-col text-center overflow-hidden transition-all duration-300 hover:shadow-xl group h-full">
+                <CardHeader className="p-4">
+                    <Avatar className="w-20 h-20 mx-auto mb-3 border-4 border-primary/20 group-hover:border-primary transition-colors">
+                        <AvatarImage src={contestant.image} alt={contestant.name} />
+                        <AvatarFallback>{contestant.name.charAt(0)}</AvatarFallback>
+                    </Avatar>
+                    <CardTitle className="text-base">{contestant.name}</CardTitle>
+                    <CardDescription>{contestant.school}</CardDescription>
+                </CardHeader>
+                <CardFooter className="p-3 mt-auto bg-muted/50">
+                    <Button variant="ghost" size="sm" className="w-full" onClick={onSelect}>
+                        <User className="mr-2 h-4 w-4" /> View Profile
+                    </Button>
+                </CardFooter>
+            </Card>
+        </motion.div>
+    );
+}
+
+function ContestantProfileModal({ contestant, open, onOpenChange }: { contestant: Contestant | null, open: boolean, onOpenChange: (open: boolean) => void }) {
+    if (!contestant) return null;
+
+    return (
+        <Dialog open={open} onOpenChange={onOpenChange}>
+            <DialogContent className="w-[90vw] max-w-md p-0">
+                <div className="p-6 pt-10 text-center">
+                    <Avatar className="w-32 h-32 mx-auto mb-4 border-4 border-primary/20 shadow-lg">
+                        <AvatarImage src={contestant.image} alt={contestant.name} />
+                        <AvatarFallback>{contestant.name.charAt(0)}</AvatarFallback>
+                    </Avatar>
+                    <DialogHeader>
+                        <DialogTitle className="text-2xl font-bold font-headline">{contestant.name}</DialogTitle>
+                    </DialogHeader>
+                    <p className="text-primary font-medium mt-1">{contestant.school}</p>
+                    <p className="text-base text-foreground/80 mt-4 text-center">{contestant.bio}</p>
+                </div>
+                <DialogFooter className="bg-muted/50 p-4">
+                    <Button className="w-full" disabled>
+                        <Vote className="mr-2 h-4 w-4"/> Vote Now (Coming Soon)
+                    </Button>
+                </DialogFooter>
+            </DialogContent>
+        </Dialog>
+    );
+}
+
 export default function ContestantsPage() {
+    const [selectedContestant, setSelectedContestant] = React.useState<Contestant | null>(null);
+    const coronationDate = "2025-07-04T21:00:00"; // Friday, 4th July 2025, 9:00 PM
+
     return (
         <PageWrapper>
             <main className="flex-1 p-4 md:p-6 lg:p-8 mb-16">
@@ -46,38 +199,49 @@ export default function ContestantsPage() {
                     </div>
                     <header className="text-center">
                         <h1 className="text-3xl font-bold font-headline tracking-tight text-foreground sm:text-4xl lg:text-5xl">
-                           Meet the Contestants: Mr & Miss Collegiate 2025
+                           Mr &amp; Miss Collegiate 2025 Finalists
                         </h1>
                         <p className="mt-4 text-lg text-muted-foreground max-w-3xl mx-auto">
-                           The spotlight is back, and it’s shining on brilliance! We’re proud to unveil the remarkable young leaders vying for the crown in this year’s Mr & Miss Collegiate.
-                        </p>
-                        <p className="mt-2 text-base text-muted-foreground max-w-3xl mx-auto">
-                            Voting begins soon and only the top 7 with the highest votes will move on, so get ready to vote, rally your campus, and support your champions!
+                            Meet the brilliant leaders vying for the crown. Your votes will decide who moves forward. Get ready to support your champions!
                         </p>
                     </header>
                     
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                        {contestants.map((c) => (
-                             <Card key={c.name} className="flex flex-col text-center overflow-hidden transition-all duration-300 hover:shadow-xl">
-                                <CardHeader className="p-6">
-                                    <Avatar className="w-24 h-24 mx-auto mb-4 border-4 border-primary/20">
-                                        <AvatarImage src={c.image} alt={c.name} />
-                                        <AvatarFallback>{c.name.charAt(0)}</AvatarFallback>
-                                    </Avatar>
-                                    <CardTitle>{c.name}</CardTitle>
-                                    <CardDescription>{c.school}</CardDescription>
-                                </CardHeader>
-                                <CardContent className="flex-grow p-6 pt-0">
-                                    <p className="text-muted-foreground">{c.description}</p>
-                                </CardContent>
-                                <CardFooter className="p-4 bg-muted/50 mt-auto">
-                                    <Button variant="ghost" className="w-full font-bold text-primary">
-                                        Contestant #{c.contestantNumber}
-                                    </Button>
-                                </CardFooter>
-                            </Card>
-                        ))}
-                    </div>
+                    <CountdownTimer targetDate={coronationDate} />
+
+                    <Tabs defaultValue="female" className="w-full">
+                        <TabsList className="grid w-full grid-cols-2">
+                            <TabsTrigger value="female">Female Finalists</TabsTrigger>
+                            <TabsTrigger value="male">Male Finalists</TabsTrigger>
+                        </TabsList>
+                        <AnimatePresence mode="wait">
+                            <TabsContent value="female" className="mt-6">
+                                <motion.div
+                                    key="female"
+                                    initial={{ opacity: 0 }}
+                                    animate={{ opacity: 1 }}
+                                    exit={{ opacity: 0 }}
+                                    className="grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6"
+                                >
+                                    {femaleFinalists.map((c) => (
+                                        <ContestantCard key={c.name} contestant={c} onSelect={() => setSelectedContestant(c)} />
+                                    ))}
+                                </motion.div>
+                            </TabsContent>
+                            <TabsContent value="male" className="mt-6">
+                               <motion.div
+                                    key="male"
+                                    initial={{ opacity: 0 }}
+                                    animate={{ opacity: 1 }}
+                                    exit={{ opacity: 0 }}
+                                    className="grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6"
+                                >
+                                    {maleFinalists.map((c) => (
+                                        <ContestantCard key={c.name} contestant={c} onSelect={() => setSelectedContestant(c)} />
+                                    ))}
+                                </motion.div>
+                            </TabsContent>
+                        </AnimatePresence>
+                    </Tabs>
 
                     <div className="text-center my-8">
                         <h2 className="text-2xl font-bold font-headline tracking-tight text-foreground sm:text-3xl">
@@ -85,29 +249,37 @@ export default function ContestantsPage() {
                         </h2>
                         <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-8">
                            {judges.map(judge => (
-                                <div key={judge.name} className="text-center">
-                                    <Avatar className="w-24 h-24 mx-auto mb-4 border-4 border-primary/20">
-                                        <AvatarImage src={judge.image} alt={judge.name} />
-                                        <AvatarFallback>{judge.name.charAt(0)}</AvatarFallback>
-                                    </Avatar>
-                                    <h3 className="text-xl font-semibold">{judge.name}</h3>
-                                    <p className="text-muted-foreground">{judge.title}</p>
-                                </div>
+                                <Card key={judge.name} className="bg-card shadow-sm">
+                                    <CardContent className="p-6 text-center">
+                                        <Avatar className="w-24 h-24 mx-auto mb-4 border-4 border-primary/20">
+                                            <AvatarImage src={judge.image} alt={judge.name} />
+                                            <AvatarFallback>{judge.name.charAt(0)}</AvatarFallback>
+                                        </Avatar>
+                                        <h3 className="text-xl font-semibold">{judge.name}</h3>
+                                        <p className="text-muted-foreground">{judge.title}</p>
+                                    </CardContent>
+                                </Card>
                            ))}
                         </div>
                     </div>
                     
-                    <Card className="bg-primary/10 text-center">
+                    <Card className="bg-gradient-to-r from-amber-400 to-yellow-500 text-black text-center">
                         <CardHeader>
-                            <CardTitle>Who will be crowned?</CardTitle>
-                            <CardDescription>
-                                Join the excitement at the Collegiate Conference, July 3rd-6th at Ilaji Resort, Ibadan! Don't miss the talent showcases, interviews, and fashion parades!
+                            <div className="flex justify-center items-center gap-2">
+                                <Crown className="h-8 w-8"/>
+                                <CardTitle className="text-2xl">Who will be crowned?</CardTitle>
+                            </div>
+                            <CardDescription className="text-black/80">
+                                Join the excitement at the Collegiate Conference, July 3rd-6th at Ilaji Resort, Ibadan!
                             </CardDescription>
                         </CardHeader>
                     </Card>
 
                 </div>
+                 <ContestantProfileModal contestant={selectedContestant} open={!!selectedContestant} onOpenChange={() => setSelectedContestant(null)} />
             </main>
         </PageWrapper>
     );
 }
+
+    
