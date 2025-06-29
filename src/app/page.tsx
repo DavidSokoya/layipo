@@ -26,11 +26,9 @@ const HomePageHeader = () => {
             <div className="flex justify-between items-center p-4 bg-card border-b">
                  <div className="flex items-center gap-3">
                     <Skeleton className="w-12 h-12 rounded-full" />
-                    <div className="space-y-2">
-                        <Skeleton className="h-6 w-24" />
-                        <Skeleton className="h-4 w-32" />
-                    </div>
+                    <Skeleton className="h-6 w-24" />
                  </div>
+                 <Skeleton className="h-6 w-20" />
             </div>
         )
     }
@@ -44,14 +42,12 @@ const HomePageHeader = () => {
                     <AvatarImage src={avatarUrl} alt={user.name} />
                     <AvatarFallback>{firstName.charAt(0)}</AvatarFallback>
                 </Avatar>
-                <div>
-                    <h1 className="text-xl font-bold text-foreground group-hover:text-primary transition-colors">Hi, {firstName}</h1>
-                    <p className="text-sm text-muted-foreground flex items-center gap-1.5">
-                        <Star className="w-4 h-4 text-amber-400" />
-                        <span>{user.points.toLocaleString()} Points</span>
-                    </p>
-                </div>
+                <h1 className="text-xl font-bold text-foreground group-hover:text-primary transition-colors">Hi, {firstName}</h1>
             </Link>
+            <div className="text-sm text-muted-foreground flex items-center gap-1.5">
+                <Star className="w-4 h-4 text-amber-400" />
+                <span className="font-semibold">{user.points.toLocaleString()} Points</span>
+            </div>
         </div>
     )
 };
