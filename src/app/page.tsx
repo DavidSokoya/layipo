@@ -23,7 +23,7 @@ const HomePageHeader = () => {
 
     if (!user) {
         return (
-            <div className="flex justify-between items-center p-4 bg-card border-b">
+            <div className="flex justify-between items-center p-2 bg-card border-b">
                  <div className="flex items-center gap-3">
                     <Skeleton className="w-12 h-12 rounded-full" />
                     <Skeleton className="h-6 w-24" />
@@ -38,7 +38,7 @@ const HomePageHeader = () => {
     return (
         <div className="flex justify-between items-center p-4 bg-card border-b">
             <Link href="/profile" className="flex items-center gap-3 group">
-                 <Avatar className="w-12 h-12 border-2 border-primary/20 group-hover:border-primary transition-colors">
+                 <Avatar className="w-9 h-9 border-2 border-primary/20 group-hover:border-primary transition-colors">
                     <AvatarImage src={avatarUrl} alt={user.name} />
                     <AvatarFallback>{firstName.charAt(0)}</AvatarFallback>
                 </Avatar>
@@ -232,15 +232,14 @@ export default function HomePage() {
 
     return (
         <PageWrapper>
-            <main className="flex-1 pb-24">
+            <main className="flex-1 pb-4">
                 <HomePageHeader />
-                
-                <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 space-y-10 sm:space-y-12">
+                <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 space-y-6 sm:space-y-8">
                     <section className="-mt-6 -mb-6">
                         <ScrollArea className="w-full whitespace-nowrap -mx-4 px-4">
                             <div className="flex w-max space-x-2 py-4">
                                 <Button asChild size="sm" className="text-xs sm:text-sm font-semibold shadow-md bg-status-blue hover:bg-status-blue/90 text-primary-foreground">
-                                    <Link href="/council">Meet the Council</Link>
+                                    <Link href="/council">The Council</Link>
                                 </Button>
                                 <Button asChild size="sm" className="text-xs sm:text-sm font-semibold shadow-md bg-status-green hover:bg-status-green/90 text-primary-foreground">
                                     <Link href="/contestants">Mr & Miss Collegiate</Link>
@@ -258,7 +257,7 @@ export default function HomePage() {
                             <CardTitle className="text-base">Your Progress</CardTitle>
                         </CardHeader>
                         <CardContent className="space-y-1 p-3 pt-0">
-                            <p className="text-xl font-bold text-center">
+                            <p className="text-xl font-bold text-leftt">
                                 {user.points.toLocaleString()} <span className="text-sm font-normal">Points</span>
                             </p>
                             <Progress value={progress} className="w-full h-1.5 [&>div]:bg-white" />
@@ -276,7 +275,7 @@ export default function HomePage() {
                                         key={date}
                                         onClick={() => setSelectedDate(date)}
                                         className={cn(
-                                            "w-6 h-6 rounded-full text-[10px] font-semibold transition-colors flex items-center justify-center",
+                                            "w-8 h-8 rounded-full text-[10px] font-semibold transition-colors flex items-center justify-center",
                                             selectedDate === date
                                                 ? "bg-primary text-primary-foreground"
                                                 : "bg-muted text-muted-foreground hover:bg-muted/80"
@@ -289,7 +288,7 @@ export default function HomePage() {
                         </div>
 
                         {selectedEvents.length > 0 ? (
-                           <ScrollArea className="w-full h-[17rem] rounded-lg border p-3">
+                           <ScrollArea className="w-full h-[16rem] rounded-lg border p-2">
                                <div className="grid grid-cols-1 gap-4">
                                    {selectedEvents.map(event => (
                                        <TodayEventCard key={event.id} event={event} />
