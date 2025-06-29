@@ -1,3 +1,4 @@
+
 'use client';
 
 import * as React from 'react';
@@ -24,54 +25,86 @@ type Contestant = {
 
 const femaleFinalists: Contestant[] = [
     {
-        name: "Mary Idoko",
-        school: "JCIN Nsuk",
-        image: "https://i.pravatar.cc/150?u=MaryIdoko",
-        bio: "An aspiring diplomat with a passion for community service. Mary believes in empowering young women to become leaders in their fields and is dedicated to driving positive change through advocacy and action.",
-        contestantNumber: 15,
+        name: "Awofodu Maryam O",
+        school: "JCIN Lautech",
+        image: "https://i.pravatar.cc/150?u=AwofoduMaryamO",
+        bio: "An advocate for youth empowerment and sustainable development, Maryam is passionate about creating positive change in her community.",
+        contestantNumber: 1,
         gender: 'female',
     },
     {
-        name: "Praise Apo",
+        name: "Adewale Precious Queen",
+        school: "JCIN Funaab",
+        image: "https://i.pravatar.cc/150?u=AdewalePreciousQueen",
+        bio: "A future leader dedicated to championing educational reforms and creating opportunities for underprivileged students.",
+        contestantNumber: 2,
+        gender: 'female',
+    },
+    {
+        name: "Chineye Emeka",
+        school: "JCIN ABU",
+        image: "https://i.pravatar.cc/150?u=ChineyeEmeka",
+        bio: "A visionary leader with a focus on entrepreneurship, Chineye aims to inspire her peers to build innovative solutions for local challenges.",
+        contestantNumber: 3,
+        gender: 'female',
+    },
+    {
+        name: "Praise APO",
         school: "JCIN UNIBEN",
-        image: "https://i.pravatar.cc/150?u=PraiseApo",
+        image: "https://i.pravatar.cc/150?u=PraiseAPO",
         bio: "A natural-born leader and advocate for mental health awareness. Praise aims to use the platform to destigmatize mental health conversations and promote wellness initiatives across campuses.",
-        contestantNumber: 12,
+        contestantNumber: 4,
         gender: 'female',
     },
     {
-        name: "Chidinma Eze",
-        school: "JCIN UNILAG",
-        image: "https://i.pravatar.cc/150?u=ChidinmaEze",
-        bio: "A law student with a flair for creative writing and public speaking. Chidinma is passionate about youth engagement in politics and hopes to inspire a new generation of active citizens.",
-        contestantNumber: 8,
+        name: "Faiza Sulaiman",
+        school: "JCIN BUK",
+        image: "https://i.pravatar.cc/150?u=FaizaSulaiman",
+        bio: "Passionate about environmental sustainability, Faiza is working on projects that promote green energy and conservation.",
+        contestantNumber: 5,
         gender: 'female',
     }
 ]
 
 const maleFinalists: Contestant[] = [
     {
-        name: "David Adeleke",
-        school: "JCIN OAU",
-        image: "https://i.pravatar.cc/150?u=DavidAdeleke",
-        bio: "A tech enthusiast and innovator, David is developing an app to connect student entrepreneurs with mentors and funding. He believes technology is the key to solving Africa's most pressing challenges.",
-        contestantNumber: 7,
+        name: "Abdulmuiz Adeagbo A.",
+        school: "JCIN Lautech",
+        image: "https://i.pravatar.cc/150?u=AbdulmuizAdeagbo",
+        bio: "A tech enthusiast and innovator, Abdulmuiz is developing solutions to bridge the digital divide and empower his community with tech skills.",
+        contestantNumber: 6,
         gender: 'male',
     },
     {
-        name: "Samuel Johnson",
-        school: "JCIN UI",
-        image: "https://i.pravatar.cc/150?u=SamuelJohnson",
-        bio: "A medical student dedicated to improving rural healthcare access. Samuel has volunteered on several medical outreaches and dreams of building a network of mobile clinics.",
-        contestantNumber: 11,
+        name: "Inioluwa John Tinuola",
+        school: "JCIN Funaab",
+        image: "https://i.pravatar.cc/150?u=InioluwaJohnTinuola",
+        bio: "Dedicated to improving public health, Inioluwa is involved in community health campaigns and dreams of a more accessible healthcare system.",
+        contestantNumber: 7,
         gender: 'male',
     },
      {
-        name: "Femi Adebayo",
-        school: "JCIN LAUTECH",
-        image: "https://i.pravatar.cc/150?u=FemiAdebayo",
-        bio: "An artist and social activist, Femi uses his work to comment on social justice issues. He wants to establish an arts foundation for underprivileged youth to express their creativity.",
-        contestantNumber: 5,
+        name: "Innocent Monday",
+        school: "JCIN ABU",
+        image: "https://i.pravatar.cc/150?u=InnocentMonday",
+        bio: "An artist and social activist, Innocent uses his creativity to highlight social issues and inspire a new generation of change-makers.",
+        contestantNumber: 8,
+        gender: 'male',
+    },
+    {
+        name: "Musa A. Ramalan",
+        school: "JCIN NSUK",
+        image: "https://i.pravatar.cc/150?u=MusaARamalan",
+        bio: "A champion for social justice, Musa is committed to advocating for the rights of marginalized communities and fostering inclusive growth.",
+        contestantNumber: 9,
+        gender: 'male',
+    },
+    {
+        name: "Yusuf Abdullahi",
+        school: "JCIN BUK",
+        image: "https://i.pravatar.cc/150?u=YusufAbdullahi",
+        bio: "An aspiring economist, Yusuf is passionate about financial literacy and creating sustainable economic opportunities for young people.",
+        contestantNumber: 10,
         gender: 'male',
     },
 ]
@@ -281,5 +314,3 @@ export default function ContestantsPage() {
         </PageWrapper>
     );
 }
-
-    
