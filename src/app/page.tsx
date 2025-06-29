@@ -310,7 +310,7 @@ export default function HomePage() {
                             Event Highlights
                         </h2>
                          <ScrollArea className="w-full whitespace-nowrap rounded-md">
-                            <div className="flex w-max space-x-4 pb-4">
+                            <div className="flex w-max space-x-4">
                                 {featuredEvents.map((event) => (
                                      <div key={event.id} className="w-[300px] sm:w-[350px] overflow-hidden">
                                         <FeaturedEventCard event={event} />
