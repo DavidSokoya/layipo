@@ -1,14 +1,14 @@
+
 'use client';
 
 import * as React from 'react';
 import { PageWrapper } from '@/components/page-wrapper';
 import { Button } from '@/components/ui/button';
 import { Logo } from '@/components/ui/logo';
-import { ArrowLeft, Search, X } from 'lucide-react';
+import { ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
 import { Card, CardContent } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Input } from '@/components/ui/input';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '@/lib/utils';
@@ -87,7 +87,7 @@ function MemberProfileModal({ member, open, onOpenChange }: { member: CouncilMem
 
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
-            <DialogContent className="max-w-md m-4 p-0">
+            <DialogContent className="w-[90vw] max-w-sm p-0">
                 <div className="p-6 pt-10 text-center">
                      <Avatar className="w-32 h-32 mx-auto mb-4 border-4 border-primary/20">
                         <AvatarImage src={member.image} alt={member.name} />
@@ -106,22 +106,15 @@ function MemberProfileModal({ member, open, onOpenChange }: { member: CouncilMem
 }
 
 export default function CouncilPage() {
-    const [search, setSearch] = React.useState('');
     const [filter, setFilter] = React.useState('All');
     const [selectedMember, setSelectedMember] = React.useState<CouncilMember | null>(null);
 
     const filteredMembers = React.useMemo(() => {
         return councilMembers.filter(member => {
-            const searchLower = search.toLowerCase();
-            const matchesSearch = searchLower === '' ||
-                                  member.name.toLowerCase().includes(searchLower) ||
-                                  member.title.toLowerCase().includes(searchLower);
-            
             const matchesFilter = filter === 'All' || member.role === filter;
-
-            return matchesSearch && matchesFilter;
+            return matchesFilter;
         });
-    }, [search, filter]);
+    }, [filter]);
 
     const groupedMembers = React.useMemo(() => {
         return filteredMembers.reduce((acc, member) => {
@@ -157,15 +150,6 @@ export default function CouncilPage() {
                     </header>
 
                     <div className="space-y-4 mb-8">
-                        <div className="relative">
-                            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-                            <Input 
-                                placeholder="Search by name or title..." 
-                                className="pl-10"
-                                value={search}
-                                onChange={(e) => setSearch(e.target.value)}
-                            />
-                        </div>
                         <div className="flex flex-wrap gap-2">
                             {filterRoles.map(role => (
                                 <Button 
