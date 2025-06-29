@@ -1,5 +1,6 @@
 
 
+
 export type Event = {
   id: string;
   date: string;
@@ -14,6 +15,7 @@ export type Event = {
   };
   image?: string;
   dataAiHint?: string;
+  href?: string;
 };
 
 export type Venue = {
@@ -463,14 +465,15 @@ export const events: Event[] = [
   {
     id: 's3',
     date: 'Saturday, 5th July 2025',
-    time: '9:30 am–11:00 am',
-    title: 'Morning Show',
+    time: '9:30 AM',
+    title: 'ASCEND COFFEE CHAT',
     location: 'Marquee Hall',
     role: 'All',
-    description: 'The daily morning show with highlights, interviews, and a look at the day ahead.',
+    description: 'Join the Collegiate Chairperson for a special Townhall Meeting where voices will be heard, ideas will flow, and leadership will get personal.',
     dressCode: dressCodeDetails['Business'],
     image: 'https://placehold.co/400x400.png',
-    dataAiHint: 'morning show',
+    dataAiHint: 'coffee chat meeting',
+    href: '/coffee-chat'
   },
   {
     id: 's4',

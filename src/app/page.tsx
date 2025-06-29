@@ -1,3 +1,4 @@
+
 'use client';
 import * as React from 'react';
 import { Star, ChevronRight, Clock, MapPin, Shirt, CalendarDays } from 'lucide-react';
@@ -169,16 +170,18 @@ export default function HomePage() {
         dataAiHint: 'professional training',
       },
       {
+        ...getEvent('s3'),
+        href: getEvent('s3')?.href || '/timetable#s3',
+        title: getEvent('s3')?.title || 'Special Event',
+        date: getEvent('s3')?.date || '',
+        image: 'https://placehold.co/400x400.png',
+        dataAiHint: 'coffee chat meeting'
+      },
+      {
         ...getEvent('f5'),
         href: '/timetable#f5',
         title: 'Collegiate General Assembly',
         date: getEvent('f5')?.date || '',
-      },
-      {
-        ...getEvent('th9'),
-        href: '/timetable#th9',
-        title: 'Storytelling / Campfire Night',
-        date: getEvent('th9')?.date || '',
       },
       {
         ...getEvent('f4'),
