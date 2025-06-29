@@ -1,4 +1,3 @@
-
 'use client';
 
 import * as React from 'react';
@@ -10,7 +9,7 @@ import Link from 'next/link';
 import { Card, CardContent } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Input } from '@/components/ui/input';
-import { Dialog, DialogContent } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '@/lib/utils';
 
@@ -94,8 +93,10 @@ function MemberProfileModal({ member, open, onOpenChange }: { member: CouncilMem
                         <AvatarImage src={member.image} alt={member.name} />
                         <AvatarFallback>{member.name.charAt(0)}</AvatarFallback>
                     </Avatar>
-                    <h2 className="text-2xl font-bold font-headline">{member.name}</h2>
-                    <p className="text-primary font-medium">{member.title}</p>
+                    <DialogHeader className="p-0 text-center items-center">
+                        <DialogTitle className="text-2xl font-bold font-headline">{member.name}</DialogTitle>
+                    </DialogHeader>
+                    <p className="text-primary font-medium mt-1">{member.title}</p>
                     <p className="text-sm text-muted-foreground mt-1">{member.org}</p>
                     <p className="text-base text-foreground/80 mt-4 text-left">{member.bio}</p>
                 </div>
