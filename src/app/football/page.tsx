@@ -4,7 +4,7 @@
 import { PageWrapper } from '@/components/page-wrapper';
 import { Button } from '@/components/ui/button';
 import { Logo } from '@/components/ui/logo';
-import { ArrowLeft, Trophy, SoccerBall } from 'lucide-react';
+import { ArrowLeft, Trophy, Futbol } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -86,7 +86,7 @@ export default function FootballPage() {
                                     <CardContent className="space-y-3">
                                         {teams.map(team => (
                                             <div key={team} className="flex items-center gap-3">
-                                                <SoccerBall className="w-5 h-5 text-white/50" />
+                                                <Futbol className="w-5 h-5 text-white/50" />
                                                 <p className="font-medium">{team}</p>
                                             </div>
                                         ))}
