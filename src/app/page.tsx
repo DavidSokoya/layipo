@@ -1,7 +1,7 @@
 
 'use client';
 import * as React from 'react';
-import { Star, Clock, MapPin, CalendarDays, Flame, CheckCircle2 } from 'lucide-react';
+import { Star, Clock, MapPin, CalendarDays, Flame, CheckCircle2, User } from 'lucide-react';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { PageWrapper } from '@/components/page-wrapper';
 import { useUser } from '@/hooks/use-user';
@@ -42,7 +42,7 @@ const HomePageHeader = () => {
       <Link href="/profile" className="flex items-center gap-3 group">
         <Avatar className="w-9 h-9 border-2 border-primary/20 group-hover:border-primary transition-colors">
           <AvatarImage src={avatarUrl} alt={user.name} />
-          <AvatarFallback>{firstName.charAt(0)}</AvatarFallback>
+          <AvatarFallback><User className="w-5 h-5" /></AvatarFallback>
         </Avatar>
         <h1 className="text-xl font-bold text-foreground group-hover:text-primary transition-colors">
           Hi, {firstName}

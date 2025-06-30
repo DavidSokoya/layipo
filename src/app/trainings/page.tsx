@@ -8,7 +8,7 @@ import { PageWrapper } from '@/components/page-wrapper';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
-import { Clock, MapPin, Award, BookCopy, ChevronRight } from 'lucide-react';
+import { Clock, MapPin, Award, BookCopy, ChevronRight, User } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { PageHeader } from '@/components/ui/page-header';
 
@@ -21,7 +21,7 @@ function TrainingCard({ training }: { training: Training }) {
       <CardHeader className="flex flex-row items-start gap-4 p-4">
         <Avatar className="w-12 h-12 sm:w-16 sm:h-16 border-2 shrink-0 border-white/20">
           <AvatarImage src={training.trainerImage} alt={training.trainer} />
-          <AvatarFallback>{training.trainer.charAt(0)}</AvatarFallback>
+          <AvatarFallback><User className="w-8 h-8" /></AvatarFallback>
         </Avatar>
         <div className="flex-1">
           <CardTitle className="text-base md:text-lg break-words">{training.topic}</CardTitle>

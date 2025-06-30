@@ -1,7 +1,7 @@
 'use client';
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { ScanLine, CalendarDays, MapPin } from 'lucide-react';
+import { ScanLine, CalendarDays, MapPin, User } from 'lucide-react';
 import { Logo } from "@/components/ui/logo";
 import { PageWrapper } from "@/components/page-wrapper";
 import { useUser } from "@/hooks/use-user";
@@ -85,7 +85,7 @@ export default function BadgePage() {
             <CardContent className="flex flex-col items-center p-6 gap-4">
               <Avatar className="w-24 h-24 border-4 border-white/10 shadow-lg">
                 <AvatarImage src={avatarUrl} alt={user.name} />
-                <AvatarFallback>{user.name.charAt(0)}</AvatarFallback>
+                <AvatarFallback><User className="w-12 h-12" /></AvatarFallback>
               </Avatar>
               <div className="text-center">
                 <h3 className="text-2xl font-bold">{user.name}</h3>

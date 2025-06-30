@@ -170,7 +170,7 @@ function ContestantCard({ contestant, onSelect }: { contestant: Contestant, onSe
                 <CardHeader className="p-3">
                     <Avatar className="w-16 h-16 mx-auto mb-2 border-4 border-primary/20 group-hover:border-primary transition-colors">
                         <AvatarImage src={contestant.image} alt={contestant.name} />
-                        <AvatarFallback>{contestant.name.charAt(0)}</AvatarFallback>
+                        <AvatarFallback><User className="w-8 h-8" /></AvatarFallback>
                     </Avatar>
                     <CardTitle className="text-sm font-semibold">{contestant.name}</CardTitle>
                     <CardDescription className="text-xs">{contestant.school}</CardDescription>
@@ -194,7 +194,7 @@ function ContestantProfileModal({ contestant, open, onOpenChange }: { contestant
                 <div className="p-6 pt-10 text-center">
                     <Avatar className="w-24 h-24 mx-auto mb-4 border-4 border-primary/20 shadow-lg">
                         <AvatarImage src={contestant.image} alt={contestant.name} />
-                        <AvatarFallback>{contestant.name.charAt(0)}</AvatarFallback>
+                        <AvatarFallback><User className="w-12 h-12" /></AvatarFallback>
                     </Avatar>
                     <DialogHeader>
                         <DialogTitle className="text-xl font-bold font-headline">{contestant.name}</DialogTitle>
@@ -280,7 +280,7 @@ export default function ContestantsPage() {
                                     <CardContent className="p-4 text-center">
                                         <Avatar className="w-20 h-20 mx-auto mb-3 border-4 border-primary/20">
                                             <AvatarImage src={judge.image} alt={judge.name} />
-                                            <AvatarFallback>{judge.name.charAt(0)}</AvatarFallback>
+                                            <AvatarFallback><User className="w-10 h-10" /></AvatarFallback>
                                         </Avatar>
                                         <h3 className="text-lg font-semibold">{judge.name}</h3>
                                         <p className="text-sm text-muted-foreground">{judge.title}</p>

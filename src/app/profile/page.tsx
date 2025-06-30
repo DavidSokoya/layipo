@@ -71,7 +71,7 @@ const ConnectionCard = ({ connection }: { connection: PublicUserProfile }) => {
             <CardContent className="p-3 flex items-center gap-3">
                  <Avatar className="w-12 h-12">
                     <AvatarImage src={avatarUrl} alt={connection.name} />
-                    <AvatarFallback>{connection.name.charAt(0)}</AvatarFallback>
+                    <AvatarFallback><User className="w-6 h-6" /></AvatarFallback>
                 </Avatar>
                 <div>
                     <p className="font-semibold text-sm">{connection.name}</p>
@@ -131,7 +131,7 @@ export default function ProfilePage() {
           <div className="flex flex-col sm:flex-row items-center gap-6">
             <Avatar className="w-24 h-24 border-4 border-primary/20">
               <AvatarImage src={avatarUrl} alt={user.name} />
-              <AvatarFallback>{user.name.charAt(0)}</AvatarFallback>
+              <AvatarFallback><User className="w-12 h-12" /></AvatarFallback>
             </Avatar>
             <div>
               <h1 className="text-3xl font-bold font-headline text-foreground">{user.name}</h1>

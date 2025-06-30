@@ -7,6 +7,7 @@ import { PageHeader } from '@/components/ui/page-header';
 import { Card, CardContent } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { User } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 type CouncilMember = {
@@ -68,7 +69,7 @@ function MemberProfileModal({ member, open, onOpenChange }: { member: CouncilMem
                 <div className="p-6 pt-10 text-center">
                      <Avatar className="w-32 h-32 mx-auto mb-4 border-4 border-primary/20 rounded-full">
                         <AvatarImage src={member.image} alt={member.name} className="object-cover" />
-                        <AvatarFallback>{member.name.charAt(0)}</AvatarFallback>
+                        <AvatarFallback><User className="w-16 h-16" /></AvatarFallback>
                     </Avatar>
                     <DialogHeader className="p-0 text-center items-center">
                         <DialogTitle className="text-2xl font-bold font-headline">{member.name}</DialogTitle>
@@ -137,7 +138,7 @@ export default function CouncilPage() {
                                                         <CardContent className="p-4 flex flex-col items-center h-full">
                                                             <Avatar className="w-16 h-16 sm:w-20 sm:h-20 mx-auto mb-3 border-2 border-primary/20 rounded-full">
                                                                 <AvatarImage src={member.image} alt={member.name} className="object-cover" />
-                                                                <AvatarFallback>{member.name.charAt(0)}</AvatarFallback>
+                                                                <AvatarFallback><User className="w-10 h-10" /></AvatarFallback>
                                                             </Avatar>
                                                             <div className='mt-auto'>
                                                                 <h3 className="text-sm sm:text-base font-semibold text-foreground leading-tight">{member.name}</h3>

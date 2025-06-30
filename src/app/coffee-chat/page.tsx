@@ -4,7 +4,7 @@
 import * as React from 'react';
 import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
-import { ArrowLeft, Building, Calendar, Clock, Bell, Coffee } from 'lucide-react';
+import { ArrowLeft, Building, Calendar, Clock, Bell, Coffee, User } from 'lucide-react';
 import Image from 'next/image';
 
 import { PageWrapper } from '@/components/page-wrapper';
@@ -116,7 +116,7 @@ export default function CoffeeChatPage() {
             <CardContent className="p-6 flex flex-col sm:flex-row items-center gap-6 text-center sm:text-left">
               <Avatar className="w-24 h-24 border-4 border-primary/20 shrink-0">
                 <AvatarImage src="https://i.pravatar.cc/150?u=AdebayoSunday" alt="Adebayo Sunday" />
-                <AvatarFallback>AS</AvatarFallback>
+                <AvatarFallback><User className="w-12 h-12" /></AvatarFallback>
               </Avatar>
               <div>
                 <p className="text-muted-foreground text-sm font-medium">YOUR HOST</p>
