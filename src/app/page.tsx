@@ -15,7 +15,6 @@ import { TodayEventCard } from '@/components/today-event-card';
 import { cn } from '@/lib/utils';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import { Skeleton } from '@/components/ui/skeleton';
-import { Progress } from '@/components/ui/progress';
 
 
 const HomePageHeader = () => {
@@ -92,15 +91,7 @@ const FeaturedEventCard = ({ event }: { event: FeaturedEvent }) => (
 export default function HomePage() {
   const { user } = useUser();
   const demoDate = new Date('2025-07-03T00:00:00');
-  const [progress, setProgress] = React.useState(0);
 
-
-  React.useEffect(() => {
-    if (user) {
-      const timer = setTimeout(() => setProgress((user.points / 5000) * 100), 100);
-      return () => clearTimeout(timer);
-    }
-  }, [user]);
 
   const parseDate = (dateStr: string): Date => {
     if (!dateStr) return new Date();
@@ -238,7 +229,7 @@ export default function HomePage() {
             <main className="flex-1 pb-4">
                 <HomePageHeader />
                 <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 space-y-6 sm:space-y-8">
-                    <section className="-mt-6 -mb-6">
+                    <section className="my-2">
                         <ScrollArea className="w-full whitespace-nowrap -mx-4 px-4">
                             <div className="flex w-max space-x-2 py-4">
                                 <Button asChild size="sm" className="text-xs sm:text-sm font-semibold shadow-md bg-status-blue hover:bg-status-blue/90 text-primary-foreground">
@@ -254,18 +245,6 @@ export default function HomePage() {
                             <ScrollBar orientation="horizontal" className="invisible" />
                         </ScrollArea>
                     </section>
-                    
-                    <Card className="bg-gradient-to-br from-indigo-500 via-sky-500 to-cyan-400 text-primary-foreground shadow-lg -my-2">
-                        <CardHeader className="p-3">
-                            <CardTitle className="text-base">Your Progress</CardTitle>
-                        </CardHeader>
-                        <CardContent className="space-y-1 p-3 pt-0">
-                            <p className="text-xl font-bold text-leftt">
-                                {user.points.toLocaleString()} <span className="text-sm font-normal">Points</span>
-                            </p>
-                            <Progress value={progress} className="w-full h-1.5 [&>div]:bg-white" />
-                        </CardContent>
-                    </Card>
 
                     <section>
                         <div className="flex justify-between items-center mb-6">
