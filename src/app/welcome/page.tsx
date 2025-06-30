@@ -25,28 +25,34 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { useUser } from '@/hooks/use-user';
 import { Logo } from '@/components/ui/logo';
 import { PageWrapper } from '@/components/page-wrapper';
 import type { UserProfile } from '@/lib/data';
 
 const formSchema = z.object({
-  name: z.string().min(2, 'Name must be at least 2 characters.'),
+  name: z
+    .string()
+    .min(2, 'Name must be at least 2 characters.')
+    .regex(/^[a-zA-Z\s]+$/, 'Name can only contain letters and spaces.'),
   localOrganisation: z.string().min(3, 'Organisation is required.'),
   role: z.string({ required_error: 'Please select a role.' }),
   whatsappNumber: z
     .string()
     .min(10, 'Please enter a valid WhatsApp number.')
-    .regex(/^\+?[1-9]\d{1,14}$/, 'Invalid phone number format.'),
+    .regex(/^\+?\d+$/, 'Only numbers and an optional leading + are allowed.'),
   imageUrl: z.string().url('Please enter a valid URL.').optional().or(z.literal('')),
 });
+
+const roles = [
+  'Delegate',
+  'LOC/COC Member',
+  'Council Member',
+  'Registered Trainer',
+  'Noble House Member',
+  'Guest',
+];
 
 export default function WelcomePage() {
   const router = useRouter();
@@ -64,8 +70,8 @@ export default function WelcomePage() {
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     const userProfile: UserProfile = {
-        ...values,
-        points: 0,
+      ...values,
+      points: 0,
     };
     saveUser(userProfile);
     router.push('/');
@@ -117,23 +123,24 @@ export default function WelcomePage() {
                   control={form.control}
                   name="role"
                   render={({ field }) => (
-                    <FormItem>
+                    <FormItem className="space-y-3">
                       <FormLabel>Your Role</FormLabel>
-                      <Select onValueChange={field.onChange} defaultValue={field.value}>
-                        <FormControl>
-                          <SelectTrigger>
-                            <SelectValue placeholder="Select your primary role" />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          <SelectItem value="Delegate">Delegate</SelectItem>
-                          <SelectItem value="LOC/COC Member">LOC/COC Member</SelectItem>
-                          <SelectItem value="Council Member">Council Member</SelectItem>
-                          <SelectItem value="Registered Trainer">Registered Trainer</SelectItem>
-                          <SelectItem value="Noble House Member">Noble House Member</SelectItem>
-                          <SelectItem value="Guest">Guest</SelectItem>
-                        </SelectContent>
-                      </Select>
+                      <FormControl>
+                        <RadioGroup
+                          onValueChange={field.onChange}
+                          defaultValue={field.value}
+                          className="flex flex-col space-y-2"
+                        >
+                          {roles.map((role) => (
+                            <FormItem key={role} className="flex items-center space-x-3 space-y-0">
+                              <FormControl>
+                                <RadioGroupItem value={role} />
+                              </FormControl>
+                              <FormLabel className="font-normal">{role}</FormLabel>
+                            </FormItem>
+                          ))}
+                        </RadioGroup>
+                      </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}
@@ -154,7 +161,7 @@ export default function WelcomePage() {
                     </FormItem>
                   )}
                 />
-                 <FormField
+                <FormField
                   control={form.control}
                   name="imageUrl"
                   render={({ field }) => (
@@ -163,9 +170,7 @@ export default function WelcomePage() {
                       <FormControl>
                         <Input placeholder="https://example.com/your-photo.jpg" {...field} />
                       </FormControl>
-                       <FormDescription>
-                        Leave blank to use a default avatar.
-                      </FormDescription>
+                      <FormDescription>Leave blank to use a default avatar.</FormDescription>
                       <FormMessage />
                     </FormItem>
                   )}
@@ -176,11 +181,11 @@ export default function WelcomePage() {
               </form>
             </Form>
           </CardContent>
-           <CardFooter>
+          <CardFooter>
             <p className="text-xs text-muted-foreground text-center w-full">
-                You can update this information later on your profile page.
+              You can update this information later on your profile page.
             </p>
-        </CardFooter>
+          </CardFooter>
         </Card>
       </main>
     </PageWrapper>
