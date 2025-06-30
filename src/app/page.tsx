@@ -1,9 +1,8 @@
 
 'use client';
 import * as React from 'react';
-import { Star, ChevronRight, Clock, MapPin, Shirt, CalendarDays } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Star, Clock, MapPin, CalendarDays } from 'lucide-react';
+import { Card } from '@/components/ui/card';
 import { PageWrapper } from '@/components/page-wrapper';
 import { useUser } from '@/hooks/use-user';
 import Link from 'next/link';
@@ -52,36 +51,34 @@ const HomePageHeader = () => {
     )
 };
 
-type FeaturedEvent = {
-  id: string;
+type SpotlightItem = {
   href: string;
   title: string;
-  date: string;
   image: string;
   dataAiHint?: string;
+  date?: string; // Optional date for event-based items
 };
 
-const FeaturedEventCard = ({ event }: { event: FeaturedEvent }) => (
-    <Link href={event.href} className="block group h-full">
-        <Card className="overflow-hidden transition-all duration-300 hover:shadow-xl flex flex-col h-full">
-            <div className="relative overflow-hidden h-36">
-                <Image 
-                  src={event.image || 'https://placehold.co/400x400.png'} 
-                  alt={event.title}
-                  data-ai-hint={event.dataAiHint}
-                  fill 
-                  className="object-cover transition-transform duration-300 group-hover:scale-105"
-                />
-            </div>
-            <div className="flex flex-col p-4 flex-grow">
-                <h3 className="font-bold text-base leading-tight flex-grow">{event.title}</h3>
-                <div className="flex items-center text-xs text-muted-foreground mt-2">
-                    <CalendarDays className="w-3 h-3 mr-2 shrink-0" />
-                    <span>{event.date}</span>
-                </div>
-                <div className="mt-auto pt-2 text-primary font-semibold text-sm flex items-center">
-                    View Details <ChevronRight className="w-4 h-4 ml-1 transition-transform duration-300 group-hover:translate-x-1" />
-                </div>
+
+const SpotlightCard = ({ item }: { item: SpotlightItem }) => (
+    <Link href={item.href} className="block group">
+        <Card className="relative w-full h-40 overflow-hidden transition-all duration-300 hover:shadow-xl">
+            <Image 
+                src={item.image}
+                alt={item.title}
+                data-ai-hint={item.dataAiHint}
+                fill 
+                className="object-cover transition-transform duration-300 group-hover:scale-105"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
+            <div className="absolute bottom-0 left-0 p-3 text-primary-foreground">
+                <h3 className="font-bold text-sm leading-tight">{item.title}</h3>
+                {item.date && (
+                    <div className="flex items-center text-xs opacity-80 mt-1">
+                        <CalendarDays className="w-3 h-3 mr-1.5 shrink-0" />
+                        <span>{item.date}</span>
+                    </div>
+                )}
             </div>
         </Card>
     </Link>
@@ -131,29 +128,51 @@ export default function HomePage() {
     }
   }, [eventDays, getInitialDate, selectedDate]);
   
-  const featuredEvents: FeaturedEvent[] = React.useMemo(() => {
+  const allSpotlightItems: SpotlightItem[] = React.useMemo(() => {
     const eventMap = events.reduce((acc, event) => {
       acc[event.id] = event;
       return acc;
     }, {} as Record<string, Event>);
   
     const getEvent = (id: string) => eventMap[id];
+
+    const featureLinks: SpotlightItem[] = [
+        {
+            href: '/council',
+            title: 'The Council',
+            image: 'https://placehold.co/400x400.png',
+            dataAiHint: 'group leadership',
+        },
+        {
+            href: '/contestants',
+            title: 'Mr & Miss Collegiate',
+            image: 'https://placehold.co/400x400.png',
+            dataAiHint: 'pageant crown',
+        },
+        {
+            href: '/football',
+            title: 'Football Showdown',
+            image: 'https://placehold.co/400x400.png',
+            dataAiHint: 'football trophy',
+        },
+    ];
   
-    return [
+    const eventHighlights: SpotlightItem[] = [
       {
-        ...getEvent('f10'),
         href: '/timetable#f10',
         title: 'Opening Ceremony',
         date: getEvent('f10')?.date || '',
+        image: getEvent('f10')?.image || 'https://placehold.co/400x400.png',
+        dataAiHint: getEvent('f10')?.dataAiHint,
       },
       {
-        ...getEvent('f11'),
         href: '/timetable#f11',
         title: 'Mr & Miss Collegiate',
         date: getEvent('f11')?.date || '',
+        image: getEvent('f11')?.image || 'https://placehold.co/400x400.png',
+        dataAiHint: getEvent('f11')?.dataAiHint,
       },
       {
-        id: 'trainings',
         href: '/trainings',
         title: 'Skill Development Trainings',
         date: 'Multiple Days',
@@ -161,7 +180,6 @@ export default function HomePage() {
         dataAiHint: 'professional training',
       },
       {
-        ...getEvent('s3'),
         href: getEvent('s3')?.href || '/timetable#s3',
         title: getEvent('s3')?.title || 'Special Event',
         date: getEvent('s3')?.date || '',
@@ -169,27 +187,22 @@ export default function HomePage() {
         dataAiHint: 'coffee chat meeting'
       },
       {
-        ...getEvent('f5'),
         href: '/timetable#f5',
         title: 'Collegiate General Assembly',
         date: getEvent('f5')?.date || '',
+        image: getEvent('f5')?.image || 'https://placehold.co/400x400.png',
+        dataAiHint: getEvent('f5')?.dataAiHint,
       },
       {
-        ...getEvent('f4'),
         href: '/timetable#f4',
         title: 'Debate & Speech Finals',
         date: getEvent('f4')?.date || '',
+        image: getEvent('f4')?.image || 'https://placehold.co/400x400.png',
+        dataAiHint: getEvent('f4')?.dataAiHint,
       },
-      {
-        ...getEvent('s9'),
-        href: '/timetable#s9',
-        title: 'Closing Ceremony & Banquet',
-        date: getEvent('s9')?.date || '',
-      },
-    ].filter(e => e.id && e.title).map(e => ({
-        ...e,
-        image: e.image || 'https://placehold.co/400x400.png'
-    })) as FeaturedEvent[];
+    ].filter(e => e.title);
+
+    return [...featureLinks, ...eventHighlights];
   }, []);
 
 
@@ -228,25 +241,24 @@ export default function HomePage() {
         <PageWrapper>
             <main className="flex-1 pb-4">
                 <HomePageHeader />
-                <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 space-y-6 sm:space-y-8">
-                    <section className="my-2">
-                        <ScrollArea className="w-full whitespace-nowrap -mx-4 px-4">
-                            <div className="flex w-max space-x-2 py-4">
-                                <Button asChild size="sm" className="text-xs sm:text-sm font-semibold shadow-md bg-status-blue hover:bg-status-blue/90 text-primary-foreground">
-                                    <Link href="/council">The Council</Link>
-                                </Button>
-                                <Button asChild size="sm" className="text-xs sm:text-sm font-semibold shadow-md bg-status-green hover:bg-status-green/90 text-primary-foreground">
-                                    <Link href="/contestants">Mr & Miss Collegiate</Link>
-                                </Button>
-                                <Button asChild size="sm" className="text-xs sm:text-sm font-semibold shadow-md bg-status-amber hover:bg-status-amber/90 text-foreground">
-                                    <Link href="/football">Football Showdown</Link>
-                                </Button>
+                <div className="max-w-6xl mx-auto py-6 sm:py-8 space-y-6 sm:space-y-8">
+                     <section>
+                        <h2 className="text-xl font-bold font-headline tracking-tight text-foreground mb-4 px-4 sm:px-6 lg:px-8">
+                            Spotlight
+                        </h2>
+                         <ScrollArea className="w-full whitespace-nowrap">
+                            <div className="flex w-max space-x-4 px-4 sm:px-6 lg:px-8">
+                                {allSpotlightItems.map((item) => (
+                                     <div key={item.href} className="w-[250px] sm:w-[300px] overflow-hidden">
+                                        <SpotlightCard item={item} />
+                                    </div>
+                                ))}
                             </div>
-                            <ScrollBar orientation="horizontal" className="invisible" />
+                            <ScrollBar orientation="horizontal" className="mt-4 px-4 sm:px-6 lg:px-8" />
                         </ScrollArea>
                     </section>
 
-                    <section>
+                    <section className="px-4 sm:px-6 lg:px-8">
                         <div className="flex justify-between items-center mb-6">
                              <h2 className="text-base font-bold font-headline tracking-tight text-foreground">
                                 {dayStatus === 'Happening' ? `Today's Events` : `${dayStatus} ${dayName}`}
@@ -280,22 +292,6 @@ export default function HomePage() {
                         ) : (
                             <p className="text-muted-foreground text-center py-4">No events scheduled for this day.</p>
                         )}
-                    </section>
-                    
-                     <section>
-                        <h2 className="text-xl font-bold font-headline tracking-tight text-foreground mb-4">
-                            Event Highlights
-                        </h2>
-                         <ScrollArea className="w-full whitespace-nowrap rounded-md">
-                            <div className="flex w-max space-x-4">
-                                {featuredEvents.map((event) => (
-                                     <div key={event.id} className="w-[300px] sm:w-[350px] overflow-hidden">
-                                        <FeaturedEventCard event={event} />
-                                    </div>
-                                ))}
-                            </div>
-                            <ScrollBar orientation="horizontal" />
-                        </ScrollArea>
                     </section>
                 </div>
             </main>
