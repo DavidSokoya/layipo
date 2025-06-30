@@ -5,7 +5,7 @@ import * as React from 'react';
 import type { Event, Training } from '@/lib/data';
 import { events, trainings } from '@/lib/data';
 import { PageWrapper } from '@/components/page-wrapper';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Button } from '@/components/ui/button';
@@ -256,4 +256,3 @@ export default function EventsPage() {
         </PageWrapper>
     );
 }
-
