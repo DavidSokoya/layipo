@@ -27,7 +27,6 @@ export type Venue = {
 
 export type UserProfile = {
   name: string;
-  role: string;
   localOrganisation: string;
   whatsappNumber: string;
   imageUrl?: string;
