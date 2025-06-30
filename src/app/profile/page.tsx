@@ -143,7 +143,7 @@ export default function ProfilePage() {
             </Avatar>
             <div>
               <h1 className="text-3xl font-bold font-headline text-foreground">{user.name}</h1>
-              <p className="text-muted-foreground">{user.role}</p>
+              <p className="text-muted-foreground">{user.localOrganisation}</p>
             </div>
           </div>
 
