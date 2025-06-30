@@ -1,76 +1,21 @@
+
 'use client';
-import { Trophy, Award, CalendarCheck2, Users, Star } from 'lucide-react';
-import Image from 'next/image';
-import type { Badge as BadgeType, Reward } from '@/lib/data';
-import { rewards } from '@/lib/data';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { Progress } from '@/components/ui/progress';
-import { Button } from '@/components/ui/button';
-import { useToast } from '@/hooks/use-toast';
+import { BookMarked, Users, Calendar, Clock, MapPin, User, FileText, Bot } from 'lucide-react';
 import React from 'react';
+import { useUser } from '@/hooks/use-user';
+import { events, trainings, type Event, type Training, PublicUserProfile } from '@/lib/data';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
 import { Logo } from '@/components/ui/logo';
 import { PageWrapper } from '@/components/page-wrapper';
-import { cn } from '@/lib/utils';
-import { useUser } from '@/hooks/use-user';
 import { Skeleton } from '@/components/ui/skeleton';
-
-const badges: BadgeType[] = [
-  { id: '1', title: 'Ice Breaker', description: 'Attended opening.', icon: Award, unlocked: true },
-  { id: '2', title: 'Early Bird', description: 'Checked-in early.', icon: CalendarCheck2, unlocked: true },
-  { id: '3', title: 'Social Butterfly', description: 'Met 5 new people.', icon: Users, unlocked: false },
-  { id: '4', title: 'Trivia Master', description: 'Won a trivia game.', icon: Trophy, unlocked: false },
-];
-
-function RewardCard({ reward, userPoints, onUnlock }: { reward: Reward; userPoints: number, onUnlock: (cost: number) => void }) {
-  const { toast } = useToast();
-  const canAfford = userPoints >= reward.cost;
-
-  const handleUnlock = () => {
-    if (canAfford) {
-        onUnlock(reward.cost);
-        toast({
-            title: `Unlocked: ${reward.title}`,
-            description: `You spent ${reward.cost} points. Your reward is available at the info desk.`,
-        });
-    } else {
-         toast({
-            variant: 'destructive',
-            title: 'Not enough points!',
-            description: `You need ${reward.cost - userPoints} more points to unlock this.`,
-        });
-    }
-  };
-
-  return (
-    <Card className="overflow-hidden transition-all duration-300 hover:shadow-xl flex flex-col">
-      <div className="aspect-video overflow-hidden">
-        <Image
-          src={reward.image}
-          alt={reward.title}
-          width={600}
-          height={400}
-          className="object-cover w-full h-full transition-transform hover:scale-105"
-          data-ai-hint={reward.dataAiHint}
-        />
-      </div>
-      <CardHeader>
-        <CardTitle>{reward.title}</CardTitle>
-        <CardDescription>{reward.description}</CardDescription>
-      </CardHeader>
-      <CardFooter className="mt-auto">
-        <Button onClick={handleUnlock} disabled={!canAfford} className="w-full" variant="secondary">
-          <Star className="w-4 h-4 mr-2" />
-          Unlock for {reward.cost} points
-        </Button>
-      </CardFooter>
-    </Card>
-  );
-}
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
+import Link from 'next/link';
 
 function ProfileLoader() {
     return (
-        <div className="max-w-6xl mx-auto space-y-8">
+        <div className="max-w-4xl mx-auto space-y-8">
             <div className="mb-8">
                 <Logo />
             </div>
@@ -81,51 +26,81 @@ function ProfileLoader() {
                     <Skeleton className="h-5 w-32" />
                 </div>
             </div>
-            <Card className="bg-gray-200">
+            <Card>
                 <CardHeader>
                     <Skeleton className="h-7 w-40" />
-                    <Skeleton className="h-4 w-64 mt-2" />
                 </CardHeader>
-                <CardContent className="space-y-2">
-                    <Skeleton className="h-8 w-32 mx-auto" />
-                    <Skeleton className="h-2 w-full" />
+                <CardContent className="space-y-4">
+                    <Skeleton className="h-10 w-full" />
+                    <Skeleton className="h-10 w-full" />
                 </CardContent>
             </Card>
-             <div>
-                <Skeleton className="h-8 w-52 mb-4" />
-                <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-                    {Array.from({ length: 4 }).map((_, i) => (
-                        <Skeleton key={i} className="h-20 rounded-lg" />
-                    ))}
-                </div>
-            </div>
-            <div>
-                <Skeleton className="h-8 w-52 mb-4" />
-                <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-                    {Array.from({ length: 3 }).map((_, i) => (
-                        <Skeleton key={i} className="h-80 rounded-lg" />
-                    ))}
-                </div>
-            </div>
+            <Card>
+                <CardHeader>
+                    <Skeleton className="h-7 w-40" />
+                </CardHeader>
+                <CardContent>
+                     <Skeleton className="h-20 w-full" />
+                </CardContent>
+            </Card>
         </div>
     );
 }
 
+const AgendaItemCard = ({ item }: { item: Event | Training }) => {
+    const isTraining = 'trainer' in item;
+    return (
+        <Link href={`/timetable#${item.id}`} className="block group">
+            <div className="p-3 rounded-lg transition-colors hover:bg-muted/50">
+                 <p className="font-semibold text-foreground group-hover:text-primary transition-colors">{isTraining ? (item as Training).topic : (item as Event).title}</p>
+                 <div className="flex items-center text-sm text-muted-foreground mt-1 gap-x-4 gap-y-1 flex-wrap">
+                    <span className="flex items-center gap-1.5"><Clock className="w-3.5 h-3.5" />{item.time}</span>
+                    <span className="flex items-center gap-1.5"><MapPin className="w-3.5 h-3.5" />{isTraining ? (item as Training).venue : (item as Event).location}</span>
+                 </div>
+            </div>
+        </Link>
+    )
+}
+
+const ConnectionCard = ({ connection }: { connection: PublicUserProfile }) => {
+    const avatarUrl = connection.imageUrl || `https://i.pravatar.cc/150?u=${encodeURIComponent(connection.name)}`;
+    return (
+        <Card>
+            <CardContent className="p-3 flex items-center gap-3">
+                 <Avatar className="w-12 h-12">
+                    <AvatarImage src={avatarUrl} alt={connection.name} />
+                    <AvatarFallback>{connection.name.charAt(0)}</AvatarFallback>
+                </Avatar>
+                <div>
+                    <p className="font-semibold text-sm">{connection.name}</p>
+                    <p className="text-xs text-muted-foreground">{connection.localOrganisation}</p>
+                </div>
+            </CardContent>
+        </Card>
+    )
+}
 
 export default function ProfilePage() {
-  const { user, isLoading, updatePoints } = useUser();
-  const [progress, setProgress] = React.useState(0);
+  const { user, isLoading } = useUser();
+  const allEventsAndTrainings = React.useMemo(() => [...events, ...trainings], []);
 
-  React.useEffect(() => {
-    if (user) {
-      const timer = setTimeout(() => setProgress((user.points / 5000) * 100), 100);
-      return () => clearTimeout(timer);
-    }
-  }, [user]);
-  
-  const handleUnlockReward = (cost: number) => {
-    updatePoints(-cost);
-  }
+  const bookmarkedItems = React.useMemo(() => {
+    if (!user) return [];
+    return allEventsAndTrainings
+      .filter(item => user.bookmarkedEventIds.includes(item.id))
+      .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime() || a.time.localeCompare(b.time));
+  }, [user, allEventsAndTrainings]);
+
+  const groupedAgenda = React.useMemo(() => {
+    return bookmarkedItems.reduce((acc, item) => {
+        const date = item.date;
+        if (!acc[date]) {
+            acc[date] = [];
+        }
+        acc[date].push(item);
+        return acc;
+    }, {} as Record<string, (Event | Training)[]>);
+  }, [bookmarkedItems]);
 
   if (isLoading || !user) {
     return (
@@ -142,9 +117,14 @@ export default function ProfilePage() {
   return (
     <PageWrapper>
       <main className="flex-1 p-4 md:p-6 lg:p-8 mb-16">
-        <div className="max-w-6xl mx-auto space-y-8">
+        <div className="max-w-4xl mx-auto space-y-8">
           <div className="mb-8 flex items-center justify-between">
             <Logo />
+            <Button variant="ghost" asChild>
+                <Link href="/welcome">
+                    <User className="mr-2"/> Edit Profile
+                </Link>
+            </Button>
           </div>
           <div className="flex flex-col sm:flex-row items-center gap-6">
             <Avatar className="w-24 h-24 border-4 border-primary/20">
@@ -157,67 +137,68 @@ export default function ProfilePage() {
             </div>
           </div>
 
-          <Card className="bg-gradient-to-br from-indigo-500 via-sky-500 to-cyan-400 text-primary-foreground shadow-lg">
+          <Card>
             <CardHeader>
-              <CardTitle className="text-2xl">Your Progress</CardTitle>
-              <CardDescription className="text-primary-foreground/80">
-                Next reward tier at 5000 points.
-              </CardDescription>
+              <CardTitle className="flex items-center gap-2">
+                <BookMarked className="w-6 h-6 text-primary"/>
+                My Agenda
+              </CardTitle>
+              <CardDescription>Your personalized schedule of bookmarked events and sessions.</CardDescription>
             </CardHeader>
-            <CardContent className="space-y-2">
-              <p className="text-3xl font-bold text-center">
-                {user.points.toLocaleString()} <span className="text-lg font-normal">Points</span>
-              </p>
-              <Progress value={progress} className="w-full h-2 [&>div]:bg-white" />
+            <CardContent>
+                {bookmarkedItems.length > 0 ? (
+                    <Accordion type="multiple" defaultValue={Object.keys(groupedAgenda)} className="w-full space-y-2">
+                        {Object.entries(groupedAgenda).map(([date, items]) => (
+                             <AccordionItem value={date} key={date} className="border rounded-lg px-3 bg-background">
+                                <AccordionTrigger className="hover:no-underline py-3">
+                                    <div className="flex items-center gap-2">
+                                        <Calendar className="w-4 h-4 text-muted-foreground" />
+                                        <span className="font-semibold text-foreground">{date}</span>
+                                    </div>
+                                </AccordionTrigger>
+                                <AccordionContent className="pb-1">
+                                    <div className="space-y-1 border-t pt-2">
+                                        {items.map(item => <AgendaItemCard key={item.id} item={item} />)}
+                                    </div>
+                                </AccordionContent>
+                             </AccordionItem>
+                        ))}
+                    </Accordion>
+                ) : (
+                     <div className="text-center py-8 px-4 rounded-lg bg-muted/50">
+                        <FileText className="w-10 h-10 mx-auto text-muted-foreground mb-2" />
+                        <h3 className="font-semibold text-foreground">Your Agenda is Empty</h3>
+                        <p className="text-sm text-muted-foreground mt-1">Bookmark sessions from the Timetable or Events pages to add them here.</p>
+                     </div>
+                )}
             </CardContent>
           </Card>
 
-          <div>
-            <h2 className="text-2xl font-bold mb-4 flex items-center gap-2">
-              <Trophy className="w-6 h-6 text-amber-500" /> Unlocked Badges
-            </h2>
-            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-              {badges.map((badge) => (
-                <Card
-                  key={badge.id}
-                  className={cn(
-                    'transition-all border-2',
-                    badge.unlocked
-                      ? 'border-green-500/50'
-                      : 'opacity-60 grayscale border-transparent'
-                  )}
-                >
-                  <CardContent className="p-4 flex items-center gap-4">
-                    <div
-                      className={cn(
-                        'p-2 rounded-full',
-                        badge.unlocked ? 'bg-green-500/20' : 'bg-muted'
-                      )}
-                    >
-                      <badge.icon
-                        className={cn('w-6 h-6', badge.unlocked ? 'text-green-600' : 'text-muted-foreground')}
-                      />
+          <Card>
+            <CardHeader>
+               <CardTitle className="flex items-center gap-2">
+                <Users className="w-6 h-6 text-primary"/>
+                My Connections
+              </CardTitle>
+              <CardDescription>A list of people you've connected with during the event.</CardDescription>
+            </CardHeader>
+            <CardContent>
+                {user.connections.length > 0 ? (
+                    <div className="grid gap-4 md:grid-cols-2">
+                        {user.connections.map(connection => (
+                            <ConnectionCard key={connection.whatsappNumber} connection={connection}/>
+                        ))}
                     </div>
-                    <div className="flex-1">
-                      <h3 className="font-semibold">{badge.title}</h3>
-                      <p className="text-sm text-muted-foreground">{badge.description}</p>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          </div>
+                ) : (
+                    <div className="text-center py-8 px-4 rounded-lg bg-muted/50">
+                        <Bot className="w-10 h-10 mx-auto text-muted-foreground mb-2" />
+                        <h3 className="font-semibold text-foreground">No Connections Yet</h3>
+                        <p className="text-sm text-muted-foreground mt-1">This feature is coming soon! You'll be able to scan badges to exchange contact info.</p>
+                     </div>
+                )}
+            </CardContent>
+          </Card>
 
-          <div>
-            <h2 className="text-2xl font-bold mb-4 flex items-center gap-2">
-              <Star className="w-6 h-6 text-amber-500" /> Unlockable Rewards
-            </h2>
-            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-              {rewards.map((reward) => (
-                <RewardCard key={reward.id} reward={reward} userPoints={user.points} onUnlock={handleUnlockReward} />
-              ))}
-            </div>
-          </div>
         </div>
       </main>
     </PageWrapper>

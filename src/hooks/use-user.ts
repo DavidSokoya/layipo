@@ -1,6 +1,6 @@
 'use client';
 import { useState, useEffect, useCallback } from 'react';
-import type { UserProfile } from '@/lib/data';
+import type { UserProfile, PublicUserProfile } from '@/lib/data';
 
 const USER_STORAGE_KEY = 'jci-go-user-profile';
 
@@ -12,7 +12,18 @@ export function useUser() {
         try {
             const item = window.localStorage.getItem(USER_STORAGE_KEY);
             if (item) {
-                setUser(JSON.parse(item));
+                const parsedUser = JSON.parse(item);
+                // Ensure new fields exist for users from older versions
+                if (!parsedUser.bookmarkedEventIds) {
+                    parsedUser.bookmarkedEventIds = [];
+                }
+                if (!parsedUser.connections) {
+                    parsedUser.connections = [];
+                }
+                if (parsedUser.points) {
+                    delete parsedUser.points; // remove old points system
+                }
+                setUser(parsedUser);
             }
         } catch (error) {
             console.error('Failed to parse user data from localStorage', error);
@@ -22,9 +33,9 @@ export function useUser() {
     }, []);
     
     const updateUser = useCallback((updatedData: Partial<UserProfile>) => {
+        if (!user) return null;
         try {
-            const currentData = JSON.parse(window.localStorage.getItem(USER_STORAGE_KEY) || '{}');
-            const newData = { ...currentData, ...updatedData };
+            const newData = { ...user, ...updatedData };
             window.localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(newData));
             setUser(newData);
             return newData;
@@ -32,23 +43,39 @@ export function useUser() {
             console.error('Failed to update user data in localStorage', error);
             return null;
         }
-    }, []);
+    }, [user]);
 
-    const saveUser = useCallback((userData: UserProfile) => {
+    const saveUser = useCallback((userData: Omit<UserProfile, 'bookmarkedEventIds' | 'connections'>) => {
         try {
-            window.localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(userData));
-            setUser(userData);
+            const newUser: UserProfile = {
+                ...userData,
+                bookmarkedEventIds: [],
+                connections: [],
+            };
+            window.localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(newUser));
+            setUser(newUser);
         } catch (error) {
             console.error('Failed to save user data to localStorage', error);
         }
     }, []);
-
-    const updatePoints = useCallback((pointsToAdd: number) => {
+    
+    const toggleBookmark = useCallback((eventId: string) => {
         if (!user) return;
         
-        const newPoints = (user.points || 0) + pointsToAdd;
-        updateUser({ points: newPoints });
+        const newBookmarks = user.bookmarkedEventIds.includes(eventId)
+            ? user.bookmarkedEventIds.filter(id => id !== eventId)
+            : [...user.bookmarkedEventIds, eventId];
+        
+        updateUser({ bookmarkedEventIds: newBookmarks });
+    }, [user, updateUser]);
+
+    const addConnection = useCallback((connection: PublicUserProfile) => {
+        if (!user || user.connections.some(c => c.whatsappNumber === connection.whatsappNumber)) {
+            return; // Don't add if connection already exists
+        }
+        const newConnections = [...user.connections, connection];
+        updateUser({ connections: newConnections });
     }, [user, updateUser]);
     
-    return { user, saveUser, isLoading, updateUser, updatePoints };
+    return { user, saveUser, isLoading, updateUser, toggleBookmark, addConnection };
 }

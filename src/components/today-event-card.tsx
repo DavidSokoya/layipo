@@ -1,7 +1,7 @@
 
 'use client';
 import { Card } from "@/components/ui/card";
-import { Clock, MapPin, Award, BrainCircuit, Calendar, Coffee, Flame, Activity, Mic, Users } from "lucide-react";
+import { Clock, MapPin, Award, BrainCircuit, Calendar, Coffee, Flame, Activity, Mic, Users, Star } from "lucide-react";
 import type { Event } from "@/lib/data";
 import Link from "next/link";
 
@@ -18,7 +18,7 @@ const getEventIcon = (title: string) => {
 };
 
 
-export function TodayEventCard({ event }: { event: Event }) {
+export function TodayEventCard({ event, isBookmarked }: { event: Event, isBookmarked: boolean }) {
     return (
         <Link href={event.href || `/timetable#${event.id}`} className="block h-full group">
             <Card className="transition-all duration-300 hover:shadow-lg hover:border-primary/50 h-full p-3 flex flex-col">
@@ -26,6 +26,7 @@ export function TodayEventCard({ event }: { event: Event }) {
                     <div className="flex items-start gap-2">
                         <span className="text-primary mt-1">{getEventIcon(event.title)}</span>
                         <p className="font-semibold text-sm leading-tight group-hover:text-primary transition-colors flex-1">{event.title}</p>
+                         {isBookmarked && <Star className="w-4 h-4 text-amber-400 fill-amber-400 mt-1 shrink-0" />}
                     </div>
                 </div>
                 <div className="flex items-center text-xs text-muted-foreground pt-2 mt-auto pl-7">

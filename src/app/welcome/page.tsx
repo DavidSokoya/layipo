@@ -33,7 +33,6 @@ import { useUser } from '@/hooks/use-user';
 import { useToast } from '@/hooks/use-toast';
 import { Logo } from '@/components/ui/logo';
 import { PageWrapper } from '@/components/page-wrapper';
-import type { UserProfile } from '@/lib/data';
 
 const formSchema = z.object({
   name: z
@@ -141,11 +140,10 @@ export default function WelcomePage() {
       phoneNumber = `+${phoneNumber}`;
     }
 
-    const userProfile: UserProfile = {
+    const userProfile = {
       ...values,
       whatsappNumber: phoneNumber,
       imageUrl: imageSrc || undefined,
-      points: 0,
     };
     saveUser(userProfile);
     router.push('/');

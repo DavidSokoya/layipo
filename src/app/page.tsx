@@ -31,7 +31,6 @@ const HomePageHeader = () => {
           <Skeleton className="w-12 h-12 rounded-full" />
           <Skeleton className="h-6 w-24" />
         </div>
-        <Skeleton className="h-6 w-20" />
       </div>
     );
   }
@@ -49,10 +48,6 @@ const HomePageHeader = () => {
           Hi, {firstName}
         </h1>
       </Link>
-      <div className="text-sm text-muted-foreground flex items-center gap-1.5">
-        <Star className="w-4 h-4 text-amber-400" />
-        <span className="font-semibold">{user.points.toLocaleString()} Points</span>
-      </div>
     </div>
   );
 };
@@ -117,7 +112,7 @@ const OnNowCard = ({ event, now, remainingCount }: { event: Event & { startTime:
         </div>
          <div className="mt-4 space-y-2">
             <Progress value={progress} />
-            <p className="text-xs text-muted-foreground text-right">{remainingCount} events remaining</p>
+            <p className="text-xs text-muted-foreground text-right">{remainingCount} events remaining today</p>
          </div>
       </CardContent>
     </Card>
@@ -141,7 +136,13 @@ const UpNextCard = ({ event }: { event: Event }) => (
 
 export default function HomePage() {
   const { user } = useUser();
-  const demoDate = new Date('2025-07-04T10:30:00'); // Set to a specific time for demo
+  const [now, setNow] = React.useState(new Date());
+
+  // Effect to update the current time every minute
+  React.useEffect(() => {
+    const timer = setInterval(() => setNow(new Date()), 60000);
+    return () => clearInterval(timer);
+  }, []);
 
   const parseDate = (dateStr: string): Date => {
     if (!dateStr) return new Date();
@@ -167,7 +168,7 @@ export default function HomePage() {
   }, []);
 
   const getInitialDate = React.useCallback(() => {
-    const demoDayFormatted = demoDate.toLocaleDateString('en-US', {
+    const todayFormatted = now.toLocaleDateString('en-US', {
         weekday: 'long',
         day: 'numeric',
         month: 'long',
@@ -181,13 +182,13 @@ export default function HomePage() {
              month: 'long',
              year: 'numeric'
         }).replace(/(\d)(st|nd|rd|th)/, '$1');
-        return parsed === demoDayFormatted;
+        return parsed === todayFormatted;
     });
 
     return todayKey ? todayKey[0] : eventDays[0]?.[0] || '';
-  }, [eventDays, demoDate]);
+  }, [eventDays, now]);
 
-  const [selectedDate, setSelectedDate] = React.useState(getInitialDate);
+  const [selectedDate, setSelectedDate] = React.useState('');
 
   React.useEffect(() => {
     if (eventDays.length > 0 && !selectedDate) {
@@ -228,7 +229,7 @@ export default function HomePage() {
     if (!dayEvents.length) return { currentEvent: null, upcomingEvents: [], remainingEvents: [], totalUpcomingCount: 0 };
 
     const baseDate = parseDate(selectedDate);
-    const now = (getInitialDate() === selectedDate) ? demoDate : new Date(baseDate.setHours(23, 59, 59, 999));
+    const currentTime = (getInitialDate() === selectedDate) ? now : new Date(baseDate.setHours(0, 0, 0, 0)); // Use live time for today, start of day for others
 
     let current: (Event & { startTime: Date, endTime: Date }) | null = null;
     const upcoming: (Event & { startTime: Date, endTime: Date })[] = [];
@@ -238,9 +239,9 @@ export default function HomePage() {
       const [startTime, endTime] = parseTimeRange(event.time, baseDate);
       const eventWithTimes = { ...event, startTime, endTime };
 
-      if (now >= startTime && now < endTime) {
+      if (currentTime >= startTime && currentTime < endTime) {
         current = eventWithTimes;
-      } else if (startTime > now) {
+      } else if (startTime > currentTime) {
         upcoming.push(eventWithTimes);
       } else {
         past.push(eventWithTimes);
@@ -249,17 +250,16 @@ export default function HomePage() {
 
     upcoming.sort((a,b) => a.startTime.getTime() - b.startTime.getTime());
     
-    const nextThreeUpcoming = upcoming.slice(0, 3);
-    const restOfTheDay = upcoming.slice(3);
-
+    const allDayEventsSorted = [...past, current, ...upcoming].filter(Boolean).sort((a,b) => a!.startTime.getTime() - b!.startTime.getTime()) as (Event & { startTime: Date, endTime: Date })[];
+    
     return { 
       currentEvent: current, 
-      upcomingEvents: nextThreeUpcoming,
-      remainingEvents: [...past, ...restOfTheDay].sort((a,b) => a.startTime.getTime() - b.startTime.getTime()),
+      upcomingEvents: upcoming.slice(0, 3),
+      remainingEvents: allDayEventsSorted,
       totalUpcomingCount: upcoming.length
     };
 
-  }, [selectedDate, eventDays, demoDate, getInitialDate]);
+  }, [selectedDate, eventDays, now, getInitialDate]);
 
 
   const allSpotlightItems: SpotlightItem[] = React.useMemo(() => {
@@ -376,7 +376,7 @@ export default function HomePage() {
           </section>
 
           <section className="px-4 sm:px-6 lg:px-8">
-             <ScrollArea className="w-full whitespace-nowrap">
+             <ScrollArea className="w-full whitespace-nowrap [&_>div>div]:pb-2 [&_>div>div]:-mb-2">
                 <div className="flex w-max space-x-3">
                     {eventDays.map(([date]) => {
                         const dayAbbr = date.split(',')[0].slice(0, 3);
@@ -386,21 +386,21 @@ export default function HomePage() {
                                 key={date}
                                 onClick={() => setSelectedDate(date)}
                                 className={cn(
-                                    "flex flex-col items-center justify-center h-auto w-14 rounded-lg p-1 ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 data-[state=active]:shadow-md hover:bg-accent/80",
+                                    "flex flex-col items-center justify-center h-auto w-12 rounded-lg p-1 ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 data-[state=active]:shadow-md hover:bg-accent/80",
                                     selectedDate === date
                                         ? "bg-primary text-primary-foreground"
                                         : "bg-card text-card-foreground border"
                                 )}
                             >
                                 <span className="text-xs font-semibold uppercase tracking-wider">{dayAbbr}</span>
-                                <span className="text-xl font-bold mt-0.5">{dayNum}</span>
+                                <span className="text-lg font-bold mt-0.5">{dayNum}</span>
                             </button>
                         )
                     })}
                 </div>
              </ScrollArea>
              
-             {currentEvent && <OnNowCard event={currentEvent} now={demoDate} remainingCount={totalUpcomingCount} />}
+             {currentEvent && <OnNowCard event={currentEvent} now={now} remainingCount={totalUpcomingCount} />}
 
              {upcomingEvents.length > 0 && (
                 <div className="mt-6">
@@ -433,7 +433,7 @@ export default function HomePage() {
                         <AccordionContent>
                            <div className="grid grid-cols-1 gap-4 pt-4">
                                {remainingEvents.map(event => (
-                                   <TodayEventCard key={event.id} event={event} />
+                                   <TodayEventCard key={event.id} event={event} isBookmarked={user.bookmarkedEventIds.includes(event.id)} />
                                ))}
                            </div>
                         </AccordionContent>
@@ -447,5 +447,3 @@ export default function HomePage() {
     </PageWrapper>
   );
 }
-
-    

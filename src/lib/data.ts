@@ -1,6 +1,7 @@
 
 
 
+
 export type Event = {
   id: string;
   date: string;
@@ -25,13 +26,20 @@ export type Venue = {
   dataAiHint: string;
 };
 
-export type UserProfile = {
+// Represents the public profile of a user, used for connections.
+export type PublicUserProfile = {
   name: string;
   localOrganisation: string;
   whatsappNumber: string;
   imageUrl?: string;
-  points: number;
 };
+
+// Represents the full profile of the currently logged-in user.
+export type UserProfile = PublicUserProfile & {
+  bookmarkedEventIds: string[];
+  connections: PublicUserProfile[];
+};
+
 
 export type Training = {
   id: string;
@@ -583,31 +591,6 @@ export const events: Event[] = [
     image: 'https://placehold.co/400x400.png',
     dataAiHint: 'evaluation meeting',
   },
-];
-
-
-export type Badge = {
-  id: string;
-  title: string;
-  description: string;
-  icon: React.ComponentType<{ className?: string }>;
-  unlocked: boolean;
-};
-
-export type Reward = {
-    id: string;
-    title: string;
-    cost: number;
-    description: string;
-    image: string;
-    dataAiHint: string;
-}
-
-export const rewards: Reward[] = [
-    { id: '1', title: 'JCI Branded Mug', cost: 500, description: 'Start your day with a reminder of your JCI journey.', image: 'https://placehold.co/600x400.png', dataAiHint: 'branded mug' },
-    { id: '2', title: 'Exclusive T-Shirt', cost: 1500, description: 'A limited edition T-shirt, only available to top point earners.', image: 'https://placehold.co/600x400.png', dataAiHint: 't-shirt design' },
-    { id: '3', title: 'VIP Seating Voucher', cost: 3000, description: 'Get front-row seats at the next keynote session.', image: 'https://placehold.co/600x400.png', dataAiHint: 'vip ticket' },
-    { id: '4', title: 'Mentorship Session', cost: 5000, description: 'A one-on-one session with a JCI National President.', image: 'https://placehold.co/600x400.png', dataAiHint: 'mentorship meeting' },
 ];
 
 export const trainings: Training[] = [

@@ -53,8 +53,14 @@ export default function BadgePage() {
     )
   }
   
-  const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=https://wa.me/${user.whatsappNumber.replace(/\D/g, '')}`;
   const avatarUrl = user.imageUrl || `https://i.pravatar.cc/150?u=${encodeURIComponent(user.name)}`;
+  const profileData = {
+    name: user.name,
+    localOrganisation: user.localOrganisation,
+    whatsappNumber: user.whatsappNumber,
+    imageUrl: avatarUrl,
+  };
+  const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(JSON.stringify(profileData))}`;
 
   return (
     <PageWrapper>
@@ -92,7 +98,7 @@ export default function BadgePage() {
                 <div className="bg-white p-1 rounded-md">
                     <Image 
                         src={qrCodeUrl}
-                        alt="WhatsApp QR Code"
+                        alt="Contact QR Code"
                         width={160}
                         height={160}
                         unoptimized // Necessary for external image URLs that are not configured in next.config.js
@@ -100,7 +106,7 @@ export default function BadgePage() {
                 </div>
                <p className="text-xs text-primary-foreground/70 flex items-center gap-1.5 mt-1">
                   <ScanLine className="w-3 h-3"/>
-                  <span>Scan to connect on WhatsApp</span>
+                  <span>Scan to connect and share details</span>
               </p>
             </CardFooter>
           </Card>

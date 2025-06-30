@@ -1,7 +1,7 @@
 
 'use client';
 import * as React from 'react';
-import { Bell, Shirt, MapPin, Clock, Info, BellRing, ArrowLeft } from 'lucide-react';
+import { Shirt, MapPin, Clock, Info, Star, ArrowLeft } from 'lucide-react';
 import Image from 'next/image';
 import { events, type Event, venues, type Venue } from '@/lib/data';
 import { Button } from '@/components/ui/button';
@@ -21,6 +21,7 @@ import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import { Logo } from '@/components/ui/logo';
 import Link from 'next/link';
 import { Badge } from '@/components/ui/badge';
+import { useUser } from '@/hooks/use-user';
 
 const venuesMap = venues.reduce((acc, venue) => {
   acc[venue.name] = venue;
@@ -84,14 +85,16 @@ const roleBadgeColors: Record<string, string> = {
 
 function EventCard({ event }: { event: Event }) {
   const { toast } = useToast();
+  const { user, toggleBookmark } = useUser();
   const [selectedVenue, setSelectedVenue] = React.useState<string | null>(null);
-  const [isReminderSet, setIsReminderSet] = React.useState(false);
 
-  const handleSetReminder = () => {
-    setIsReminderSet(true);
+  const isBookmarked = user?.bookmarkedEventIds.includes(event.id) || false;
+
+  const handleToggleBookmark = () => {
+    toggleBookmark(event.id);
     toast({
-      title: 'Reminder Set!',
-      description: `We'll notify you before "${event.title}" starts.`,
+      title: !isBookmarked ? 'Event Bookmarked!' : 'Bookmark Removed',
+      description: `"${event.title}" has been ${!isBookmarked ? 'added to' : 'removed from'} your agenda.`,
     });
   };
 
@@ -156,9 +159,9 @@ function EventCard({ event }: { event: Event }) {
                 </div>
             </CardContent>
             <CardFooter className="p-0 flex justify-start gap-2 pt-0 mt-auto">
-              <Button variant="outline" size="sm" onClick={handleSetReminder} disabled={isReminderSet}>
-                {isReminderSet ? <BellRing /> : <Bell />}
-                <span className='hidden sm:inline'>{isReminderSet ? 'Reminder Set' : 'Set Reminder'}</span>
+              <Button variant={isBookmarked ? 'default' : 'outline'} size="sm" onClick={handleToggleBookmark}>
+                <Star className={cn("w-4 h-4", isBookmarked && "fill-current")} />
+                <span className='hidden sm:inline'>{isBookmarked ? 'Bookmarked' : 'Bookmark'}</span>
               </Button>
             </CardFooter>
         </div>

@@ -24,6 +24,7 @@ import {
   BookCopy,
   ChevronRight,
   X,
+  Star,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Logo } from '@/components/ui/logo';
@@ -31,6 +32,8 @@ import Link from 'next/link';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Badge } from '@/components/ui/badge';
+import { useUser } from '@/hooks/use-user';
+import { useToast } from '@/hooks/use-toast';
 
 function isTraining(event: Event | Training): event is Training {
   return 'trainer' in event;
@@ -46,6 +49,8 @@ const roleBadgeColors: Record<string, string> = {
 };
 
 function EventDetailCard({ event }: { event: Event }) {
+    const { user, toggleBookmark } = useUser();
+    const isBookmarked = user?.bookmarkedEventIds.includes(event.id) || false;
     const badgeColorClass = roleBadgeColors[event.role] || 'bg-muted text-muted-foreground';
     const eventImage = event.image || 'https://placehold.co/600x400.png';
 
@@ -56,6 +61,9 @@ function EventDetailCard({ event }: { event: Event }) {
       >
         <div className="h-48 relative">
             <Badge className={cn("absolute top-2 left-2 z-10", badgeColorClass)}>{event.role}</Badge>
+            <Button size="icon" variant={isBookmarked ? "default" : "secondary"} className="absolute top-2 right-2 z-10 h-8 w-8" onClick={() => toggleBookmark(event.id)}>
+                <Star className={cn("w-4 h-4", isBookmarked && "fill-current")} />
+            </Button>
             <div className='overflow-hidden h-full'>
                  <Image
                     src={eventImage}
@@ -84,11 +92,16 @@ function EventDetailCard({ event }: { event: Event }) {
 }
 
 function TrainingDetailCard({ training }: { training: Training }) {
+    const { user, toggleBookmark } = useUser();
+    const isBookmarked = user?.bookmarkedEventIds.includes(training.id) || false;
   return (
     <Card className={cn(
-        "flex flex-col overflow-hidden transition-all duration-300 group",
+        "flex flex-col overflow-hidden transition-all duration-300 group relative",
         training.special ? "bg-gradient-to-br from-primary/90 via-primary/70 to-primary/90 text-primary-foreground shadow-lg" : "bg-card"
     )}>
+       <Button size="icon" variant={isBookmarked ? "default" : "secondary"} className="absolute top-2 right-2 z-10 h-8 w-8" onClick={() => toggleBookmark(training.id)}>
+         <Star className={cn("w-4 h-4", isBookmarked && "fill-current", training.special && isBookmarked && "text-primary-foreground")} />
+       </Button>
       <CardHeader className="flex flex-row items-start gap-4 p-4">
         <Avatar className="w-12 h-12 sm:w-16 sm:h-16 border-2 shrink-0 border-white/20">
           <AvatarImage src={training.trainerImage} alt={training.trainer} />
@@ -140,6 +153,7 @@ function TrainingDetailCard({ training }: { training: Training }) {
 
 export default function EventsPage() {
     const [selectedCategory, setSelectedCategory] = React.useState<string | null>(null);
+    const { toast } = useToast();
 
     const categoryConfig = {
       'Main Events & Ceremonies': { icon: Award, description: 'Keynotes, ceremonies, and major conference milestones.' },
@@ -150,6 +164,8 @@ export default function EventsPage() {
     };
 
     const categorizedEvents = React.useMemo(() => {
+      const allItems: (Event | Training)[] = [...events, ...trainings.map(t => ({...t, id: t.id || t.topic}))];
+
       const categories: Record<keyof typeof categoryConfig, (Event | Training)[]> = {
         'Main Events & Ceremonies': [],
         'Competitions & Pageants': [],
@@ -158,22 +174,21 @@ export default function EventsPage() {
         'Meetings & Assemblies': [],
       };
 
-      categories['Skill Development'].push(...trainings);
-
-      events.forEach(event => {
-        const title = event.title.toLowerCase();
-        if (title.includes('ceremony') || title.includes('banquet') || title.includes('registration') || title.includes('morning show') || title.includes('departure') || title.includes('panel discussion')) {
-          categories['Main Events & Ceremonies'].push(event);
+      allItems.forEach(item => {
+        const title = 'topic' in item ? item.topic.toLowerCase() : item.title.toLowerCase();
+        
+        if ('trainer' in item || title.includes('skill') || title.includes('academy')) {
+            categories['Skill Development'].push(item);
+        } else if (title.includes('ceremony') || title.includes('banquet') || title.includes('registration') || title.includes('morning show') || title.includes('departure') || title.includes('panel discussion')) {
+          categories['Main Events & Ceremonies'].push(item);
         } else if (title.includes('football') || title.includes('pageant') || title.includes('contest') || title.includes('debate')) {
-          categories['Competitions & Pageants'].push(event);
-        } else if (title.includes('skill') || title.includes('academy')) {
-          categories['Skill Development'].push(event);
+          categories['Competitions & Pageants'].push(item);
         } else if (title.includes('lunch') || title.includes('breakfast') || title.includes('campfire') || title.includes('aerobics') || title.includes('chat') || title.includes('tungba')) {
-          categories['Networking & Socials'].push(event);
+          categories['Networking & Socials'].push(item);
         } else if (title.includes('meeting') || title.includes('arrival') || title.includes('setup') || title.includes('media') || title.includes('visit') || title.includes('assembly') || title.includes('presidency') || title.includes('strategy')) {
-          categories['Meetings & Assemblies'].push(event);
+          categories['Meetings & Assemblies'].push(item);
         } else {
-          categories['Main Events & Ceremonies'].push(event);
+          categories['Main Events & Ceremonies'].push(item);
         }
       });
       return categories;
