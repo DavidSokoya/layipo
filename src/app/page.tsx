@@ -128,7 +128,7 @@ const UpNextCard = ({ event }: { event: Event }) => (
     <Link href={event.href || `/timetable#${event.id}`} className="block group">
         <Card className="transition-all duration-300 hover:shadow-lg hover:border-primary/50 h-full p-3 flex flex-col">
             <div className="flex-grow">
-                 <p className="font-semibold text-sm leading-tight group-hover:text-primary transition-colors flex-1">{event.title}</p>
+                 <p className="font-semibold text-xs sm:text-sm leading-tight group-hover:text-primary transition-colors flex-1">{event.title}</p>
             </div>
              <div className="flex items-center text-xs text-muted-foreground pt-2 mt-auto">
                 <Clock className="w-3 h-3 mr-1.5" />
@@ -408,7 +408,7 @@ export default function HomePage() {
                     <ScrollArea className="w-full whitespace-nowrap">
                         <div className="flex w-max space-x-4">
                             {upcomingEvents.map(event => (
-                                <div key={event.id} className="w-[200px]">
+                                <div key={event.id} className="w-44 sm:w-52">
                                     <UpNextCard event={event} />
                                 </div>
                             ))}
