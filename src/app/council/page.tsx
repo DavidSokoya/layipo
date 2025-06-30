@@ -120,7 +120,7 @@ export default function CouncilPage() {
         <PageWrapper>
             <main className="flex-1 p-4 md:p-6 lg:p-8 mb-16">
                 <div className="max-w-4xl mx-auto">
-                    <div className="relative mb-8 flex items-center justify-center">
+                    <div className="relative mb-6 flex items-center justify-center">
                         <Button asChild variant="ghost" size="icon" className="absolute left-0">
                             <Link href="/">
                                 <ArrowLeft className="h-5 w-5" />
@@ -129,16 +129,16 @@ export default function CouncilPage() {
                         </Button>
                         <Logo />
                     </div>
-                    <header className="text-center mb-8">
-                        <h1 className="text-3xl font-bold font-headline tracking-tight text-foreground sm:text-4xl lg:text-5xl">
+                    <header className="text-center mb-6">
+                        <h1 className="text-2xl font-bold font-headline tracking-tight text-foreground sm:text-4xl lg:text-5xl">
                            Meet the 2025 Collegiate Council
                         </h1>
-                        <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">
+                        <p className="mt-3 text-base text-muted-foreground max-w-2xl mx-auto sm:text-lg">
                            A dynamic group of leaders driven by the Ascend vision.
                         </p>
                     </header>
                     
-                    <div className="space-y-8">
+                    <div className="space-y-6">
                         <AnimatePresence>
                             {Object.entries(groupedMembers).map(([category, members]) => (
                                 members.length > 0 && (
@@ -148,7 +148,7 @@ export default function CouncilPage() {
                                         animate={{ opacity: 1 }}
                                         exit={{ opacity: 0 }}
                                     >
-                                        <h2 className="text-lg font-semibold text-foreground bg-background/80 backdrop-blur-sm sticky top-0 py-2 z-10">{category}</h2>
+                                        <h2 className="text-base sm:text-lg font-semibold text-foreground bg-background/80 backdrop-blur-sm sticky top-0 py-2 z-10">{category}</h2>
                                         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 mt-2">
                                             {members.map((member, index) => (
                                                 <motion.div
