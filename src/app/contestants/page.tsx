@@ -232,11 +232,11 @@ export default function ContestantsPage() {
                         <Logo />
                     </div>
                     <header className="text-center">
-                        <h1 className="text-2xl font-bold font-headline tracking-tight text-foreground sm:text-3xl lg:text-4xl">
+                        <h1 className="text-2xl font-bold font-headline tracking-tight text-foreground sm:text-3xl">
                            Mr &amp; Miss Collegiate 2025 Finalists
                         </h1>
                         <p className="mt-2 text-base text-muted-foreground max-w-3xl mx-auto">
-                            Meet the brilliant leaders vying for the crown. Your votes will decide who moves forward. Get ready to support your champions!
+                            Your votes will decide who moves forward. Get ready to support your champions!
                         </p>
                     </header>
                     
