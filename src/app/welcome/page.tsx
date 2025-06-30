@@ -1,3 +1,4 @@
+
 'use client';
 
 import * as React from 'react';
@@ -40,8 +41,8 @@ const formSchema = z.object({
   role: z.string({ required_error: 'Please select a role.' }),
   whatsappNumber: z
     .string()
-    .min(10, 'Please enter a valid WhatsApp number.')
-    .regex(/^\+?\d+$/, 'Only numbers and an optional leading + are allowed.'),
+    .min(10, 'A valid phone number is required.')
+    .max(15, 'Phone number is too long.'),
   imageUrl: z.string().url('Please enter a valid URL.').optional().or(z.literal('')),
 });
 
@@ -69,8 +70,24 @@ export default function WelcomePage() {
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
+    let phoneNumber = values.whatsappNumber.replace(/\s+/g, '').trim();
+
+    if (phoneNumber.startsWith('0')) {
+      phoneNumber = `+234${phoneNumber.substring(1)}`;
+    } else if (phoneNumber.length === 10 && /^[789]/.test(phoneNumber)) {
+      // Handles 10-digit Nigerian numbers like 81... or 70...
+      phoneNumber = `+234${phoneNumber}`;
+    } else if (phoneNumber.length === 13 && phoneNumber.startsWith('234')) {
+      // Handles numbers like 23481...
+      phoneNumber = `+${phoneNumber}`;
+    } else if (!phoneNumber.startsWith('+')) {
+      // Fallback for other international numbers if user forgets '+'
+      phoneNumber = `+${phoneNumber}`;
+    }
+
     const userProfile: UserProfile = {
       ...values,
+      whatsappNumber: phoneNumber,
       points: 0,
     };
     saveUser(userProfile);
@@ -152,10 +169,10 @@ export default function WelcomePage() {
                     <FormItem>
                       <FormLabel>WhatsApp Number</FormLabel>
                       <FormControl>
-                        <Input placeholder="+2348012345678" {...field} />
+                        <Input placeholder="08147518938" {...field} />
                       </FormControl>
                       <FormDescription>
-                        Include country code. This will be used for your QR code.
+                        This will be used for your QR code. We'll add the country code for you.
                       </FormDescription>
                       <FormMessage />
                     </FormItem>
