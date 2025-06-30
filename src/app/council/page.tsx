@@ -19,7 +19,7 @@ type CouncilMember = {
     org: string;
     image: string;
     category: 'Executive Council' | 'Directors';
-    role: 'Chairperson' | 'Director' | 'Secretary';
+    role: 'Chairperson' | 'Director' | 'Secretary' | 'Executive Council Member';
     bio: string;
 };
 
@@ -41,6 +41,24 @@ const councilMembers: CouncilMember[] = [
         category: 'Executive Council',
         role: 'Secretary',
         bio: 'Aisha is the organizational backbone of the council. She manages all administrative tasks, ensures smooth communication, and maintains official records, facilitating efficient council operations.'
+    },
+    { 
+        name: 'Amira Abdullahi', 
+        title: 'Executive Council', 
+        org: 'JCIN Chapter', 
+        image: 'https://i.pravatar.cc/150?u=AmiraAbdullahi',
+        category: 'Executive Council',
+        role: 'Executive Council Member',
+        bio: "A dedicated member of the 2025 Collegiate Council, committed to the 'Ascend' vision and empowering JCI members."
+    },
+    { 
+        name: 'Promise Isaac O', 
+        title: 'Executive Council', 
+        org: 'JCIN Chapter', 
+        image: 'https://i.pravatar.cc/150?u=PromiseIsaacO',
+        category: 'Executive Council',
+        role: 'Executive Council Member',
+        bio: "A dedicated member of the 2025 Collegiate Council, committed to the 'Ascend' vision and empowering JCI members."
     },
     { 
         name: 'Fatima Aliyu', 
@@ -78,6 +96,25 @@ const councilMembers: CouncilMember[] = [
         role: 'Director',
         bio: 'Emeka champions JCI\'s commitment to community service. He leads the planning and execution of impactful projects that address local needs and create positive, sustainable change.'
     },
+    { name: 'Orimogunje Josephine', title: 'Director', org: 'JCIN Chapter', image: 'https://i.pravatar.cc/150?u=OrimogunjeJosephine', category: 'Directors', role: 'Director', bio: "A dedicated member of the 2025 Collegiate Council, committed to the 'Ascend' vision and empowering JCI members." },
+    { name: 'Chinarulumogu Eze', title: 'Director', org: 'JCIN Chapter', image: 'https://i.pravatar.cc/150?u=ChinarulumoguEze', category: 'Directors', role: 'Director', bio: "A dedicated member of the 2025 Collegiate Council, committed to the 'Ascend' vision and empowering JCI members." },
+    { name: 'Hamza Muhammed', title: 'Director', org: 'JCIN Chapter', image: 'https://i.pravatar.cc/150?u=HamzaMuhammed', category: 'Directors', role: 'Director', bio: "A dedicated member of the 2025 Collegiate Council, committed to the 'Ascend' vision and empowering JCI members." },
+    { name: 'Kadril-Lawal Zainab', title: 'Director', org: 'JCIN Chapter', image: 'https://i.pravatar.cc/150?u=KadrilLawalZainab', category: 'Directors', role: 'Director', bio: "A dedicated member of the 2025 Collegiate Council, committed to the 'Ascend' vision and empowering JCI members." },
+    { name: 'Emmanuella Adaora', title: 'Director', org: 'JCIN Chapter', image: 'https://i.pravatar.cc/150?u=EmmanuellaAdaora', category: 'Directors', role: 'Director', bio: "A dedicated member of the 2025 Collegiate Council, committed to the 'Ascend' vision and empowering JCI members." },
+    { name: 'Obaloluwa Samuel', title: 'Director', org: 'JCIN Chapter', image: 'https://i.pravatar.cc/150?u=ObaloluwaSamuel', category: 'Directors', role: 'Director', bio: "A dedicated member of the 2025 Collegiate Council, committed to the 'Ascend' vision and empowering JCI members." },
+    { name: 'Ojo Waheed', title: 'Director', org: 'JCIN Chapter', image: 'https://i.pravatar.cc/150?u=OjoWaheed', category: 'Directors', role: 'Director', bio: "A dedicated member of the 2025 Collegiate Council, committed to the 'Ascend' vision and empowering JCI members." },
+    { name: 'Yusuf Abdullah A.', title: 'Director', org: 'JCIN Chapter', image: 'https://i.pravatar.cc/150?u=YusufAbdullahA', category: 'Directors', role: 'Director', bio: "A dedicated member of the 2025 Collegiate Council, committed to the 'Ascend' vision and empowering JCI members." },
+    { name: 'Ileladewa Ademidun M', title: 'Director', org: 'JCIN Chapter', image: 'https://i.pravatar.cc/150?u=IleladewaAdemidunM', category: 'Directors', role: 'Director', bio: "A dedicated member of the 2025 Collegiate Council, committed to the 'Ascend' vision and empowering JCI members." },
+    { name: 'Adekunle Daniel', title: 'Director', org: 'JCIN Chapter', image: 'https://i.pravatar.cc/150?u=AdekunleDaniel', category: 'Directors', role: 'Director', bio: "A dedicated member of the 2025 Collegiate Council, committed to the 'Ascend' vision and empowering JCI members." },
+    { name: 'Abdulrahman Abdulraheem', title: 'Director', org: 'JCIN Chapter', image: 'https://i.pravatar.cc/150?u=AbdulrahmanAbdulraheem', category: 'Directors', role: 'Director', bio: "A dedicated member of the 2025 Collegiate Council, committed to the 'Ascend' vision and empowering JCI members." },
+    { name: 'Cajetan Iyenaobe', title: 'Director', org: 'JCIN Chapter', image: 'https://i.pravatar.cc/150?u=CajetanIyenaobe', category: 'Directors', role: 'Director', bio: "A dedicated member of the 2025 Collegiate Council, committed to the 'Ascend' vision and empowering JCI members." },
+    { name: 'Raji Elizabeth Omayoza', title: 'Director', org: 'JCIN Chapter', image: 'https://i.pravatar.cc/150?u=RajiElizabethOmayoza', category: 'Directors', role: 'Director', bio: "A dedicated member of the 2025 Collegiate Council, committed to the 'Ascend' vision and empowering JCI members." },
+    { name: 'Hopeson Akamefula J.', title: 'Director', org: 'JCIN Chapter', image: 'https://i.pravatar.cc/150?u=HopesonAkamefulaJ', category: 'Directors', role: 'Director', bio: "A dedicated member of the 2025 Collegiate Council, committed to the 'Ascend' vision and empowering JCI members." },
+    { name: 'Oluwafemi Olumuyiwa', title: 'Director', org: 'JCIN Chapter', image: 'https://i.pravatar.cc/150?u=OluwafemiOlumuyiwa', category: 'Directors', role: 'Director', bio: "A dedicated member of the 2025 Collegiate Council, committed to the 'Ascend' vision and empowering JCI members." },
+    { name: 'Akande Moses', title: 'Director', org: 'JCIN Chapter', image: 'https://i.pravatar.cc/150?u=AkandeMoses', category: 'Directors', role: 'Director', bio: "A dedicated member of the 2025 Collegiate Council, committed to the 'Ascend' vision and empowering JCI members." },
+    { name: 'Yakubu ToHBi', title: 'Director', org: 'JCIN Chapter', image: 'https://i.pravatar.cc/150?u=YakubuToHBi', category: 'Directors', role: 'Director', bio: "A dedicated member of the 2025 Collegiate Council, committed to the 'Ascend' vision and empowering JCI members." },
+    { name: 'Falope Oluwafunke', title: 'Director', org: 'JCIN Chapter', image: 'https://i.pravatar.cc/150?u=FalopeOluwafunke', category: 'Directors', role: 'Director', bio: "A dedicated member of the 2025 Collegiate Council, committed to the 'Ascend' vision and empowering JCI members." },
+    { name: 'Emmanuel Nelson', title: 'Director', org: 'JCIN Chapter', image: 'https://i.pravatar.cc/150?u=EmmanuelNelson', category: 'Directors', role: 'Director', bio: "A dedicated member of the 2025 Collegiate Council, committed to the 'Ascend' vision and empowering JCI members." },
 ];
 
 function MemberProfileModal({ member, open, onOpenChange }: { member: CouncilMember | null, open: boolean, onOpenChange: (open: boolean) => void }) {
@@ -87,7 +124,7 @@ function MemberProfileModal({ member, open, onOpenChange }: { member: CouncilMem
         <Dialog open={open} onOpenChange={onOpenChange}>
             <DialogContent className="w-[90vw] max-w-sm p-0">
                 <div className="p-6 pt-10 text-center">
-                     <Avatar className="w-32 h-32 mx-auto mb-4 border-4 border-primary/20">
+                     <Avatar className="w-32 h-32 mx-auto mb-4 border-4 border-primary/20 rounded-md">
                         <AvatarImage src={member.image} alt={member.name} />
                         <AvatarFallback>{member.name.charAt(0)}</AvatarFallback>
                     </Avatar>
@@ -164,7 +201,7 @@ export default function CouncilPage() {
                                                         className="text-center transition-all duration-300 hover:shadow-xl hover:scale-105 cursor-pointer h-full"
                                                     >
                                                         <CardContent className="p-4 flex flex-col items-center h-full">
-                                                            <Avatar className="w-16 h-16 sm:w-20 sm:h-20 mx-auto mb-3 border-2 border-primary/20">
+                                                            <Avatar className="w-16 h-16 sm:w-20 sm:h-20 mx-auto mb-3 border-2 border-primary/20 rounded-md">
                                                                 <AvatarImage src={member.image} alt={member.name} />
                                                                 <AvatarFallback>{member.name.charAt(0)}</AvatarFallback>
                                                             </Avatar>
