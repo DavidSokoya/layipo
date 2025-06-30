@@ -1,3 +1,4 @@
+
 'use client';
 
 import * as React from 'react';
@@ -129,16 +130,16 @@ export default function CouncilPage() {
                         </Button>
                         <Logo />
                     </div>
-                    <header className="text-center mb-6">
-                        <h1 className="text-2xl font-bold font-headline tracking-tight text-foreground sm:text-4xl lg:text-5xl">
+                    <header className="text-center mb-4">
+                        <h1 className="text-2xl font-bold font-headline tracking-tight text-foreground sm:text-3xl lg:text-4xl">
                            Meet the 2025 Collegiate Council
                         </h1>
-                        <p className="mt-3 text-base text-muted-foreground max-w-2xl mx-auto sm:text-lg">
+                        <p className="mt-2 text-base text-muted-foreground max-w-2xl mx-auto sm:text-lg">
                            A dynamic group of leaders driven by the Ascend vision.
                         </p>
                     </header>
                     
-                    <div className="space-y-6">
+                    <div className="space-y-4">
                         <AnimatePresence>
                             {Object.entries(groupedMembers).map(([category, members]) => (
                                 members.length > 0 && (
@@ -149,7 +150,7 @@ export default function CouncilPage() {
                                         exit={{ opacity: 0 }}
                                     >
                                         <h2 className="text-base sm:text-lg font-semibold text-foreground bg-background/80 backdrop-blur-sm sticky top-0 py-2 z-10">{category}</h2>
-                                        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 mt-2">
+                                        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 mt-2">
                                             {members.map((member, index) => (
                                                 <motion.div
                                                     key={member.name}
