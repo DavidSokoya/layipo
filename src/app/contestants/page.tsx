@@ -58,7 +58,7 @@ const femaleFinalists: Contestant[] = [
     {
         name: "Faiza Sulaiman",
         school: "JCIN BUK",
-        image: "/contestants/aaiza_sulaiman.png",
+        image: "/contestants/faiza_sulaiman.png",
         bio: "Passionate about environmental sustainability, Faiza is working on projects that promote green energy and conservation.",
         contestantNumber: 5,
         gender: 'female',
