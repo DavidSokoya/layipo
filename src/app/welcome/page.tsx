@@ -2,7 +2,6 @@
 'use client';
 
 import * as React from 'react';
-import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
@@ -48,7 +47,6 @@ const formSchema = z.object({
 
 
 export default function WelcomePage() {
-  const router = useRouter();
   const { saveUser } = useUser();
   const { toast } = useToast();
 
@@ -146,7 +144,6 @@ export default function WelcomePage() {
       imageUrl: imageSrc || undefined,
     };
     saveUser(userProfile);
-    router.push('/');
   }
 
   return (

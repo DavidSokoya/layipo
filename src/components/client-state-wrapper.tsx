@@ -69,9 +69,20 @@ export function ClientStateWrapper({ children }: { children: React.ReactNode }) 
   const pathname = usePathname();
 
   React.useEffect(() => {
-    // If loading is finished, and we don't have a user,
-    // and we are not already on the welcome page, redirect.
-    if (!isLoading && !user && pathname !== '/welcome') {
+    // Don't run this logic while the user state is loading.
+    if (isLoading) {
+      return;
+    }
+
+    // If a user exists and they are on the welcome page, they should be
+    // redirected to the main app.
+    if (user && pathname === '/welcome') {
+      router.replace('/');
+    }
+
+    // If no user exists and they are not on the welcome page,
+    // they should be redirected to the welcome page to create a profile.
+    if (!user && pathname !== '/welcome') {
       router.replace('/welcome');
     }
   }, [user, isLoading, pathname, router]);
