@@ -26,7 +26,7 @@ const femaleFinalists: Contestant[] = [
     {
         name: "Awofodu Maryam O",
         school: "JCIN Lautech",
-        image: "/contestans/awofodu_maryam_O.png",
+        image: "/images/contestants/awofodu_maryam_O.png",
         bio: "An advocate for youth empowerment and sustainable development, Maryam is passionate about creating positive change in her community.",
         contestantNumber: 1,
         gender: 'female',
@@ -34,7 +34,7 @@ const femaleFinalists: Contestant[] = [
     {
         name: "Adewale Precious Queen",
         school: "JCIN Funaab",
-        image: "/contestans/adewale_precious_queen.png",
+        image: "/images/contestants/adewale_precious_queen.png",
         bio: "A future leader dedicated to championing educational reforms and creating opportunities for underprivileged students.",
         contestantNumber: 2,
         gender: 'female',
@@ -42,7 +42,7 @@ const femaleFinalists: Contestant[] = [
     {
         name: "Chineye Emeka",
         school: "JCIN ABU",
-        image: "/contestans/chineye_emeka.png",
+        image: "/images/contestants/chineye_emeka.png",
         bio: "A visionary leader with a focus on entrepreneurship, Chineye aims to inspire her peers to build innovative solutions for local challenges.",
         contestantNumber: 3,
         gender: 'female',
@@ -50,7 +50,7 @@ const femaleFinalists: Contestant[] = [
     {
         name: "Praise APO",
         school: "JCIN UNIBEN",
-        image: "/contestans/praise_apo.png",
+        image: "/images/contestants/praise_apo.png",
         bio: "A natural-born leader and advocate for mental health awareness. Praise aims to use the platform to destigmatize mental health conversations and promote wellness initiatives across campuses.",
         contestantNumber: 4,
         gender: 'female',
@@ -58,7 +58,7 @@ const femaleFinalists: Contestant[] = [
     {
         name: "Faiza Sulaiman",
         school: "JCIN BUK",
-        image: "/contestans/faiza_sulaiman.png",
+        image: "/images/contestants/faiza_sulaiman.png",
         bio: "Passionate about environmental sustainability, Faiza is working on projects that promote green energy and conservation.",
         contestantNumber: 5,
         gender: 'female',
@@ -69,7 +69,7 @@ const maleFinalists: Contestant[] = [
     {
         name: "Abdulmuiz Adeagbo A.",
         school: "JCIN Lautech",
-        image: "/contestans/abdulmuiz_adeagbo_a.png",
+        image: "/images/contestants/abdulmuiz_adeagbo_a.png",
         bio: "A tech enthusiast and innovator, Abdulmuiz is developing solutions to bridge the digital divide and empower his community with tech skills.",
         contestantNumber: 6,
         gender: 'male',
@@ -77,7 +77,7 @@ const maleFinalists: Contestant[] = [
     {
         name: "Inioluwa John Tinuola",
         school: "JCIN Funaab",
-        image: "/contestans/inioluwa_john_tinuola.png",
+        image: "/images/contestants/inioluwa_john_tinuola.png",
         bio: "Dedicated to improving public health, Inioluwa is involved in community health campaigns and dreams of a more accessible healthcare system.",
         contestantNumber: 7,
         gender: 'male',
@@ -85,7 +85,7 @@ const maleFinalists: Contestant[] = [
      {
         name: "Innocent Monday",
         school: "JCIN ABU",
-        image: "/contestans/innocent_monday.png",
+        image: "/images/contestants/innocent_monday.png",
         bio: "An artist and social activist, Innocent uses his creativity to highlight social issues and inspire a new generation of change-makers.",
         contestantNumber: 8,
         gender: 'male',
@@ -93,7 +93,7 @@ const maleFinalists: Contestant[] = [
     {
         name: "Musa A. Ramalan",
         school: "JCIN NSUK",
-        image: "/contestans/musa_a_ramalan.png",
+        image: "/images/contestants/musa_a_ramalan.png",
         bio: "A champion for social justice, Musa is committed to advocating for the rights of marginalized communities and fostering inclusive growth.",
         contestantNumber: 9,
         gender: 'male',
@@ -101,7 +101,7 @@ const maleFinalists: Contestant[] = [
     {
         name: "Yusuf Abdullahi",
         school: "JCIN BUK",
-        image: "/contestans/yusuf_abdullahi.png",
+        image: "/images/contestants/yusuf_abdullahi.png",
         bio: "An aspiring economist, Yusuf is passionate about financial literacy and creating sustainable economic opportunities for young people.",
         contestantNumber: 10,
         gender: 'male',
@@ -109,8 +109,8 @@ const maleFinalists: Contestant[] = [
 ]
 
 const judges = [
-    { name: 'Miss Ibadan 2024', title: 'Special Guest Judge', image: '/contestans/Miss_Ibadan_2024.jpg' },
-    { name: '2025 JCI Nigeria Director', title: 'Growth and Development', image: '/contestans/JCIN_Director.jpg' }
+    { name: 'Miss Ibadan 2024', title: 'Special Guest Judge', image: '/images/contestants/Miss_Ibadan_2024.jpg' },
+    { name: '2025 JCI Nigeria Director', title: 'Growth and Development', image: '/images/contestants/JCIN_Director.jpg' }
 ]
 
 const CountdownTimer = ({ targetDate }: { targetDate: string }) => {

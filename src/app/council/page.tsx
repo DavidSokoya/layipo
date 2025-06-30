@@ -106,9 +106,6 @@ export default function CouncilPage() {
                         <h1 className="text-2xl font-bold font-headline tracking-tight text-foreground sm:text-3xl lg:text-4xl">
                            Meet the 2025 Collegiate Council
                         </h1>
-                        <p className="mt-2 text-base text-muted-foreground max-w-2xl mx-auto sm:text-lg">
-                           A dynamic group of leaders driven by the Ascend vision.
-                        </p>
                     </header>
                     
                     <div className="space-y-4">
