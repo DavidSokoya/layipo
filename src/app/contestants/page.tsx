@@ -142,10 +142,10 @@ const CountdownTimer = ({ targetDate }: { targetDate: string }) => {
 
     const timerComponents = Object.keys(timeLeft).length ? Object.entries(timeLeft).map(([interval, value]) => (
         <div key={interval} className="flex flex-col items-center">
-            <span className="text-xl sm:text-2xl font-bold font-mono text-primary">{String(value).padStart(2, '0')}</span>
+            <span className="text-lg sm:text-xl font-bold font-mono text-primary">{String(value).padStart(2, '0')}</span>
             <span className="text-xs uppercase text-muted-foreground">{interval}</span>
         </div>
-    )) : <span className="text-xl font-bold text-primary">The moment is here!</span>;
+    )) : <span className="text-lg font-bold text-primary">The moment is here!</span>;
 
     return (
         <Card className="bg-primary/10">
@@ -168,16 +168,16 @@ function ContestantCard({ contestant, onSelect }: { contestant: Contestant, onSe
             layout
         >
             <Card className="flex flex-col text-center overflow-hidden transition-all duration-300 hover:shadow-xl group h-full">
-                <CardHeader className="p-4">
-                    <Avatar className="w-20 h-20 mx-auto mb-3 border-4 border-primary/20 group-hover:border-primary transition-colors">
+                <CardHeader className="p-3">
+                    <Avatar className="w-16 h-16 mx-auto mb-2 border-4 border-primary/20 group-hover:border-primary transition-colors">
                         <AvatarImage src={contestant.image} alt={contestant.name} />
                         <AvatarFallback>{contestant.name.charAt(0)}</AvatarFallback>
                     </Avatar>
-                    <CardTitle className="text-base">{contestant.name}</CardTitle>
-                    <CardDescription>{contestant.school}</CardDescription>
+                    <CardTitle className="text-sm font-semibold">{contestant.name}</CardTitle>
+                    <CardDescription className="text-xs">{contestant.school}</CardDescription>
                 </CardHeader>
-                <CardFooter className="p-3 mt-auto bg-muted/50">
-                    <Button variant="ghost" size="sm" className="w-full" onClick={onSelect}>
+                <CardFooter className="p-2 mt-auto bg-muted/50">
+                    <Button variant="ghost" size="sm" className="w-full text-xs" onClick={onSelect}>
                         <User className="mr-2 h-4 w-4" /> View Profile
                     </Button>
                 </CardFooter>
@@ -193,12 +193,12 @@ function ContestantProfileModal({ contestant, open, onOpenChange }: { contestant
         <Dialog open={open} onOpenChange={onOpenChange}>
             <DialogContent className="w-[90vw] max-w-md p-0">
                 <div className="p-6 pt-10 text-center">
-                    <Avatar className="w-32 h-32 mx-auto mb-4 border-4 border-primary/20 shadow-lg">
+                    <Avatar className="w-24 h-24 mx-auto mb-4 border-4 border-primary/20 shadow-lg">
                         <AvatarImage src={contestant.image} alt={contestant.name} />
                         <AvatarFallback>{contestant.name.charAt(0)}</AvatarFallback>
                     </Avatar>
                     <DialogHeader>
-                        <DialogTitle className="text-2xl font-bold font-headline">{contestant.name}</DialogTitle>
+                        <DialogTitle className="text-xl font-bold font-headline">{contestant.name}</DialogTitle>
                     </DialogHeader>
                     <p className="text-primary font-medium mt-1">{contestant.school}</p>
                     <p className="text-base text-foreground/80 mt-4 text-center">{contestant.bio}</p>
@@ -221,7 +221,7 @@ export default function ContestantsPage() {
     return (
         <PageWrapper>
             <main className="flex-1 p-4 md:p-6 lg:p-8 mb-16">
-                <div className="max-w-4xl mx-auto space-y-12">
+                <div className="max-w-4xl mx-auto space-y-8">
                     <div className="relative flex items-center justify-center">
                         <Button asChild variant="ghost" size="icon" className="absolute left-0">
                             <Link href="/">
@@ -232,10 +232,10 @@ export default function ContestantsPage() {
                         <Logo />
                     </div>
                     <header className="text-center">
-                        <h1 className="text-3xl font-bold font-headline tracking-tight text-foreground sm:text-4xl lg:text-5xl">
+                        <h1 className="text-2xl font-bold font-headline tracking-tight text-foreground sm:text-3xl lg:text-4xl">
                            Mr &amp; Miss Collegiate 2025 Finalists
                         </h1>
-                        <p className="mt-4 text-lg text-muted-foreground max-w-3xl mx-auto">
+                        <p className="mt-2 text-base text-muted-foreground max-w-3xl mx-auto">
                             Meet the brilliant leaders vying for the crown. Your votes will decide who moves forward. Get ready to support your champions!
                         </p>
                     </header>
@@ -247,7 +247,7 @@ export default function ContestantsPage() {
                             <TabsTrigger value="female">Female Finalists</TabsTrigger>
                             <TabsTrigger value="male">Male Finalists</TabsTrigger>
                         </TabsList>
-                        <div className='mt-6'>
+                        <div className='mt-4'>
                             <AnimatePresence mode="wait">
                                 {activeTab === 'female' && (
                                     <motion.div
@@ -255,10 +255,10 @@ export default function ContestantsPage() {
                                         initial={{ opacity: 0 }}
                                         animate={{ opacity: 1 }}
                                         exit={{ opacity: 0 }}
-                                        className="grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6"
+                                        className="grid grid-cols-2 md:grid-cols-3 gap-4"
                                     >
                                         {femaleFinalists.map((c) => (
-                                            <ContestantCard key={c.name} contestant={c} onSelect={() => setSelectedContestant(c)} />
+                                            <ContestantCard key={c.contestantNumber} contestant={c} onSelect={() => setSelectedContestant(c)} />
                                         ))}
                                     </motion.div>
                                 )}
@@ -268,10 +268,10 @@ export default function ContestantsPage() {
                                         initial={{ opacity: 0 }}
                                         animate={{ opacity: 1 }}
                                         exit={{ opacity: 0 }}
-                                        className="grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6"
+                                        className="grid grid-cols-2 md:grid-cols-3 gap-4"
                                     >
                                         {maleFinalists.map((c) => (
-                                            <ContestantCard key={c.name} contestant={c} onSelect={() => setSelectedContestant(c)} />
+                                            <ContestantCard key={c.contestantNumber} contestant={c} onSelect={() => setSelectedContestant(c)} />
                                         ))}
                                     </motion.div>
                                 )}
@@ -279,20 +279,20 @@ export default function ContestantsPage() {
                         </div>
                     </Tabs>
 
-                    <div className="text-center my-8">
-                        <h2 className="text-2xl font-bold font-headline tracking-tight text-foreground sm:text-3xl">
+                    <div className="text-center my-6">
+                        <h2 className="text-xl font-bold font-headline tracking-tight text-foreground sm:text-2xl">
                            Meet Our Esteemed Judges
                         </h2>
-                        <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-6">
                            {judges.map(judge => (
                                 <Card key={judge.name} className="bg-card shadow-sm">
-                                    <CardContent className="p-6 text-center">
-                                        <Avatar className="w-24 h-24 mx-auto mb-4 border-4 border-primary/20">
+                                    <CardContent className="p-4 text-center">
+                                        <Avatar className="w-20 h-20 mx-auto mb-3 border-4 border-primary/20">
                                             <AvatarImage src={judge.image} alt={judge.name} />
                                             <AvatarFallback>{judge.name.charAt(0)}</AvatarFallback>
                                         </Avatar>
-                                        <h3 className="text-xl font-semibold">{judge.name}</h3>
-                                        <p className="text-muted-foreground">{judge.title}</p>
+                                        <h3 className="text-lg font-semibold">{judge.name}</h3>
+                                        <p className="text-sm text-muted-foreground">{judge.title}</p>
                                     </CardContent>
                                 </Card>
                            ))}
@@ -300,12 +300,12 @@ export default function ContestantsPage() {
                     </div>
                     
                     <Card className="bg-gradient-to-r from-amber-400 to-yellow-500 text-black text-center">
-                        <CardHeader>
+                        <CardHeader className="p-4">
                             <div className="flex justify-center items-center gap-2">
-                                <Crown className="h-8 w-8"/>
-                                <CardTitle className="text-2xl">Who will be crowned?</CardTitle>
+                                <Crown className="h-6 w-6"/>
+                                <CardTitle className="text-xl">Who will be crowned?</CardTitle>
                             </div>
-                            <CardDescription className="text-black/80">
+                            <CardDescription className="text-black/80 text-sm">
                                 Join the excitement at the Collegiate Conference, July 3rd-6th at Ilaji Resort, Ibadan!
                             </CardDescription>
                         </CardHeader>
