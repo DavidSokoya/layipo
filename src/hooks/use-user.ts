@@ -20,6 +20,19 @@ export function useUser() {
             setIsLoading(false);
         }
     }, []);
+    
+    const updateUser = useCallback((updatedData: Partial<UserProfile>) => {
+        try {
+            const currentData = JSON.parse(window.localStorage.getItem(USER_STORAGE_KEY) || '{}');
+            const newData = { ...currentData, ...updatedData };
+            window.localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(newData));
+            setUser(newData);
+            return newData;
+        } catch (error) {
+            console.error('Failed to update user data in localStorage', error);
+            return null;
+        }
+    }, []);
 
     const saveUser = useCallback((userData: UserProfile) => {
         try {
@@ -29,6 +42,13 @@ export function useUser() {
             console.error('Failed to save user data to localStorage', error);
         }
     }, []);
+
+    const updatePoints = useCallback((pointsToAdd: number) => {
+        if (!user) return;
+        
+        const newPoints = (user.points || 0) + pointsToAdd;
+        updateUser({ points: newPoints });
+    }, [user, updateUser]);
     
-    return { user, saveUser, isLoading };
+    return { user, saveUser, isLoading, updateUser, updatePoints };
 }

@@ -22,18 +22,24 @@ const badges: BadgeType[] = [
   { id: '4', title: 'Trivia Master', description: 'Won a trivia game.', icon: Trophy, unlocked: false },
 ];
 
-function RewardCard({ reward, userPoints }: { reward: Reward; userPoints: number }) {
+function RewardCard({ reward, userPoints, onUnlock }: { reward: Reward; userPoints: number, onUnlock: (cost: number) => void }) {
   const { toast } = useToast();
   const canAfford = userPoints >= reward.cost;
 
   const handleUnlock = () => {
-    toast({
-      variant: canAfford ? 'default' : 'destructive',
-      title: canAfford ? `Unlocked: ${reward.title}` : 'Not enough points!',
-      description: canAfford
-        ? 'Your reward is available for pickup at the info desk.'
-        : `You need ${reward.cost - userPoints} more points to unlock this.`,
-    });
+    if (canAfford) {
+        onUnlock(reward.cost);
+        toast({
+            title: `Unlocked: ${reward.title}`,
+            description: `You spent ${reward.cost} points. Your reward is available at the info desk.`,
+        });
+    } else {
+         toast({
+            variant: 'destructive',
+            title: 'Not enough points!',
+            description: `You need ${reward.cost - userPoints} more points to unlock this.`,
+        });
+    }
   };
 
   return (
@@ -107,7 +113,7 @@ function ProfileLoader() {
 
 
 export default function ProfilePage() {
-  const { user, isLoading } = useUser();
+  const { user, isLoading, updatePoints } = useUser();
   const [progress, setProgress] = React.useState(0);
 
   React.useEffect(() => {
@@ -116,6 +122,10 @@ export default function ProfilePage() {
       return () => clearTimeout(timer);
     }
   }, [user]);
+  
+  const handleUnlockReward = (cost: number) => {
+    updatePoints(-cost);
+  }
 
   if (isLoading || !user) {
     return (
@@ -204,7 +214,7 @@ export default function ProfilePage() {
             </h2>
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
               {rewards.map((reward) => (
-                <RewardCard key={reward.id} reward={reward} userPoints={user.points} />
+                <RewardCard key={reward.id} reward={reward} userPoints={user.points} onUnlock={handleUnlockReward} />
               ))}
             </div>
           </div>
