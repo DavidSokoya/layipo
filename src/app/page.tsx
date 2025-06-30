@@ -89,14 +89,14 @@ const SpotlightCard = ({ item }: { item: SpotlightItem }) => (
   </Link>
 );
 
-const OnNowCard = ({ event, now }: { event: Event & { startTime: Date, endTime: Date }; now: Date }) => {
+const OnNowCard = ({ event, now, remainingCount }: { event: Event & { startTime: Date, endTime: Date }; now: Date; remainingCount: number }) => {
   const totalDuration = event.endTime.getTime() - event.startTime.getTime();
   const elapsedTime = now.getTime() - event.startTime.getTime();
   const progress = Math.max(0, Math.min(100, (elapsedTime / totalDuration) * 100));
 
   return (
     <Card className="border-2 border-primary/50 shadow-lg mt-6">
-      <CardHeader className="p-4">
+      <CardHeader className="p-3">
         <div className="flex justify-between items-start">
             <div>
                  <Badge variant="secondary" className="bg-primary/10 text-primary font-semibold mb-2 flex items-center gap-1.5 w-fit">
@@ -110,14 +110,14 @@ const OnNowCard = ({ event, now }: { event: Event & { startTime: Date, endTime: 
             </Link>
         </div>
       </CardHeader>
-      <CardContent className="p-4 pt-0">
+      <CardContent className="p-3 pt-0">
         <div className="space-y-1 text-sm text-muted-foreground">
           <p className="flex items-center gap-2"><Clock className="w-4 h-4"/>{event.time}</p>
           <p className="flex items-center gap-2"><MapPin className="w-4 h-4"/>{event.location}</p>
         </div>
          <div className="mt-4 space-y-2">
             <Progress value={progress} />
-            <p className="text-xs text-muted-foreground text-right">{Math.round(100-progress)}% remaining</p>
+            <p className="text-xs text-muted-foreground text-right">{remainingCount} events remaining</p>
          </div>
       </CardContent>
     </Card>
@@ -195,7 +195,7 @@ export default function HomePage() {
     }
   }, [eventDays, getInitialDate, selectedDate]);
   
-  const { currentEvent, upcomingEvents, remainingEvents } = React.useMemo(() => {
+  const { currentEvent, upcomingEvents, remainingEvents, totalUpcomingCount } = React.useMemo(() => {
      const timeStringToDate = (timeStr: string, date: Date): Date => {
         const newDate = new Date(date);
         const [time, modifier] = timeStr.toLowerCase().split(' ');
@@ -225,7 +225,7 @@ export default function HomePage() {
     };
       
     const dayEvents = eventDays.find(([date]) => date === selectedDate)?.[1] || [];
-    if (!dayEvents.length) return { currentEvent: null, upcomingEvents: [], remainingEvents: [] };
+    if (!dayEvents.length) return { currentEvent: null, upcomingEvents: [], remainingEvents: [], totalUpcomingCount: 0 };
 
     const baseDate = parseDate(selectedDate);
     const now = (getInitialDate() === selectedDate) ? demoDate : new Date(baseDate.setHours(23, 59, 59, 999));
@@ -255,7 +255,8 @@ export default function HomePage() {
     return { 
       currentEvent: current, 
       upcomingEvents: nextThreeUpcoming,
-      remainingEvents: [...past, ...restOfTheDay].sort((a,b) => a.startTime.getTime() - b.startTime.getTime())
+      remainingEvents: [...past, ...restOfTheDay].sort((a,b) => a.startTime.getTime() - b.startTime.getTime()),
+      totalUpcomingCount: upcoming.length
     };
 
   }, [selectedDate, eventDays, demoDate, getInitialDate]);
@@ -385,14 +386,14 @@ export default function HomePage() {
                                 key={date}
                                 onClick={() => setSelectedDate(date)}
                                 className={cn(
-                                    "flex flex-col items-center justify-center h-auto w-16 rounded-lg p-2 ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 data-[state=active]:shadow-md hover:bg-accent/80",
+                                    "flex flex-col items-center justify-center h-auto w-14 rounded-lg p-1 ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 data-[state=active]:shadow-md hover:bg-accent/80",
                                     selectedDate === date
                                         ? "bg-primary text-primary-foreground"
                                         : "bg-card text-card-foreground border"
                                 )}
                             >
                                 <span className="text-xs font-semibold uppercase tracking-wider">{dayAbbr}</span>
-                                <span className="text-2xl font-bold mt-1">{dayNum}</span>
+                                <span className="text-xl font-bold mt-0.5">{dayNum}</span>
                             </button>
                         )
                     })}
@@ -400,7 +401,7 @@ export default function HomePage() {
                 <ScrollBar orientation="horizontal" className="mt-4" />
              </ScrollArea>
              
-             {currentEvent && <OnNowCard event={currentEvent} now={demoDate} />}
+             {currentEvent && <OnNowCard event={currentEvent} now={demoDate} remainingCount={totalUpcomingCount} />}
 
              {upcomingEvents.length > 0 && (
                 <div className="mt-6">
