@@ -236,7 +236,7 @@ export default function ContestantsPage() {
                            Mr &amp; Miss Collegiate 2025 Finalists
                         </h1>
                         <p className="mt-2 text-base text-muted-foreground max-w-3xl mx-auto">
-                            Your votes will decide who moves forward. Get ready to support your champions!
+                           Meet the brilliant leaders vying for the crown.
                         </p>
                     </header>
                     
