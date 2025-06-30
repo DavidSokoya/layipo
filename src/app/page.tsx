@@ -62,7 +62,7 @@ type SpotlightItem = {
 
 const SpotlightCard = ({ item }: { item: SpotlightItem }) => (
     <Link href={item.href} className="block group">
-        <Card className="relative w-full h-40 overflow-hidden transition-all duration-300 hover:shadow-xl">
+        <Card className="relative w-full h-32 overflow-hidden transition-all duration-300 hover:shadow-xl">
             <Image 
                 src={item.image}
                 alt={item.title}
@@ -249,7 +249,7 @@ export default function HomePage() {
                          <ScrollArea className="w-full whitespace-nowrap">
                             <div className="flex w-max space-x-4 px-4 sm:px-6 lg:px-8">
                                 {allSpotlightItems.map((item) => (
-                                     <div key={item.href} className="w-[250px] sm:w-[300px] overflow-hidden">
+                                     <div key={item.href} className="w-[200px] sm:w-[240px] overflow-hidden">
                                         <SpotlightCard item={item} />
                                     </div>
                                 ))}
