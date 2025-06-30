@@ -274,25 +274,25 @@ export default function HomePage() {
       {
         href: '/council',
         title: 'Meet The Council',
-        image: '/spotlight/council.jpg',
+        image: 'https://images.unsplash.com/photo-1573496384108-95568545949a?q=80&w=400&h=400&fit=crop',
         dataAiHint: 'group leadership',
       },
       {
         href: '/contestants',
         title: 'Mr & Miss Collegiate',
-        image: '/spotlight/pageant.jpg',
+        image: 'https://images.unsplash.com/photo-1573885532724-36c6a461b658?q=80&w=400&h=400&fit=crop',
         dataAiHint: 'pageant crown',
       },
        {
         href: '/outfits',
         title: 'Event Dress Codes',
-        image: '/outfits/local_fabric.jpg',
+        image: 'https://images.unsplash.com/photo-1620799140408-7c6072d1a80a?q=80&w=400&h=400&fit=crop',
         dataAiHint: 'traditional outfits',
       },
       {
         href: '/football',
         title: 'Football Showdown',
-        image: '/spotlight/football.jpg',
+        image: 'https://images.unsplash.com/photo-1612872087720-bb876e2e67d1?q=80&w=400&h=400&fit=crop',
         dataAiHint: 'football trophy',
       },
     ];
@@ -309,14 +309,14 @@ export default function HomePage() {
         href: '/trainings',
         title: 'Skill Development Trainings',
         date: 'Multiple Days',
-        image: '/spotlight/training.jpg',
+        image: 'https://images.unsplash.com/photo-1554224155-169544351727?q=80&w=400&h=400&fit=crop',
         dataAiHint: 'professional training',
       },
       {
         href: getEvent('s3')?.href || '/timetable#s3',
         title: getEvent('s3')?.title || 'Special Event',
         date: getEvent('s3')?.date || '',
-        image: '/spotlight/coffee_chat.jpg',
+        image: 'https://images.unsplash.com/photo-1559526324-c1f2754fa7da?q=80&w=400&h=400&fit=crop',
         dataAiHint: 'coffee chat meeting',
       },
       {

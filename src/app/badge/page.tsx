@@ -96,12 +96,11 @@ export default function BadgePage() {
             </CardContent>
             <CardFooter className="p-4 flex-col gap-2 bg-black/20 backdrop-blur-sm">
                 <div className="bg-white p-1 rounded-md">
-                    <Image 
+                    <img 
                         src={qrCodeUrl}
                         alt="Contact QR Code"
                         width={160}
                         height={160}
-                        unoptimized // Necessary for external image URLs that are not configured in next.config.js
                     />
                 </div>
                <p className="text-xs text-primary-foreground/70 flex items-center gap-1.5 mt-1">

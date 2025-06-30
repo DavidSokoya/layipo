@@ -21,60 +21,42 @@ type CouncilMember = {
 
 const councilMembers: CouncilMember[] = [
     { 
-        name: 'Adebayo Sunday', 
-        title: 'Collegiate Council Chairperson', 
-        org: 'JCIN LAUTECH', 
-        image: '/council/Adebayo_Sunday.jpg',
-        category: 'Executive Council',
-        role: 'Chairperson',
-        bio: 'Leading the 2025 Collegiate Council with the \'Ascend\' vision, Adebayo is dedicated to fostering growth, unity, and impactful projects across all JCI Nigeria collegiate chapters. His focus is on empowering the next generation of leaders.'
-    },
-    { 
-        name: 'Aisha Bello', 
-        title: 'General Secretary', 
-        org: 'JCIN TASUED', 
-        image: '/council/Aisha_Bello.jpg',
-        category: 'Executive Council',
-        role: 'Secretary',
-        bio: 'Aisha is the organizational backbone of the council. She manages all administrative tasks, ensures smooth communication, and maintains official records, facilitating efficient council operations.'
-    },
-    { 
         name: 'Amira Abdullahi', 
-        title: 'Executive Council', 
+        title: 'Executive Council Member', 
         org: 'JCIN Chapter', 
-        image: '/council/Amira_Abdullahi.jpg',
+        image: '/council/amira_abdullahi.png',
         category: 'Executive Council',
         role: 'Executive Council Member',
         bio: "A dedicated member of the 2025 Collegiate Council, committed to the 'Ascend' vision and empowering JCI members."
     },
     { 
         name: 'Promise Isaac O', 
-        title: 'Executive Council', 
+        title: 'Executive Council Member', 
         org: 'JCIN Chapter', 
-        image: '/council/Promise_Isaac_O.jpg',
+        image: '/council/promise_isaac_o.png',
         category: 'Executive Council',
         role: 'Executive Council Member',
         bio: "A dedicated member of the 2025 Collegiate Council, committed to the 'Ascend' vision and empowering JCI members."
     },
-    { name: 'Orimogunje Josephine', title: 'Director', org: 'JCIN Chapter', image: '/council/Orimogunje_Josephine.jpg', category: 'Directors', role: 'Director', bio: "A dedicated member of the 2025 Collegiate Council, committed to the 'Ascend' vision and empowering JCI members." },
-    { name: 'Chinarulumogu Eze', title: 'Director', org: 'JCIN Chapter', image: '/council/Chinarulumogu_Eze.jpg', category: 'Directors', role: 'Director', bio: "A dedicated member of the 2025 Collegiate Council, committed to the 'Ascend' vision and empowering JCI members." },
-    { name: 'Hamza Muhammed', title: 'Director', org: 'JCIN Chapter', image: '/council/Hamza_Muhammed.jpg', category: 'Directors', role: 'Director', bio: "A dedicated member of the 2025 Collegiate Council, committed to the 'Ascend' vision and empowering JCI members." },
-    { name: 'Kadril-Lawal Zainab', title: 'Director', org: 'JCIN Chapter', image: '/council/Kadril-Lawal_Zainab.jpg', category: 'Directors', role: 'Director', bio: "A dedicated member of the 2025 Collegiate Council, committed to the 'Ascend' vision and empowering JCI members." },
-    { name: 'Emmanuella Adaora', title: 'Director', org: 'JCIN Chapter', image: '/council/Emmanuella_Adaora.jpg', category: 'Directors', role: 'Director', bio: "A dedicated member of the 2025 Collegiate Council, committed to the 'Ascend' vision and empowering JCI members." },
-    { name: 'Obaloluwa Samuel', title: 'Director', org: 'JCIN Chapter', image: '/council/Obaloluwa_Samuel.jpg', category: 'Directors', role: 'Director', bio: "A dedicated member of the 2025 Collegiate Council, committed to the 'Ascend' vision and empowering JCI members." },
-    { name: 'Ojo Waheed', title: 'Director', org: 'JCIN Chapter', image: '/council/Ojo_Waheed.jpg', category: 'Directors', role: 'Director', bio: "A dedicated member of the 2025 Collegiate Council, committed to the 'Ascend' vision and empowering JCI members." },
-    { name: 'Yusuf Abdullah A.', title: 'Director', org: 'JCIN Chapter', image: '/council/Yusuf_Abdullah_A.jpg', category: 'Directors', role: 'Director', bio: "A dedicated member of the 2025 Collegiate Council, committed to the 'Ascend' vision and empowering JCI members." },
-    { name: 'Ileladewa Ademidun M', title: 'Director', org: 'JCIN Chapter', image: '/council/Ileladewa_Ademidun_M.jpg', category: 'Directors', role: 'Director', bio: "A dedicated member of the 2025 Collegiate Council, committed to the 'Ascend' vision and empowering JCI members." },
-    { name: 'Adekunle Daniel', title: 'Director', org: 'JCIN Chapter', image: '/council/Adekunle_Daniel.jpg', category: 'Directors', role: 'Director', bio: "A dedicated member of the 2025 Collegiate Council, committed to the 'Ascend' vision and empowering JCI members." },
-    { name: 'Abdulrahman Abdulraheem', title: 'Director', org: 'JCIN Chapter', image: '/council/Abdulrahman_Abdulraheem.jpg', category: 'Directors', role: 'Director', bio: "A dedicated member of the 2025 Collegiate Council, committed to the 'Ascend' vision and empowering JCI members." },
-    { name: 'Cajetan Iyenaobe', title: 'Director', org: 'JCIN Chapter', image: '/council/Cajetan_Iyenaobe.jpg', category: 'Directors', role: 'Director', bio: "A dedicated member of the 2025 Collegiate Council, committed to the 'Ascend' vision and empowering JCI members." },
-    { name: 'Raji Elizabeth Omayoza', title: 'Director', org: 'JCIN Chapter', image: '/council/Raji_Elizabeth_Omayoza.jpg', category: 'Directors', role: 'Director', bio: "A dedicated member of the 2025 Collegiate Council, committed to the 'Ascend' vision and empowering JCI members." },
-    { name: 'Hopeson Akamefula J.', title: 'Director', org: 'JCIN Chapter', image: '/council/Hopeson_Akamefula_J.jpg', category: 'Directors', role: 'Director', bio: "A dedicated member of the 2025 Collegiate Council, committed to the 'Ascend' vision and empowering JCI members." },
-    { name: 'Oluwafemi Olumuyiwa', title: 'Director', org: 'JCIN Chapter', image: '/council/Oluwafemi_Olumuyiwa.jpg', category: 'Directors', role: 'Director', bio: "A dedicated member of the 2025 Collegiate Council, committed to the 'Ascend' vision and empowering JCI members." },
-    { name: 'Akande Moses', title: 'Director', org: 'JCIN Chapter', image: '/council/Akande_Moses.jpg', category: 'Directors', role: 'Director', bio: "A dedicated member of the 2025 Collegiate Council, committed to the 'Ascend' vision and empowering JCI members." },
-    { name: 'Yakubu ToHBi', title: 'Director', org: 'JCIN Chapter', image: '/council/Yakubu_ToHBi.jpg', category: 'Directors', role: 'Director', bio: "A dedicated member of the 2025 Collegiate Council, committed to the 'Ascend' vision and empowering JCI members." },
-    { name: 'Falope Oluwafunke', title: 'Director', org: 'JCIN Chapter', image: '/council/Falope_Oluwafunke.jpg', category: 'Directors', role: 'Director', bio: "A dedicated member of the 2025 Collegiate Council, committed to the 'Ascend' vision and empowering JCI members." },
-    { name: 'Emmanuel Nelson', title: 'Director', org: 'JCIN Chapter', image: '/council/Emmanuel_Nelson.jpg', category: 'Directors', role: 'Director', bio: "A dedicated member of the 2025 Collegiate Council, committed to the 'Ascend' vision and empowering JCI members." },
+    { name: 'Orimogunje Josephine', title: 'Director', org: 'JCIN Chapter', image: '/council/orimogunje_josephine.png', category: 'Directors', role: 'Director', bio: "A dedicated member of the 2025 Collegiate Council, committed to the 'Ascend' vision and empowering JCI members." },
+    { name: 'Chinarulumogu Eze', title: 'Director', org: 'JCIN Chapter', image: '/council/chinarulumogu_eze.png', category: 'Directors', role: 'Director', bio: "A dedicated member of the 2025 Collegiate Council, committed to the 'Ascend' vision and empowering JCI members." },
+    { name: 'Hamza Muhammed', title: 'Director', org: 'JCIN Chapter', image: '/council/hamza_muhammed.png', category: 'Directors', role: 'Director', bio: "A dedicated member of the 2025 Collegiate Council, committed to the 'Ascend' vision and empowering JCI members." },
+    { name: 'Kadril-Lawal Zainab', title: 'Director', org: 'JCIN Chapter', image: '/council/kadril-lawal_zainab.png', category: 'Directors', role: 'Director', bio: "A dedicated member of the 2025 Collegiate Council, committed to the 'Ascend' vision and empowering JCI members." },
+    { name: 'Emmanuella Adaora', title: 'Director', org: 'JCIN Chapter', image: '/council/emmanuella_adaora.png', category: 'Directors', role: 'Director', bio: "A dedicated member of the 2025 Collegiate Council, committed to the 'Ascend' vision and empowering JCI members." },
+    { name: 'Obaloluwa Samuel', title: 'Director', org: 'JCIN Chapter', image: '/council/obaloluwa_samuel.png', category: 'Directors', role: 'Director', bio: "A dedicated member of the 2025 Collegiate Council, committed to the 'Ascend' vision and empowering JCI members." },
+    { name: 'Ojo Waheed', title: 'Director', org: 'JCIN Chapter', image: '/council/ojo_waheed.png', category: 'Directors', role: 'Director', bio: "A dedicated member of the 2025 Collegiate Council, committed to the 'Ascend' vision and empowering JCI members." },
+    { name: 'Yusuf Abdullah A.', title: 'Director', org: 'JCIN Chapter', image: '/council/yusuf_abdullah_a.png', category: 'Directors', role: 'Director', bio: "A dedicated member of the 2025 Collegiate Council, committed to the 'Ascend' vision and empowering JCI members." },
+    { name: 'Ileladewa Ademidun M', title: 'Director', org: 'JCIN Chapter', image: '/council/ileladewa_ademidun_m.png', category: 'Directors', role: 'Director', bio: "A dedicated member of the 2025 Collegiate Council, committed to the 'Ascend' vision and empowering JCI members." },
+    { name: 'Adekunle Daniel', title: 'Director', org: 'JCIN Chapter', image: '/council/adekunle_daniel.png', category: 'Directors', role: 'Director', bio: "A dedicated member of the 2025 Collegiate Council, committed to the 'Ascend' vision and empowering JCI members." },
+    { name: 'Abdulrahman Abdulraheem', title: 'Director', org: 'JCIN Chapter', image: '/council/abdulrahman_abdulraheem.png', category: 'Directors', role: 'Director', bio: "A dedicated member of the 2025 Collegiate Council, committed to the 'Ascend' vision and empowering JCI members." },
+    { name: 'Cajetan Iyenaobe', title: 'Director', org: 'JCIN Chapter', image: '/council/cajetan_iyenaobe.png', category: 'Directors', role: 'Director', bio: "A dedicated member of the 2025 Collegiate Council, committed to the 'Ascend' vision and empowering JCI members." },
+    { name: 'Raji Elizabeth Omayoza', title: 'Director', org: 'JCIN Chapter', image: '/council/raji_elizabeth_omayoza.png', category: 'Directors', role: 'Director', bio: "A dedicated member of the 2025 Collegiate Council, committed to the 'Ascend' vision and empowering JCI members." },
+    { name: 'Hopeson Akamefula J.', title: 'Director', org: 'JCIN Chapter', image: '/council/hopeson_akamefula_j.png', category: 'Directors', role: 'Director', bio: "A dedicated member of the 2025 Collegiate Council, committed to the 'Ascend' vision and empowering JCI members." },
+    { name: 'Oluwafemi Olumuyiwa', title: 'Director', org: 'JCIN Chapter', image: '/council/oluwafemi_olumuyiwa.png', category: 'Directors', role: 'Director', bio: "A dedicated member of the 2025 Collegiate Council, committed to the 'Ascend' vision and empowering JCI members." },
+    { name: 'Akande Moses', title: 'Director', org: 'JCIN Chapter', image: '/council/akande_moses.png', category: 'Directors', role: 'Director', bio: "A dedicated member of the 2025 Collegiate Council, committed to the 'Ascend' vision and empowering JCI members." },
+    { name: 'Yakubu ToHBi', title: 'Director', org: 'JCIN Chapter', image: '/council/yakubu_tohbi.png', category: 'Directors', role: 'Director', bio: "A dedicated member of the 2025 Collegiate Council, committed to the 'Ascend' vision and empowering JCI members." },
+    { name: 'Falope Oluwafunke', title: 'Director', org: 'JCIN Chapter', image: '/council/falope_oluwafunke.png', category: 'Directors', role: 'Director', bio: "A dedicated member of the 2025 Collegiate Council, committed to the 'Ascend' vision and empowering JCI members." },
+    { name: 'Emmanuel Nelson', title: 'Director', org: 'JCIN Chapter', image: '/council/emmanuel_nelson.png', category: 'Directors', role: 'Director', bio: "A dedicated member of the 2025 Collegiate Council, committed to the 'Ascend' vision and empowering JCI members." },
 ];
 
 function MemberProfileModal({ member, open, onOpenChange }: { member: CouncilMember | null, open: boolean, onOpenChange: (open: boolean) => void }) {
@@ -84,7 +66,7 @@ function MemberProfileModal({ member, open, onOpenChange }: { member: CouncilMem
         <Dialog open={open} onOpenChange={onOpenChange}>
             <DialogContent className="w-[90vw] max-w-sm p-0">
                 <div className="p-6 pt-10 text-center">
-                     <Avatar className="w-32 h-32 mx-auto mb-4 border-4 border-primary/20 rounded-md">
+                     <Avatar className="w-32 h-32 mx-auto mb-4 border-4 border-primary/20 rounded-full">
                         <AvatarImage src={member.image} alt={member.name} className="object-cover" />
                         <AvatarFallback>{member.name.charAt(0)}</AvatarFallback>
                     </Avatar>
@@ -153,7 +135,7 @@ export default function CouncilPage() {
                                                         className="text-center transition-all duration-300 hover:shadow-xl hover:scale-105 cursor-pointer h-full"
                                                     >
                                                         <CardContent className="p-4 flex flex-col items-center h-full">
-                                                            <Avatar className="w-16 h-16 sm:w-20 sm:h-20 mx-auto mb-3 border-2 border-primary/20 rounded-md">
+                                                            <Avatar className="w-16 h-16 sm:w-20 sm:h-20 mx-auto mb-3 border-2 border-primary/20 rounded-full">
                                                                 <AvatarImage src={member.image} alt={member.name} className="object-cover" />
                                                                 <AvatarFallback>{member.name.charAt(0)}</AvatarFallback>
                                                             </Avatar>
