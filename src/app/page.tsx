@@ -274,7 +274,7 @@ export default function HomePage() {
       {
         href: '/contestants',
         title: 'Mr & Miss Collegiate',
-        image: 'https://images.unsplash.com/photo-1515372039744-b8f02a3ae42c?q=80&w=400&h=400&fit=crop',
+        image: 'https://images.unsplash.com/photo-1583095948114-15f5329712a4?q=80&w=400&h=400&fit=crop',
         dataAiHint: 'fashion pageant',
       },
        {
