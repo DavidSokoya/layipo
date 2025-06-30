@@ -3,6 +3,7 @@ import './globals.css';
 import { Inter } from 'next/font/google';
 import { cn } from '@/lib/utils';
 import { ClientStateWrapper } from '@/components/client-state-wrapper';
+import { UserProvider } from '@/hooks/use-user';
 
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
@@ -14,7 +15,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: '#4F46E5',
+  themeColor: '#008080',
 };
 
 export default function RootLayout({
@@ -25,7 +26,9 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={cn('font-body antialiased', inter.variable)}>
-        <ClientStateWrapper>{children}</ClientStateWrapper>
+        <UserProvider>
+          <ClientStateWrapper>{children}</ClientStateWrapper>
+        </UserProvider>
       </body>
     </html>
   );

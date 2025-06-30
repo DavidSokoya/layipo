@@ -9,7 +9,6 @@ import { Pwa } from '@/components/pwa';
 import { BottomNavigation } from '@/components/ui/bottom-navigation';
 import { Logo } from './ui/logo';
 import { AnimatePresence, motion } from 'framer-motion';
-import { cn } from '@/lib/utils';
 
 const creed = [
   "we believe That faith in God gives meaning and purpose to human life.",
@@ -69,31 +68,23 @@ export function ClientStateWrapper({ children }: { children: React.ReactNode }) 
   const pathname = usePathname();
 
   React.useEffect(() => {
-    // Don't run this logic while the user state is loading.
     if (isLoading) {
       return;
     }
 
-    // If a user exists and they are on the welcome page, they should be
-    // redirected to the main app.
     if (user && pathname === '/welcome') {
       router.replace('/');
     }
 
-    // If no user exists and they are not on the welcome page,
-    // they should be redirected to the welcome page to create a profile.
     if (!user && pathname !== '/welcome') {
       router.replace('/welcome');
     }
   }, [user, isLoading, pathname, router]);
 
-  // While checking for the user, show a loader.
   if (isLoading) {
     return <FullPageLoader />;
   }
 
-  // If there's no user and we are not on the welcome page yet,
-  // the redirect is in flight. Show a loader to prevent flicker.
   if (!user && pathname !== '/welcome') {
     return <FullPageLoader />;
   }

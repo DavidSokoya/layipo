@@ -6,6 +6,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import { Camera, Upload } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
@@ -49,6 +50,7 @@ const formSchema = z.object({
 export default function WelcomePage() {
   const { user, saveUser, updateUser } = useUser();
   const { toast } = useToast();
+  const router = useRouter();
 
   const [imageSrc, setImageSrc] = React.useState<string | null>(null);
   const [showCamera, setShowCamera] = React.useState(false);
@@ -163,9 +165,11 @@ export default function WelcomePage() {
       if (isEditing) {
         updateUser(profileData);
         toast({ title: 'Profile Updated!', description: 'Your changes have been saved.' });
+        router.push('/profile');
       } else {
         saveUser(profileData);
         toast({ title: 'Badge Created!', description: 'Welcome to JCI GO!' });
+        router.push('/');
       }
     } catch(error) {
         toast({
