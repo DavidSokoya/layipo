@@ -274,19 +274,25 @@ export default function HomePage() {
       {
         href: '/council',
         title: 'Meet The Council',
-        image: 'https://placehold.co/400x400.png',
+        image: '/spotlight/council.jpg',
         dataAiHint: 'group leadership',
       },
       {
         href: '/contestants',
         title: 'Mr & Miss Collegiate',
-        image: 'https://placehold.co/400x400.png',
+        image: '/spotlight/pageant.jpg',
         dataAiHint: 'pageant crown',
+      },
+       {
+        href: '/outfits',
+        title: 'Event Dress Codes',
+        image: '/outfits/local_fabric.jpg',
+        dataAiHint: 'traditional outfits',
       },
       {
         href: '/football',
         title: 'Football Showdown',
-        image: 'https://placehold.co/400x400.png',
+        image: '/spotlight/football.jpg',
         dataAiHint: 'football trophy',
       },
     ];
@@ -303,14 +309,14 @@ export default function HomePage() {
         href: '/trainings',
         title: 'Skill Development Trainings',
         date: 'Multiple Days',
-        image: 'https://placehold.co/400x400.png',
+        image: '/spotlight/training.jpg',
         dataAiHint: 'professional training',
       },
       {
         href: getEvent('s3')?.href || '/timetable#s3',
         title: getEvent('s3')?.title || 'Special Event',
         date: getEvent('s3')?.date || '',
-        image: 'https://placehold.co/400x400.png',
+        image: '/spotlight/coffee_chat.jpg',
         dataAiHint: 'coffee chat meeting',
       },
       {

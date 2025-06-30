@@ -11,6 +11,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { motion, AnimatePresence } from 'framer-motion';
+import Image from 'next/image';
 
 type Contestant = {
     name: string;
@@ -25,7 +26,7 @@ const femaleFinalists: Contestant[] = [
     {
         name: "Awofodu Maryam O",
         school: "JCIN Lautech",
-        image: "https://i.pravatar.cc/150?u=AwofoduMaryamO",
+        image: "/contestants/Awofodu_Maryam_O.jpg",
         bio: "An advocate for youth empowerment and sustainable development, Maryam is passionate about creating positive change in her community.",
         contestantNumber: 1,
         gender: 'female',
@@ -33,7 +34,7 @@ const femaleFinalists: Contestant[] = [
     {
         name: "Adewale Precious Queen",
         school: "JCIN Funaab",
-        image: "https://i.pravatar.cc/150?u=AdewalePreciousQueen",
+        image: "/contestants/Adewale_Precious_Queen.jpg",
         bio: "A future leader dedicated to championing educational reforms and creating opportunities for underprivileged students.",
         contestantNumber: 2,
         gender: 'female',
@@ -41,7 +42,7 @@ const femaleFinalists: Contestant[] = [
     {
         name: "Chineye Emeka",
         school: "JCIN ABU",
-        image: "https://i.pravatar.cc/150?u=ChineyeEmeka",
+        image: "/contestants/Chineye_Emeka.jpg",
         bio: "A visionary leader with a focus on entrepreneurship, Chineye aims to inspire her peers to build innovative solutions for local challenges.",
         contestantNumber: 3,
         gender: 'female',
@@ -49,7 +50,7 @@ const femaleFinalists: Contestant[] = [
     {
         name: "Praise APO",
         school: "JCIN UNIBEN",
-        image: "https://i.pravatar.cc/150?u=PraiseAPO",
+        image: "/contestants/Praise_APO.jpg",
         bio: "A natural-born leader and advocate for mental health awareness. Praise aims to use the platform to destigmatize mental health conversations and promote wellness initiatives across campuses.",
         contestantNumber: 4,
         gender: 'female',
@@ -57,7 +58,7 @@ const femaleFinalists: Contestant[] = [
     {
         name: "Faiza Sulaiman",
         school: "JCIN BUK",
-        image: "https://i.pravatar.cc/150?u=FaizaSulaiman",
+        image: "/contestants/Faiza_Sulaiman.jpg",
         bio: "Passionate about environmental sustainability, Faiza is working on projects that promote green energy and conservation.",
         contestantNumber: 5,
         gender: 'female',
@@ -68,7 +69,7 @@ const maleFinalists: Contestant[] = [
     {
         name: "Abdulmuiz Adeagbo A.",
         school: "JCIN Lautech",
-        image: "https://i.pravatar.cc/150?u=AbdulmuizAdeagbo",
+        image: "/contestants/Abdulmuiz_Adeagbo_A.jpg",
         bio: "A tech enthusiast and innovator, Abdulmuiz is developing solutions to bridge the digital divide and empower his community with tech skills.",
         contestantNumber: 6,
         gender: 'male',
@@ -76,7 +77,7 @@ const maleFinalists: Contestant[] = [
     {
         name: "Inioluwa John Tinuola",
         school: "JCIN Funaab",
-        image: "https://i.pravatar.cc/150?u=InioluwaJohnTinuola",
+        image: "/contestants/Inioluwa_John_Tinuola.jpg",
         bio: "Dedicated to improving public health, Inioluwa is involved in community health campaigns and dreams of a more accessible healthcare system.",
         contestantNumber: 7,
         gender: 'male',
@@ -84,7 +85,7 @@ const maleFinalists: Contestant[] = [
      {
         name: "Innocent Monday",
         school: "JCIN ABU",
-        image: "https://i.pravatar.cc/150?u=InnocentMonday",
+        image: "/contestants/Innocent_Monday.jpg",
         bio: "An artist and social activist, Innocent uses his creativity to highlight social issues and inspire a new generation of change-makers.",
         contestantNumber: 8,
         gender: 'male',
@@ -92,7 +93,7 @@ const maleFinalists: Contestant[] = [
     {
         name: "Musa A. Ramalan",
         school: "JCIN NSUK",
-        image: "https://i.pravatar.cc/150?u=MusaARamalan",
+        image: "/contestants/Musa_A_Ramalan.jpg",
         bio: "A champion for social justice, Musa is committed to advocating for the rights of marginalized communities and fostering inclusive growth.",
         contestantNumber: 9,
         gender: 'male',
@@ -100,7 +101,7 @@ const maleFinalists: Contestant[] = [
     {
         name: "Yusuf Abdullahi",
         school: "JCIN BUK",
-        image: "https://i.pravatar.cc/150?u=YusufAbdullahi",
+        image: "/contestants/Yusuf_Abdullahi.jpg",
         bio: "An aspiring economist, Yusuf is passionate about financial literacy and creating sustainable economic opportunities for young people.",
         contestantNumber: 10,
         gender: 'male',
@@ -108,8 +109,8 @@ const maleFinalists: Contestant[] = [
 ]
 
 const judges = [
-    { name: 'Miss Ibadan 2024', title: 'Special Guest Judge', image: 'https://i.pravatar.cc/150?u=MissIbadan' },
-    { name: '2025 JCI Nigeria Director', title: 'Growth and Development', image: 'https://i.pravatar.cc/150?u=JCIDirector' }
+    { name: 'Miss Ibadan 2024', title: 'Special Guest Judge', image: '/contestants/Miss_Ibadan_2024.jpg' },
+    { name: '2025 JCI Nigeria Director', title: 'Growth and Development', image: '/contestants/JCIN_Director.jpg' }
 ]
 
 const CountdownTimer = ({ targetDate }: { targetDate: string }) => {
