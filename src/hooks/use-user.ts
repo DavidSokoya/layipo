@@ -33,7 +33,11 @@ export function useUser() {
     }, []);
     
     const updateUser = useCallback((updatedData: Partial<UserProfile>) => {
-        if (!user) return null;
+        if (!user) {
+            const err = new Error("User not found for update");
+            console.error(err);
+            throw err;
+        }
         try {
             const newData = { ...user, ...updatedData };
             window.localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(newData));
@@ -41,7 +45,7 @@ export function useUser() {
             return newData;
         } catch (error) {
             console.error('Failed to update user data in localStorage', error);
-            return null;
+            throw error;
         }
     }, [user]);
 
@@ -56,6 +60,7 @@ export function useUser() {
             setUser(newUser);
         } catch (error) {
             console.error('Failed to save user data to localStorage', error);
+            throw error;
         }
     }, []);
     
