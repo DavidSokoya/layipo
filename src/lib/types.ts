@@ -1,3 +1,4 @@
+
 'use server';
 
 export type EventCategory = 
@@ -7,11 +8,6 @@ export type EventCategory =
   | 'Networking & Socials' 
   | 'Meetings & Assemblies';
 
-export type DressCode = {
-  title: string;
-  details: string[];
-};
-
 export type Event = {
   id: string;
   date: string;
@@ -20,7 +16,7 @@ export type Event = {
   location: string;
   role: string;
   description: string;
-  dressCode: DressCode;
+  dressCode: string;
   image?: string;
   dataAiHint?: string;
   href?: string;

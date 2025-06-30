@@ -1,3 +1,4 @@
+
 'use client';
 
 import * as React from 'react';
@@ -160,7 +161,7 @@ export function EventCard({ event, layout = 'horizontal' }: EventCardProps) {
               </div>
               <div className="flex items-center text-sm text-muted-foreground">
                 <Shirt className="w-4 h-4 mr-2" />
-                <span>{event.dressCode.title}</span>
+                <span>{event.dressCode}</span>
               </div>
               <div className="flex items-start text-sm text-muted-foreground pt-2">
                   <Info className="w-4 h-4 mr-2 mt-1 shrink-0" />
