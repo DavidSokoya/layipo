@@ -5,7 +5,6 @@ import { ScanLine, CalendarDays, MapPin } from 'lucide-react';
 import { Logo } from "@/components/ui/logo";
 import { PageWrapper } from "@/components/page-wrapper";
 import { useUser } from "@/hooks/use-user";
-import Image from "next/image";
 import { Skeleton } from "@/components/ui/skeleton";
 
 function BadgeLoader() {
@@ -58,7 +57,6 @@ export default function BadgePage() {
     name: user.name,
     localOrganisation: user.localOrganisation,
     whatsappNumber: user.whatsappNumber,
-    imageUrl: avatarUrl,
   };
   const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(JSON.stringify(profileData))}`;
 
