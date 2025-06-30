@@ -47,7 +47,7 @@ const formSchema = z.object({
 
 
 export default function WelcomePage() {
-  const { saveUser } = useUser();
+  const { user, saveUser, updateUser } = useUser();
   const { toast } = useToast();
 
   const [imageSrc, setImageSrc] = React.useState<string | null>(null);
@@ -55,6 +55,8 @@ export default function WelcomePage() {
   const [hasCameraPermission, setHasCameraPermission] = React.useState(false);
   const videoRef = React.useRef<HTMLVideoElement>(null);
   const canvasRef = React.useRef<HTMLCanvasElement>(null);
+  
+  const isEditing = !!user;
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -64,6 +66,19 @@ export default function WelcomePage() {
       whatsappNumber: '',
     },
   });
+
+  React.useEffect(() => {
+    if (user) {
+      form.reset({
+        name: user.name,
+        localOrganisation: user.localOrganisation,
+        whatsappNumber: user.whatsappNumber,
+      });
+      if (user.imageUrl) {
+        setImageSrc(user.imageUrl);
+      }
+    }
+  }, [user, form]);
 
   React.useEffect(() => {
     let stream: MediaStream | null = null;
@@ -125,7 +140,7 @@ export default function WelcomePage() {
     }
   };
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: z.infer<typeof formSchema>) {
     let phoneNumber = values.whatsappNumber.replace(/\s+/g, '').trim();
 
     if (phoneNumber.startsWith('0')) {
@@ -138,12 +153,27 @@ export default function WelcomePage() {
       phoneNumber = `+${phoneNumber}`;
     }
 
-    const userProfile = {
+    const profileData = {
       ...values,
       whatsappNumber: phoneNumber,
       imageUrl: imageSrc || undefined,
     };
-    saveUser(userProfile);
+    
+    try {
+      if (isEditing) {
+        updateUser(profileData);
+        toast({ title: 'Profile Updated!', description: 'Your changes have been saved.' });
+      } else {
+        saveUser(profileData);
+        toast({ title: 'Badge Created!', description: 'Welcome to JCI GO!' });
+      }
+    } catch(error) {
+        toast({
+            variant: 'destructive',
+            title: 'Something went wrong',
+            description: 'Could not save your profile. Please try again.',
+        });
+    }
   }
 
   return (
@@ -155,9 +185,11 @@ export default function WelcomePage() {
             <div className="mx-auto mb-4">
               <Logo />
             </div>
-            <CardTitle className="text-2xl">Welcome to JCI GO!</CardTitle>
+            <CardTitle className="text-2xl">
+                {isEditing ? 'Edit Your Profile' : 'Welcome to JCI GO!'}
+            </CardTitle>
             <CardDescription>
-              Let&apos;s set up your digital badge for the event.
+              {isEditing ? "Keep your digital badge up to date." : "Let's set up your digital badge for the event."}
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -254,14 +286,20 @@ export default function WelcomePage() {
                  </div>
                 
                 <Button type="submit" className="w-full" disabled={form.formState.isSubmitting}>
-                  {form.formState.isSubmitting ? 'Saving...' : 'Create My Badge'}
+                  {form.formState.isSubmitting 
+                    ? 'Saving...' 
+                    : isEditing ? 'Save Changes' : 'Create My Badge'
+                   }
                 </Button>
               </form>
             </Form>
           </CardContent>
           <CardFooter>
             <p className="text-xs text-muted-foreground text-center w-full">
-              You can update this information later on your profile page.
+                {isEditing 
+                ? 'Your profile information is saved locally on this device.'
+                : 'You can update this information later on your profile page.'
+                }
             </p>
           </CardFooter>
         </Card>
