@@ -215,6 +215,7 @@ function ContestantProfileModal({ contestant, open, onOpenChange }: { contestant
 
 export default function ContestantsPage() {
     const [selectedContestant, setSelectedContestant] = React.useState<Contestant | null>(null);
+    const [activeTab, setActiveTab] = React.useState('female');
     const coronationDate = "2025-07-04T21:00:00"; // Friday, 4th July 2025, 9:00 PM
 
     return (
@@ -241,39 +242,41 @@ export default function ContestantsPage() {
                     
                     <CountdownTimer targetDate={coronationDate} />
 
-                    <Tabs defaultValue="female" className="w-full">
+                    <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
                         <TabsList className="grid w-full grid-cols-2">
                             <TabsTrigger value="female">Female Finalists</TabsTrigger>
                             <TabsTrigger value="male">Male Finalists</TabsTrigger>
                         </TabsList>
-                        <AnimatePresence mode="wait">
-                            <TabsContent value="female" className="mt-6">
-                                <motion.div
-                                    key="female"
-                                    initial={{ opacity: 0 }}
-                                    animate={{ opacity: 1 }}
-                                    exit={{ opacity: 0 }}
-                                    className="grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6"
-                                >
-                                    {femaleFinalists.map((c) => (
-                                        <ContestantCard key={c.name} contestant={c} onSelect={() => setSelectedContestant(c)} />
-                                    ))}
-                                </motion.div>
-                            </TabsContent>
-                            <TabsContent value="male" className="mt-6">
-                               <motion.div
-                                    key="male"
-                                    initial={{ opacity: 0 }}
-                                    animate={{ opacity: 1 }}
-                                    exit={{ opacity: 0 }}
-                                    className="grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6"
-                                >
-                                    {maleFinalists.map((c) => (
-                                        <ContestantCard key={c.name} contestant={c} onSelect={() => setSelectedContestant(c)} />
-                                    ))}
-                                </motion.div>
-                            </TabsContent>
-                        </AnimatePresence>
+                        <div className='mt-6'>
+                            <AnimatePresence mode="wait">
+                                {activeTab === 'female' && (
+                                    <motion.div
+                                        key="female"
+                                        initial={{ opacity: 0 }}
+                                        animate={{ opacity: 1 }}
+                                        exit={{ opacity: 0 }}
+                                        className="grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6"
+                                    >
+                                        {femaleFinalists.map((c) => (
+                                            <ContestantCard key={c.name} contestant={c} onSelect={() => setSelectedContestant(c)} />
+                                        ))}
+                                    </motion.div>
+                                )}
+                                {activeTab === 'male' && (
+                                   <motion.div
+                                        key="male"
+                                        initial={{ opacity: 0 }}
+                                        animate={{ opacity: 1 }}
+                                        exit={{ opacity: 0 }}
+                                        className="grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6"
+                                    >
+                                        {maleFinalists.map((c) => (
+                                            <ContestantCard key={c.name} contestant={c} onSelect={() => setSelectedContestant(c)} />
+                                        ))}
+                                    </motion.div>
+                                )}
+                            </AnimatePresence>
+                        </div>
                     </Tabs>
 
                     <div className="text-center my-8">
