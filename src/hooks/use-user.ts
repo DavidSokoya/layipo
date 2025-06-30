@@ -1,6 +1,6 @@
 'use client';
 import { useState, useEffect, useCallback } from 'react';
-import type { UserProfile, PublicUserProfile } from '@/lib/data';
+import type { UserProfile, PublicUserProfile } from '@/lib/types';
 
 const USER_STORAGE_KEY = 'jci-go-user-profile';
 

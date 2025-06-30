@@ -1,144 +1,5 @@
-
-
-
-
-export type Event = {
-  id: string;
-  date: string;
-  time: string;
-  title: string;
-  location: string;
-  role: string;
-  description: string;
-  dressCode: {
-    title: string;
-    details: string[];
-  };
-  image?: string;
-  dataAiHint?: string;
-  href?: string;
-};
-
-export type Venue = {
-  name: string;
-  description: string;
-  image: string;
-  dataAiHint: string;
-};
-
-// Represents the public profile of a user, used for connections.
-export type PublicUserProfile = {
-  name: string;
-  localOrganisation: string;
-  whatsappNumber: string;
-  imageUrl?: string;
-};
-
-// Represents the full profile of the currently logged-in user.
-export type UserProfile = PublicUserProfile & {
-  bookmarkedEventIds: string[];
-  connections: PublicUserProfile[];
-};
-
-
-export type Training = {
-  id: string;
-  topic: string;
-  trainer: string;
-  trainerImage: string;
-  trainerProfile: string;
-  date: string;
-  time: string;
-  venue: string;
-  theme?: string;
-  special?: boolean;
-};
-
-
-export const venues: Venue[] = [
-  { name: 'Training Hall', description: 'Dedicated space for workshops and training sessions.', image: 'https://placehold.co/600x400.png', dataAiHint: 'training hall' },
-  { name: 'Main Hall', description: 'The primary hall for large gatherings and keynote presentations.', image: 'https://placehold.co/600x400.png', dataAiHint: 'conference hall' },
-  { name: 'Favour Hall', description: 'A secondary hall used for parallel sessions and smaller events.', image: 'https://placehold.co/600x400.png', dataAiHint: 'meeting room' },
-  { name: 'Marquee Hall', description: 'A large, elegant marquee for major ceremonies and banquets.', image: 'https://placehold.co/600x400.png', dataAiHint: 'event marquee' },
-  { name: 'Main Bowl', description: 'The main outdoor arena for sports and large-scale activities.', image: 'https://placehold.co/600x400.png', dataAiHint: 'sports arena' },
-  { name: 'Open Space', description: 'Designated outdoor areas for networking, lunch, and casual gatherings.', image: 'https://placehold.co/600x400.png', dataAiHint: 'park networking' },
-  { name: 'Registration Desk', description: 'The central point for all delegate registrations and documentation.', image: 'https://placehold.co/600x400.png', dataAiHint: 'registration desk' },
-  { name: 'LOC Room', description: 'The dedicated operations room for the Local Organizing Committee.', image: 'https://placehold.co/600x400.png', dataAiHint: 'operations room' },
-  { name: 'Hotel Restaurants', description: 'Various restaurants within the resort hotels serving meals.', image: 'https://placehold.co/600x400.png', dataAiHint: 'hotel restaurant' },
-  { name: 'Pool Side', description: 'The area around the swimming pool, used for informal meetings and relaxation.', image: 'https://placehold.co/600x400.png', dataAiHint: 'poolside lounge' },
-  { name: 'Car Parks', description: 'Designated parking areas for attendees\' vehicles.', image: 'https://placehold.co/600x400.png', dataAiHint: 'parking lot' },
-  { name: 'Ilaji Resort', description: 'The main resort complex hosting the convention.', image: 'https://placehold.co/600x400.png', dataAiHint: 'luxury resort' },
-];
-
-const dressCodeDetails = {
-  'Casual': {
-    title: 'Casual',
-    details: [
-      'Comfort is key. Feel free to wear jeans, t-shirts, and sneakers.',
-      'Relaxed and informal attire is appropriate.',
-      'Perfect for social gatherings and informal events.'
-    ]
-  },
-  'Formal': {
-    title: 'Formal',
-    details: [
-      'Also known as Business Formal.',
-      'A full matching business suit, including a jacket and dress pants or a dress skirt.',
-      'Pair with a button-down shirt, a blouse, or a shell.',
-      'Appropriate footwear includes classic heels, flats, or dress shoes.',
-      'Keep accessories professional and understated.'
-    ]
-  },
-  'Business': {
-    title: 'Business',
-    details: [
-       'A professional standard of dress.',
-       'For men: A suit or dress slacks with a blazer and tie.',
-       'For women: A suit, a dress with a jacket, or a skirt with a blouse.',
-       'Closed-toe shoes are recommended.'
-    ]
-  },
-  'Sports Wear': {
-    title: 'Sports Wear',
-    details: [
-      'Athletic attire suitable for physical activity.',
-      'Think tracksuits, shorts, t-shirts, and athletic shoes.',
-      'Comfort and freedom of movement are the priorities.'
-    ]
-  },
-  'Local Fabric': {
-    title: 'Local Fabric',
-    details: [
-      'Celebrate culture with traditional attire.',
-      'Wear garments made from local textiles and patterns.',
-      'A vibrant and festive dress code.'
-    ]
-  },
-  'Torch of Black (Formal)': {
-    title: 'Torch of Black (Formal)',
-    details: [
-      'A formal dress code with a specific theme.',
-      'Men should aim for a dark suit or tuxedo.',
-      'Women should wear an elegant evening gown or cocktail dress, preferably in black.',
-      'Think sophisticated and classic formalwear.'
-    ]
-  },
-  'JCI T-shirt/Sports Wear': {
-    title: 'JCI T-shirt/Sports Wear',
-    details: [
-      'Show your JCI pride while staying active.',
-      'Official JCI t-shirts paired with athletic shorts or pants.',
-      'Comfortable and suitable for sports or casual team activities.'
-    ]
-  },
-  'Not stated': {
-    title: 'Not Stated',
-    details: [
-      'There is no specific dress code for this event.',
-      'Please dress comfortably and appropriately for the occasion.'
-    ]
-  },
-};
+import type { Event } from '../types';
+import { dressCodeDetails } from './shared';
 
 export const events: Event[] = [
   // Wednesday
@@ -153,6 +14,7 @@ export const events: Event[] = [
     dressCode: dressCodeDetails['Casual'],
     image: 'https://placehold.co/400x400.png',
     dataAiHint: 'committee meeting',
+    category: 'Meetings & Assemblies',
   },
   {
     id: 'w2',
@@ -165,6 +27,7 @@ export const events: Event[] = [
     dressCode: dressCodeDetails['Formal'],
     image: 'https://placehold.co/400x400.png',
     dataAiHint: 'business workshop',
+    category: 'Skill Development',
   },
   {
     id: 'w3',
@@ -177,6 +40,7 @@ export const events: Event[] = [
     dressCode: dressCodeDetails['Casual'],
     image: 'https://placehold.co/400x400.png',
     dataAiHint: 'team meeting',
+    category: 'Meetings & Assemblies',
   },
   {
     id: 'w4',
@@ -189,6 +53,7 @@ export const events: Event[] = [
     dressCode: dressCodeDetails['Casual'],
     image: 'https://placehold.co/400x400.png',
     dataAiHint: 'event setup',
+    category: 'Meetings & Assemblies',
   },
   // Thursday
   {
@@ -202,6 +67,7 @@ export const events: Event[] = [
     dressCode: dressCodeDetails['Formal'],
     image: 'https://placehold.co/400x400.png',
     dataAiHint: 'business workshop',
+    category: 'Skill Development',
   },
   {
     id: 'th2',
@@ -214,6 +80,7 @@ export const events: Event[] = [
     dressCode: dressCodeDetails['Not stated'],
     image: 'https://placehold.co/400x400.png',
     dataAiHint: 'registration desk',
+    category: 'Main Events & Ceremonies',
   },
   {
     id: 'th3',
@@ -226,6 +93,7 @@ export const events: Event[] = [
     dressCode: dressCodeDetails['Business'],
     image: 'https://placehold.co/400x400.png',
     dataAiHint: 'media interview',
+    category: 'Meetings & Assemblies',
   },
   {
     id: 'th4',
@@ -238,6 +106,7 @@ export const events: Event[] = [
     dressCode: dressCodeDetails['Business'],
     image: 'https://placehold.co/400x400.png',
     dataAiHint: 'official visit',
+    category: 'Meetings & Assemblies',
   },
   {
     id: 'th5',
@@ -250,6 +119,7 @@ export const events: Event[] = [
     dressCode: dressCodeDetails['Casual'],
     image: 'https://placehold.co/400x400.png',
     dataAiHint: 'group lunch',
+    category: 'Networking & Socials',
   },
   {
     id: 'th6',
@@ -262,6 +132,7 @@ export const events: Event[] = [
     dressCode: dressCodeDetails['Formal'],
     image: 'https://placehold.co/400x400.png',
     dataAiHint: 'leadership seminar',
+    category: 'Skill Development',
   },
   {
     id: 'th7',
@@ -274,6 +145,7 @@ export const events: Event[] = [
     dressCode: dressCodeDetails['Sports Wear'],
     image: 'https://placehold.co/400x400.png',
     dataAiHint: 'football match',
+    category: 'Competitions & Pageants',
   },
   {
     id: 'th8',
@@ -286,6 +158,7 @@ export const events: Event[] = [
     dressCode: dressCodeDetails['Business'],
     image: 'https://placehold.co/400x400.png',
     dataAiHint: 'council meeting',
+    category: 'Meetings & Assemblies',
   },
   {
     id: 'th9',
@@ -298,6 +171,7 @@ export const events: Event[] = [
     dressCode: dressCodeDetails['Casual'],
     image: 'https://placehold.co/400x400.png',
     dataAiHint: 'campfire stories',
+    category: 'Networking & Socials',
   },
   // Friday
   {
@@ -311,6 +185,7 @@ export const events: Event[] = [
     dressCode: dressCodeDetails['Casual'],
     image: 'https://placehold.co/400x400.png',
     dataAiHint: 'hotel breakfast',
+    category: 'Networking & Socials',
   },
   {
     id: 'f2',
@@ -323,6 +198,7 @@ export const events: Event[] = [
     dressCode: dressCodeDetails['Business'],
     image: 'https://placehold.co/400x400.png',
     dataAiHint: 'morning show',
+    category: 'Main Events & Ceremonies',
   },
   {
     id: 'f3',
@@ -335,6 +211,7 @@ export const events: Event[] = [
     dressCode: dressCodeDetails['Business'],
     image: 'https://placehold.co/400x400.png',
     dataAiHint: 'tech workshop',
+    category: 'Skill Development',
   },
    {
     id: 'f3b',
@@ -347,6 +224,7 @@ export const events: Event[] = [
     dressCode: dressCodeDetails['Business'],
     image: 'https://placehold.co/400x400.png',
     dataAiHint: 'design thinking',
+    category: 'Skill Development',
   },
   {
     id: 'f4',
@@ -359,6 +237,7 @@ export const events: Event[] = [
     dressCode: dressCodeDetails['Business'],
     image: 'https://placehold.co/400x400.png',
     dataAiHint: 'public speaking',
+    category: 'Competitions & Pageants',
   },
   {
     id: 'f5',
@@ -371,6 +250,7 @@ export const events: Event[] = [
     dressCode: dressCodeDetails['Business'],
     image: 'https://placehold.co/400x400.png',
     dataAiHint: 'general assembly',
+    category: 'Meetings & Assemblies',
   },
   {
     id: 'f6',
@@ -383,6 +263,7 @@ export const events: Event[] = [
     dressCode: dressCodeDetails['Business'],
     image: 'https://placehold.co/400x400.png',
     dataAiHint: 'group lunch',
+    category: 'Networking & Socials',
   },
   {
     id: 'f7',
@@ -395,6 +276,7 @@ export const events: Event[] = [
     dressCode: dressCodeDetails['Business'],
     image: 'https://placehold.co/400x400.png',
     dataAiHint: 'leadership workshop',
+    category: 'Skill Development',
   },
    {
     id: 'f8',
@@ -407,6 +289,7 @@ export const events: Event[] = [
     dressCode: dressCodeDetails['Business'],
     image: 'https://placehold.co/400x400.png',
     dataAiHint: 'career seminar',
+    category: 'Skill Development',
   },
   {
     id: 'f9',
@@ -419,6 +302,7 @@ export const events: Event[] = [
     dressCode: dressCodeDetails['Local Fabric'],
     image: 'https://placehold.co/400x400.png',
     dataAiHint: 'red carpet',
+    category: 'Main Events & Ceremonies',
   },
   {
     id: 'f10',
@@ -431,6 +315,7 @@ export const events: Event[] = [
     dressCode: dressCodeDetails['Local Fabric'],
     image: 'https://placehold.co/400x400.png',
     dataAiHint: 'opening ceremony',
+    category: 'Main Events & Ceremonies',
   },
   {
     id: 'f11',
@@ -443,6 +328,7 @@ export const events: Event[] = [
     dressCode: dressCodeDetails['Casual'],
     image: 'https://placehold.co/400x400.png',
     dataAiHint: 'beauty pageant',
+    category: 'Competitions & Pageants',
   },
   // Saturday
   {
@@ -456,6 +342,7 @@ export const events: Event[] = [
     dressCode: dressCodeDetails['JCI T-shirt/Sports Wear'],
     image: 'https://placehold.co/400x400.png',
     dataAiHint: 'group aerobics',
+    category: 'Networking & Socials',
   },
   {
     id: 's2',
@@ -468,6 +355,7 @@ export const events: Event[] = [
     dressCode: dressCodeDetails['Business'],
     image: 'https://placehold.co/400x400.png',
     dataAiHint: 'breakfast meeting',
+    category: 'Meetings & Assemblies',
   },
   {
     id: 's3',
@@ -480,7 +368,8 @@ export const events: Event[] = [
     dressCode: dressCodeDetails['Business'],
     image: 'https://placehold.co/400x400.png',
     dataAiHint: 'coffee chat meeting',
-    href: '/coffee-chat'
+    href: '/coffee-chat',
+    category: 'Networking & Socials',
   },
   {
     id: 's4',
@@ -493,6 +382,7 @@ export const events: Event[] = [
     dressCode: dressCodeDetails['Business'],
     image: 'https://placehold.co/400x400.png',
     dataAiHint: 'q a session',
+    category: 'Meetings & Assemblies',
   },
   {
     id: 's5',
@@ -505,6 +395,7 @@ export const events: Event[] = [
     dressCode: dressCodeDetails['Business'],
     image: 'https://placehold.co/400x400.png',
     dataAiHint: 'strategy meeting',
+    category: 'Meetings & Assemblies',
   },
   {
     id: 's6',
@@ -517,6 +408,7 @@ export const events: Event[] = [
     dressCode: dressCodeDetails['Business'],
     image: 'https://placehold.co/400x400.png',
     dataAiHint: 'panel discussion',
+    category: 'Main Events & Ceremonies',
   },
   {
     id: 's7',
@@ -529,6 +421,7 @@ export const events: Event[] = [
     dressCode: dressCodeDetails['Casual'],
     image: 'https://placehold.co/400x400.png',
     dataAiHint: 'football final',
+    category: 'Competitions & Pageants',
   },
   {
     id: 's8',
@@ -541,6 +434,7 @@ export const events: Event[] = [
     dressCode: dressCodeDetails['Torch of Black (Formal)'],
     image: 'https://placehold.co/400x400.png',
     dataAiHint: 'red carpet',
+    category: 'Main Events & Ceremonies',
   },
   {
     id: 's9',
@@ -553,6 +447,7 @@ export const events: Event[] = [
     dressCode: dressCodeDetails['Torch of Black (Formal)'],
     image: 'https://placehold.co/400x400.png',
     dataAiHint: 'awards banquet',
+    category: 'Main Events & Ceremonies',
   },
   {
     id: 's10',
@@ -565,6 +460,7 @@ export const events: Event[] = [
     dressCode: dressCodeDetails['Casual'],
     image: 'https://placehold.co/400x400.png',
     dataAiHint: 'party night',
+    category: 'Networking & Socials',
   },
   // Sunday
   {
@@ -578,6 +474,7 @@ export const events: Event[] = [
     dressCode: dressCodeDetails['Not stated'],
     image: 'https://placehold.co/400x400.png',
     dataAiHint: 'people leaving',
+    category: 'Main Events & Ceremonies',
   },
   {
     id: 'su2',
@@ -590,61 +487,6 @@ export const events: Event[] = [
     dressCode: dressCodeDetails['Not stated'],
     image: 'https://placehold.co/400x400.png',
     dataAiHint: 'evaluation meeting',
-  },
-];
-
-export const trainings: Training[] = [
-  {
-    id: 't1',
-    date: 'Thursday, 3rd July 2025',
-    time: '2:15 PM - 3:45 PM',
-    topic: 'Personal Branding & Advocacy for Sustainable Leadership',
-    trainer: 'JCIN AMb. Adepoju Joel',
-    trainerImage: 'https://i.pravatar.cc/150?u=AdepojuJoel',
-    trainerProfile: "When you talk about shaping minds and transforming lives, Joel doesn’t just teach it—he lives it. From leading massive youth trainings in Oyo State to speaking on global platforms, he’s been at the frontlines of building a generation of bold, capable, and impactful leaders. A powerful voice in leadership, learning, and soft skills, Joel Adepoju brings energy, clarity, and real stories that stick.",
-    venue: 'Favour Hall, Ilaji Resort',
-    theme: 'From vision to action: rising together for a sustainable tomorrow',
-  },
-  {
-    id: 't2',
-    date: 'Friday, 4th July 2025',
-    time: '10:00 AM - 11:45 AM',
-    topic: 'Digital Skills for the Future-Leveraging AI & Tech for Social Impact',
-    trainer: 'Taiwo Tayo Babalola',
-    trainerImage: 'https://i.pravatar.cc/150?u=TaiwoTayoBabalola',
-    trainerProfile: "When it comes to turning numbers into real-life impact, Taiwo Babalola knows the drill. With over ten years of experience in digital transformation and business intelligence, he’s helped big names like Sterling Bank and Airtel make smarter decisions and grow faster. This session isn’t just about skills, it’s about seeing the future and stepping into it with confidence.",
-    venue: 'Favour Hall, Ilaji Resort',
-  },
-  {
-    id: 't3',
-    date: 'Friday, 4th July 2025',
-    time: '10:00 AM - 11:45 AM',
-    topic: 'Design Thinking For Social Innovation',
-    trainer: 'Tomiwa Anjorin',
-    trainerImage: 'https://i.pravatar.cc/150?u=TomiwaAnjorin',
-    trainerProfile: "When big organizations need to rethink, reset, or rise, Tomiwa Anjorin is the man they call. With a solid track record of helping both government and private institutions build smart strategies and systems that actually work, Tomiwa brings the kind of experience that goes beyond theory. He doesn’t just talk innovation, he teaches how to design it for meaningful change.",
-    venue: 'Marquee Hall, Ilaji Resort',
-  },
-  {
-    id: 't4',
-    date: 'Friday, 4th July 2025',
-    time: '2:30 PM - 4:30 PM',
-    topic: 'Inclusive Leadership- Building Teams That Thrive',
-    trainer: 'Dr. Oyenike Adeleke',
-    trainerImage: 'https://i.pravatar.cc/150?u=DrOyenikeAdeleke',
-    trainerProfile: 'With a Ph.D. in Organizational Psychology, Dr. Oyenike Adeleke is a sought-after consultant on inclusive leadership. Her work focuses on building high-performance teams where diversity and collaboration thrive.',
-    venue: 'Favour Hall, Ilaji Resort',
-  },
-  {
-    id: 't5',
-    date: 'Friday, 4th July 2025',
-    time: '2:30 PM - 4:30 PM',
-    topic: 'Life After School',
-    trainer: 'JCI Eko',
-    trainerImage: 'https://placehold.co/150x150.png',
-    trainerProfile: 'JCI Eko is a premier local organization known for its impactful community projects and professional development programs. Their flagship "Life After School" initiative has guided thousands of graduates in their transition to the professional world.',
-    venue: 'Marquee Hall, Ilaji Resort',
-    theme: 'Post-grad Playbook: Mindset, moves, & mastery',
-    special: true,
+    category: 'Meetings & Assemblies',
   },
 ];

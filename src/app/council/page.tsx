@@ -3,15 +3,11 @@
 
 import * as React from 'react';
 import { PageWrapper } from '@/components/page-wrapper';
-import { Button } from '@/components/ui/button';
-import { Logo } from '@/components/ui/logo';
-import { ArrowLeft } from 'lucide-react';
-import Link from 'next/link';
+import { PageHeader } from '@/components/ui/page-header';
 import { Card, CardContent } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { motion, AnimatePresence } from 'framer-motion';
-import { cn } from '@/lib/utils';
 
 type CouncilMember = {
     name: string;
@@ -122,15 +118,7 @@ export default function CouncilPage() {
         <PageWrapper>
             <main className="flex-1 p-4 md:p-6 lg:p-8 mb-16">
                 <div className="max-w-4xl mx-auto">
-                    <div className="relative mb-6 flex items-center justify-center">
-                        <Button asChild variant="ghost" size="icon" className="absolute left-0">
-                            <Link href="/">
-                                <ArrowLeft className="h-5 w-5" />
-                                <span className="sr-only">Back to Home</span>
-                            </Link>
-                        </Button>
-                        <Logo />
-                    </div>
+                    <PageHeader className="mb-6"/>
                     <header className="text-center mb-4">
                         <h1 className="text-2xl font-bold font-headline tracking-tight text-foreground sm:text-3xl lg:text-4xl">
                            Meet the 2025 Collegiate Council

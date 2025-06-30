@@ -3,7 +3,9 @@
 import { BookMarked, Users, Calendar, Clock, MapPin, User, FileText, Bot } from 'lucide-react';
 import React from 'react';
 import { useUser } from '@/hooks/use-user';
-import { events, trainings, type Event, type Training, PublicUserProfile } from '@/lib/data';
+import { events } from '@/lib/data/events';
+import { trainings } from '@/lib/data/trainings';
+import type { Event, Training, PublicUserProfile } from '@/lib/types';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';

@@ -3,9 +3,8 @@
 
 import { PageWrapper } from '@/components/page-wrapper';
 import { Button } from '@/components/ui/button';
-import { Logo } from '@/components/ui/logo';
-import { ArrowLeft, Trophy } from 'lucide-react';
-import Link from 'next/link';
+import { PageHeader } from '@/components/ui/page-header';
+import { Trophy } from 'lucide-react';
 import Image from 'next/image';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { motion } from 'framer-motion';
@@ -37,15 +36,10 @@ export default function FootballPage() {
         <PageWrapper>
             <main className="flex-1 bg-gradient-to-b from-[#0a021d] via-[#0f043d] to-[#1d0a3d] text-white mb-16">
                 <div className="max-w-4xl mx-auto p-4 md:p-6 lg:p-8">
-                    <div className="relative mb-8 flex items-center justify-center text-white">
-                        <Button asChild variant="ghost" size="icon" className="absolute left-0 text-white hover:bg-white/10 hover:text-white">
-                            <Link href="/">
-                                <ArrowLeft className="h-5 w-5" />
-                                <span className="sr-only">Back to Home</span>
-                            </Link>
-                        </Button>
-                        <Logo />
-                    </div>
+                    <PageHeader 
+                        className="text-white"
+                        backButtonClassName="text-white hover:bg-white/10 hover:text-white"
+                    />
 
                     <header className="text-center my-12 space-y-4">
                         <motion.div

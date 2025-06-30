@@ -8,8 +8,8 @@ import { useUser } from '@/hooks/use-user';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import type { Event } from '@/lib/data';
-import { events } from '@/lib/data';
+import type { Event } from '@/lib/types';
+import { events } from '@/lib/data/events';
 import { TodayEventCard } from '@/components/today-event-card';
 import { cn } from '@/lib/utils';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
@@ -273,7 +273,7 @@ export default function HomePage() {
     const featureLinks: SpotlightItem[] = [
       {
         href: '/council',
-        title: 'The Council',
+        title: 'Meet The Council',
         image: 'https://placehold.co/400x400.png',
         dataAiHint: 'group leadership',
       },
@@ -298,13 +298,6 @@ export default function HomePage() {
         date: getEvent('f10')?.date || '',
         image: getEvent('f10')?.image || 'https://placehold.co/400x400.png',
         dataAiHint: getEvent('f10')?.dataAiHint,
-      },
-      {
-        href: '/timetable#f11',
-        title: 'Mr & Miss Collegiate',
-        date: getEvent('f11')?.date || '',
-        image: getEvent('f11')?.image || 'https://placehold.co/400x400.png',
-        dataAiHint: getEvent('f11')?.dataAiHint,
       },
       {
         href: '/trainings',

@@ -5,14 +5,12 @@ import * as React from 'react';
 import { PageWrapper } from '@/components/page-wrapper';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { Logo } from '@/components/ui/logo';
-import { ArrowLeft, Crown, Vote, User, Award } from 'lucide-react';
-import Link from 'next/link';
+import { PageHeader } from '@/components/ui/page-header';
+import { Crown, Vote, User, Award } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { motion, AnimatePresence } from 'framer-motion';
-import { cn } from '@/lib/utils';
 
 type Contestant = {
     name: string;
@@ -222,15 +220,7 @@ export default function ContestantsPage() {
         <PageWrapper>
             <main className="flex-1 p-4 md:p-6 lg:p-8 mb-16">
                 <div className="max-w-4xl mx-auto space-y-8">
-                    <div className="relative flex items-center justify-center">
-                        <Button asChild variant="ghost" size="icon" className="absolute left-0">
-                            <Link href="/">
-                                <ArrowLeft className="h-5 w-5" />
-                                <span className="sr-only">Back to Home</span>
-                            </Link>
-                        </Button>
-                        <Logo />
-                    </div>
+                    <PageHeader />
                     <header className="text-center">
                         <h1 className="text-2xl font-bold font-headline tracking-tight text-foreground sm:text-3xl">
                            Mr &amp; Miss Collegiate 2025 Finalists

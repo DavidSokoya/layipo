@@ -2,7 +2,7 @@
 'use client';
 import { Card } from "@/components/ui/card";
 import { Clock, MapPin, Award, BrainCircuit, Calendar, Coffee, Flame, Activity, Mic, Users, Star } from "lucide-react";
-import type { Event } from "@/lib/data";
+import type { Event } from "@/lib/types";
 import Link from "next/link";
 
 const getEventIcon = (title: string) => {

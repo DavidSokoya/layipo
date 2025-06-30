@@ -2,16 +2,15 @@
 'use client';
 
 import * as React from 'react';
-import type { Event, Training } from '@/lib/data';
-import { events, trainings } from '@/lib/data';
+import type { Event, Training } from '@/lib/types';
+import { events } from '@/lib/data/events';
+import { trainings } from '@/lib/data/trainings';
 import { PageWrapper } from '@/components/page-wrapper';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Button } from '@/components/ui/button';
-import Image from 'next/image';
 import {
-  ArrowLeft,
   Trophy,
   BrainCircuit,
   Users,
@@ -19,76 +18,20 @@ import {
   Award,
   Clock,
   MapPin,
-  Shirt,
-  Info,
   BookCopy,
   ChevronRight,
   X,
-  Star,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { Logo } from '@/components/ui/logo';
-import Link from 'next/link';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Badge } from '@/components/ui/badge';
 import { useUser } from '@/hooks/use-user';
-import { useToast } from '@/hooks/use-toast';
+import { PageHeader } from '@/components/ui/page-header';
+import { EventCard } from '@/components/event-card';
 
 function isTraining(event: Event | Training): event is Training {
   return 'trainer' in event;
-}
-
-const roleBadgeColors: Record<string, string> = {
-  'General Delegates': 'bg-status-amber text-amber-foreground',
-  'LOC/COC': 'bg-status-red text-red-foreground',
-  'Council Members': 'bg-status-blue text-blue-foreground',
-  'Registered Trainers': 'bg-status-green text-green-foreground',
-  'Noble House Members': 'bg-primary text-primary-foreground',
-  'All': 'bg-muted text-muted-foreground',
-};
-
-function EventDetailCard({ event }: { event: Event }) {
-    const { user, toggleBookmark } = useUser();
-    const isBookmarked = user?.bookmarkedEventIds.includes(event.id) || false;
-    const badgeColorClass = roleBadgeColors[event.role] || 'bg-muted text-muted-foreground';
-    const eventImage = event.image || 'https://placehold.co/600x400.png';
-
-    return (
-      <Card
-        id={event.id}
-        className='overflow-hidden transition-all duration-300 w-full flex flex-col group scroll-mt-24'
-      >
-        <div className="h-48 relative">
-            <Badge className={cn("absolute top-2 left-2 z-10", badgeColorClass)}>{event.role}</Badge>
-            <Button size="icon" variant={isBookmarked ? "default" : "secondary"} className="absolute top-2 right-2 z-10 h-8 w-8" onClick={() => toggleBookmark(event.id)}>
-                <Star className={cn("w-4 h-4", isBookmarked && "fill-current")} />
-            </Button>
-            <div className='overflow-hidden h-full'>
-                 <Image
-                    src={eventImage}
-                    alt={event.title}
-                    width={400}
-                    height={400}
-                    className="object-cover w-full h-full"
-                    data-ai-hint={event.dataAiHint}
-                    />
-            </div>
-        </div>
-        <div className="flex-1 flex flex-col p-4">
-            <CardHeader className="p-0 pb-3">
-              <CardTitle className="text-lg md:text-xl break-words">{event.title}</CardTitle>
-            </CardHeader>
-            <CardContent className="p-0 flex-grow space-y-2 pb-3">
-                <p className="flex items-center text-sm text-muted-foreground"><Clock className="w-4 h-4 mr-2" />{event.date}</p>
-                <p className="flex items-center text-sm text-muted-foreground"><Clock className="w-4 h-4 mr-2" />{event.time}</p>
-                <p className="flex items-center text-sm text-muted-foreground"><MapPin className="w-4 h-4 mr-2" />{event.location}</p>
-                <p className="flex items-center text-sm text-muted-foreground"><Shirt className="w-4 h-4 mr-2" />{event.dressCode.title}</p>
-                <p className="flex items-start text-sm text-muted-foreground pt-2"><Info className="w-4 h-4 mr-2 mt-1 shrink-0" />{event.description}</p>
-            </CardContent>
-        </div>
-      </Card>
-    )
 }
 
 function TrainingDetailCard({ training }: { training: Training }) {
@@ -153,7 +96,6 @@ function TrainingDetailCard({ training }: { training: Training }) {
 
 export default function EventsPage() {
     const [selectedCategory, setSelectedCategory] = React.useState<string | null>(null);
-    const { toast } = useToast();
 
     const categoryConfig = {
       'Main Events & Ceremonies': { icon: Award, description: 'Keynotes, ceremonies, and major conference milestones.' },
@@ -164,34 +106,21 @@ export default function EventsPage() {
     };
 
     const categorizedEvents = React.useMemo(() => {
-      const allItems: (Event | Training)[] = [...events, ...trainings.map(t => ({...t, id: t.id || t.topic}))];
-
-      const categories: Record<keyof typeof categoryConfig, (Event | Training)[]> = {
-        'Main Events & Ceremonies': [],
-        'Competitions & Pageants': [],
-        'Skill Development': [],
-        'Networking & Socials': [],
-        'Meetings & Assemblies': [],
-      };
-
-      allItems.forEach(item => {
-        const title = 'topic' in item ? item.topic.toLowerCase() : item.title.toLowerCase();
-        
-        if ('trainer' in item || title.includes('skill') || title.includes('academy')) {
-            categories['Skill Development'].push(item);
-        } else if (title.includes('ceremony') || title.includes('banquet') || title.includes('registration') || title.includes('morning show') || title.includes('departure') || title.includes('panel discussion')) {
-          categories['Main Events & Ceremonies'].push(item);
-        } else if (title.includes('football') || title.includes('pageant') || title.includes('contest') || title.includes('debate')) {
-          categories['Competitions & Pageants'].push(item);
-        } else if (title.includes('lunch') || title.includes('breakfast') || title.includes('campfire') || title.includes('aerobics') || title.includes('chat') || title.includes('tungba')) {
-          categories['Networking & Socials'].push(item);
-        } else if (title.includes('meeting') || title.includes('arrival') || title.includes('setup') || title.includes('media') || title.includes('visit') || title.includes('assembly') || title.includes('presidency') || title.includes('strategy')) {
-          categories['Meetings & Assemblies'].push(item);
-        } else {
-          categories['Main Events & Ceremonies'].push(item);
-        }
-      });
-      return categories;
+        const allItems: (Event | Training)[] = [...events, ...trainings];
+        const categories: Record<keyof typeof categoryConfig, (Event | Training)[]> = {
+            'Main Events & Ceremonies': [],
+            'Competitions & Pageants': [],
+            'Skill Development': [],
+            'Networking & Socials': [],
+            'Meetings & Assemblies': [],
+        };
+    
+        allItems.forEach(item => {
+            if (item.category && categories[item.category as keyof typeof categoryConfig]) {
+                categories[item.category as keyof typeof categoryConfig].push(item);
+            }
+        });
+        return categories;
     }, []);
 
     const currentEvents = selectedCategory ? categorizedEvents[selectedCategory as keyof typeof categoryConfig] : [];
@@ -200,15 +129,7 @@ export default function EventsPage() {
         <PageWrapper>
             <main className="flex-1 p-4 md:p-6 lg:p-8 mb-16">
                  <div className="max-w-4xl mx-auto">
-                    <div className="relative mb-8 flex items-center justify-center">
-                        <Button asChild variant="ghost" size="icon" className="absolute left-0">
-                            <Link href="/">
-                                <ArrowLeft className="h-5 w-5" />
-                                <span className="sr-only">Back to Home</span>
-                            </Link>
-                        </Button>
-                        <Logo />
-                    </div>
+                    <PageHeader />
                     <header className="text-center mb-12">
                         <h1 className="text-3xl font-bold font-headline tracking-tight text-foreground sm:text-4xl lg:text-5xl">
                            Event Hub
@@ -262,7 +183,7 @@ export default function EventsPage() {
                             {currentEvents.map((event) => (
                                 isTraining(event)
                                 ? <TrainingDetailCard key={event.id} training={event} />
-                                : <EventDetailCard key={event.id} event={event as Event} />
+                                : <EventCard key={event.id} event={event as Event} layout="vertical"/>
                             ))}
                         </div>
                     </ScrollArea>
