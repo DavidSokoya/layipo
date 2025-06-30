@@ -136,13 +136,7 @@ const UpNextCard = ({ event }: { event: Event }) => (
 
 export default function HomePage() {
   const { user } = useUser();
-  const [now, setNow] = React.useState(new Date());
-
-  // Effect to update the current time every minute
-  React.useEffect(() => {
-    const timer = setInterval(() => setNow(new Date()), 60000);
-    return () => clearInterval(timer);
-  }, []);
+  const [now, setNow] = React.useState(new Date('2025-07-04T18:30:00'));
 
   const parseDate = (dateStr: string): Date => {
     if (!dateStr) return new Date();
