@@ -398,7 +398,6 @@ export default function HomePage() {
                         )
                     })}
                 </div>
-                <ScrollBar orientation="horizontal" className="mt-4" />
              </ScrollArea>
              
              {currentEvent && <OnNowCard event={currentEvent} now={demoDate} remainingCount={totalUpcomingCount} />}
