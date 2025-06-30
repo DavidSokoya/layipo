@@ -168,8 +168,6 @@ export default function WelcomePage() {
         router.push('/profile');
       } else {
         saveUser(profileData);
-        toast({ title: 'Badge Created!', description: 'Welcome to JCI GO!' });
-        router.push('/');
       }
     } catch(error) {
         toast({
@@ -190,7 +188,7 @@ export default function WelcomePage() {
               <Logo />
             </div>
             <CardTitle className="text-2xl">
-                {isEditing ? 'Edit Your Profile' : 'Welcome to JCI GO!'}
+                {isEditing ? 'Edit Your Profile' : 'Welcome to LAYIPO 25!'}
             </CardTitle>
             <CardDescription>
               {isEditing ? "Keep your digital badge up to date." : "Let's set up your digital badge for the event."}

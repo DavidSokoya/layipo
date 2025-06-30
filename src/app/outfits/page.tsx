@@ -71,7 +71,7 @@ export default function OutfitsPage() {
               Event Dress Codes
             </h1>
             <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">
-              Your visual guide to looking the part for every occasion at LÁYÍPO ‘25.
+              Your visual guide to looking the part for every occasion at LAYIPO 25.
             </p>
           </header>
 

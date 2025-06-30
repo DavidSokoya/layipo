@@ -129,7 +129,7 @@ export default function CoffeeChatPage() {
           <Card>
             <CardHeader>
               <p className="text-lg text-foreground leading-relaxed">
-                Join the Collegiate Chairperson, JCIN Cllr. Adebayo Sunday, for a special Townhall Meeting at LÁYÍPO ‘25 — where voices will be heard, ideas will flow, and leadership will get personal.
+                Join the Collegiate Chairperson, JCIN Cllr. Adebayo Sunday, for a special Townhall Meeting at LAYIPO 25 — where voices will be heard, ideas will flow, and leadership will get personal.
               </p>
               <p className="text-lg text-foreground/80 leading-relaxed mt-4">
                 Let’s sip, share, and shape the future of JCI Nigeria Collegiate — together.

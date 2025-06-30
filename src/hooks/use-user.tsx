@@ -19,14 +19,6 @@ type UserContextType = {
 
 const UserContext = React.createContext<UserContextType | undefined>(undefined);
 
-export function useUser() {
-  const context = React.useContext(UserContext);
-  if (context === undefined) {
-    throw new Error('useUser must be used within a UserProvider');
-  }
-  return context;
-}
-
 export function UserProvider({ children }: { children: React.ReactNode }) {
     const [user, setUser] = React.useState<UserProfile | null>(null);
     const [isLoading, setIsLoading] = React.useState(true);
@@ -58,7 +50,7 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
             };
             window.localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(newUser));
             setUser(newUser);
-            toast({ title: 'Badge Created!', description: 'Welcome to JCI GO!' });
+            toast({ title: 'Badge Created!', description: 'Welcome to LAYIPO 25!' });
             router.push('/');
         } catch (error) {
             console.error('Failed to save user data to localStorage', error);
@@ -116,4 +108,12 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
     const value = { user, isLoading, saveUser, updateUser, toggleBookmark, addConnection };
 
     return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
+}
+
+export function useUser() {
+  const context = React.useContext(UserContext);
+  if (context === undefined) {
+    throw new Error('useUser must be used within a UserProvider');
+  }
+  return context;
 }

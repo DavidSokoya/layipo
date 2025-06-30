@@ -50,7 +50,7 @@ export default function FootballPage() {
                         >
                             <Trophy className="w-10 h-10 text-yellow-400 drop-shadow-[0_0_8px_theme(colors.yellow.400)]" />
                             <h1 className="text-3xl font-bold font-headline tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-white to-yellow-300 sm:text-4xl lg:text-5xl">
-                               LÁYÍPO ‘25 Football Showdown
+                               LAYIPO 25 Football Showdown
                             </h1>
                         </motion.div>
                         <motion.p

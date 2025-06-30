@@ -56,7 +56,7 @@ export default function TimetablePage() {
                         Event Timetable
                     </h1>
                     <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">
-                        Explore the full schedule for Layipo 2025. Here you can find all sessions, workshops, and activities.
+                        Explore the full schedule for LAYIPO 25. Here you can find all sessions, workshops, and activities.
                     </p>
                 </header>
 

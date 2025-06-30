@@ -9,7 +9,7 @@ import { UserProvider } from '@/hooks/use-user';
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
 
 export const metadata: Metadata = {
-  title: 'JCI GO',
+  title: 'LAYIPO 25',
   description: 'Your companion app for JCI events.',
   manifest: '/manifest.json',
 };
