@@ -1,3 +1,4 @@
+
 'use client';
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -53,12 +54,12 @@ export default function BadgePage() {
   }
   
   const avatarUrl = user.imageUrl || `https://i.pravatar.cc/150?u=${encodeURIComponent(user.name)}`;
-  const profileData = {
-    name: user.name,
-    localOrganisation: user.localOrganisation,
-    whatsappNumber: user.whatsappNumber,
-  };
-  const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(JSON.stringify(profileData))}`;
+  
+  const whatsappNumber = user.whatsappNumber.replace(/\+/g, ''); // Remove '+' for the wa.me link
+  const prefilledMessage = `Hi ${user.name}! We met at the JCI National Convention. Great connecting with you.`;
+  const whatsappLink = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(prefilledMessage)}`;
+  const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(whatsappLink)}`;
+
 
   return (
     <PageWrapper>
@@ -103,7 +104,7 @@ export default function BadgePage() {
                 </div>
                <p className="text-xs text-primary-foreground/70 flex items-center gap-1.5 mt-1">
                   <ScanLine className="w-3 h-3"/>
-                  <span>Scan to connect and share details</span>
+                  <span>Scan to start a WhatsApp chat</span>
               </p>
             </CardFooter>
           </Card>
