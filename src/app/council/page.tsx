@@ -60,42 +60,6 @@ const councilMembers: CouncilMember[] = [
         role: 'Executive Council Member',
         bio: "A dedicated member of the 2025 Collegiate Council, committed to the 'Ascend' vision and empowering JCI members."
     },
-    { 
-        name: 'Fatima Aliyu', 
-        title: 'Director of Growth & Development', 
-        org: 'JCIN UNILAG', 
-        image: 'https://i.pravatar.cc/150?u=FatimaAliyu',
-        category: 'Directors',
-        role: 'Director',
-        bio: 'Fatima spearheads initiatives for chapter growth and member development. She is responsible for creating strategies that enhance recruitment, retention, and the overall value of JCI membership for students.'
-    },
-    { 
-        name: 'Chinedu Okoro', 
-        title: 'Director of Media & Publicity', 
-        org: 'JCIN UI', 
-        image: 'https://i.pravatar.cc/150?u=ChineduOkoro',
-        category: 'Directors',
-        role: 'Director',
-        bio: 'Chinedu manages the council\'s brand and communication. He ensures that the stories of JCI\'s impact are told effectively across all media platforms, amplifying the voice of collegiate members.'
-    },
-    { 
-        name: 'Bolanle Adeyemi', 
-        title: 'Director of Finance', 
-        org: 'JCIN OAU', 
-        image: 'https://i.pravatar.cc/150?u=BolanleAdeyemi',
-        category: 'Directors',
-        role: 'Director',
-        bio: 'Bolanle oversees the financial health and strategy of the Collegiate Council. She is committed to transparency and sustainable financial management to support the council\'s ambitious programs.'
-    },
-    { 
-        name: 'Emeka Nwosu', 
-        title: 'Director of Community Projects', 
-        org: 'JCIN FUNAAB', 
-        image: 'https://i.pravatar.cc/150?u=EmekaNwosu',
-        category: 'Directors',
-        role: 'Director',
-        bio: 'Emeka champions JCI\'s commitment to community service. He leads the planning and execution of impactful projects that address local needs and create positive, sustainable change.'
-    },
     { name: 'Orimogunje Josephine', title: 'Director', org: 'JCIN Chapter', image: 'https://i.pravatar.cc/150?u=OrimogunjeJosephine', category: 'Directors', role: 'Director', bio: "A dedicated member of the 2025 Collegiate Council, committed to the 'Ascend' vision and empowering JCI members." },
     { name: 'Chinarulumogu Eze', title: 'Director', org: 'JCIN Chapter', image: 'https://i.pravatar.cc/150?u=ChinarulumoguEze', category: 'Directors', role: 'Director', bio: "A dedicated member of the 2025 Collegiate Council, committed to the 'Ascend' vision and empowering JCI members." },
     { name: 'Hamza Muhammed', title: 'Director', org: 'JCIN Chapter', image: 'https://i.pravatar.cc/150?u=HamzaMuhammed', category: 'Directors', role: 'Director', bio: "A dedicated member of the 2025 Collegiate Council, committed to the 'Ascend' vision and empowering JCI members." },
@@ -125,7 +89,7 @@ function MemberProfileModal({ member, open, onOpenChange }: { member: CouncilMem
             <DialogContent className="w-[90vw] max-w-sm p-0">
                 <div className="p-6 pt-10 text-center">
                      <Avatar className="w-32 h-32 mx-auto mb-4 border-4 border-primary/20 rounded-md">
-                        <AvatarImage src={member.image} alt={member.name} />
+                        <AvatarImage src={member.image} alt={member.name} className="object-cover" />
                         <AvatarFallback>{member.name.charAt(0)}</AvatarFallback>
                     </Avatar>
                     <DialogHeader className="p-0 text-center items-center">
@@ -202,7 +166,7 @@ export default function CouncilPage() {
                                                     >
                                                         <CardContent className="p-4 flex flex-col items-center h-full">
                                                             <Avatar className="w-16 h-16 sm:w-20 sm:h-20 mx-auto mb-3 border-2 border-primary/20 rounded-md">
-                                                                <AvatarImage src={member.image} alt={member.name} />
+                                                                <AvatarImage src={member.image} alt={member.name} className="object-cover" />
                                                                 <AvatarFallback>{member.name.charAt(0)}</AvatarFallback>
                                                             </Avatar>
                                                             <div className='mt-auto'>
