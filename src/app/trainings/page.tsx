@@ -112,10 +112,10 @@ export default function TrainingsPage() {
                                 </Link>
                             </Button>
                         </div>
-                        <h1 className="text-3xl font-bold font-headline tracking-tight text-white sm:text-4xl lg:text-5xl">
+                        <h1 className="text-2xl font-bold font-headline tracking-tight text-white sm:text-3xl lg:text-4xl">
                            Grow with JCI
                         </h1>
-                        <p className="mt-2 text-lg text-white/80 max-w-2xl mx-auto">
+                        <p className="mt-2 text-base text-white/80 max-w-2xl mx-auto">
                             Enhance your skills and broaden your horizons with our expert-led sessions.
                         </p>
                     </div>
@@ -128,14 +128,14 @@ export default function TrainingsPage() {
                             onClick={() => setActiveDay('Thursday')}
                             variant={activeDay === 'Thursday' ? 'default' : 'outline'}
                         >
-                            Thursday, July 3rd
+                            Thurs, July 3rd
                         </Button>
                         <Button
                             size="lg"
                             onClick={() => setActiveDay('Friday')}
                             variant={activeDay === 'Friday' ? 'default' : 'outline'}
                         >
-                            Friday, July 4th
+                            Fri, July 4th
                         </Button>
                     </div>
                      
@@ -150,7 +150,7 @@ export default function TrainingsPage() {
                             {activeDay === 'Thursday' && (
                                 <Accordion type="single" collapsible defaultValue="session-1" className="w-full space-y-4">
                                     <AccordionItem value="session-1" className="border rounded-lg bg-card shadow-sm">
-                                        <AccordionTrigger className="p-4 font-semibold text-lg hover:no-underline">Skill Development Session I</AccordionTrigger>
+                                        <AccordionTrigger className="p-4 font-semibold text-lg hover:no-underline">Skill Dev. Session I</AccordionTrigger>
                                         <AccordionContent className="p-4 pt-0">
                                             <div className="space-y-4 border-t pt-4">
                                                 {thursdayTrainings.map((training) => (
@@ -165,7 +165,7 @@ export default function TrainingsPage() {
                              {activeDay === 'Friday' && (
                                 <Accordion type="single" collapsible defaultValue="session-2" className="w-full space-y-4">
                                      <AccordionItem value="session-2" className="border rounded-lg bg-card shadow-sm">
-                                        <AccordionTrigger className="p-4 font-semibold text-lg hover:no-underline">Skill Development Session II</AccordionTrigger>
+                                        <AccordionTrigger className="p-4 font-semibold text-lg hover:no-underline">Skill Dev. Session II</AccordionTrigger>
                                         <AccordionContent className="p-4 pt-0">
                                             <div className="space-y-4 border-t pt-4">
                                                 {fridayMorning.map((training) => (
@@ -175,7 +175,7 @@ export default function TrainingsPage() {
                                         </AccordionContent>
                                     </AccordionItem>
                                      <AccordionItem value="session-3" className="border rounded-lg bg-card shadow-sm">
-                                        <AccordionTrigger className="p-4 font-semibold text-lg hover:no-underline">Skill Development Session III</AccordionTrigger>
+                                        <AccordionTrigger className="p-4 font-semibold text-lg hover:no-underline">Skill Dev. Session III</AccordionTrigger>
                                         <AccordionContent className="p-4 pt-0">
                                             <div className="space-y-4 border-t pt-4">
                                                 {fridayAfternoon.map((training) => (
