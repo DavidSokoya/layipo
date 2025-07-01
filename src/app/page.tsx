@@ -354,41 +354,30 @@ export default function HomePage() {
         image: 'https://images.unsplash.com/photo-1612872087720-bb876e2e67d1?q=80&w=400&h=400&fit=crop',
         dataAiHint: 'football trophy',
       },
+      {
+        href: '/campfire',
+        title: 'Storytelling/Campfire',
+        image: 'https://images.unsplash.com/photo-1500352528994-5257543475cf?q=80&w=400&h=400&fit=crop',
+        dataAiHint: 'campfire',
+      },
     ];
 
     const eventHighlights: SpotlightItem[] = [
       {
-        href: '/timetable#f10',
-        title: 'Opening Ceremony',
-        date: getEvent('f10')?.date || '',
-        image: getEvent('f10')?.image || 'https://placehold.co/400x400.png',
-        dataAiHint: getEvent('f10')?.dataAiHint,
-      },
-      {
         href: '/trainings',
         title: 'Skill Development Trainings',
-        date: 'Multiple Days',
         image: 'https://images.unsplash.com/photo-1543269865-cbf427effbad?q=80&w=400&h=400&fit=crop',
         dataAiHint: 'skill workshop',
       },
       {
         href: getEvent('s3')?.href || '/timetable#s3',
         title: getEvent('s3')?.title || 'Special Event',
-        date: getEvent('s3')?.date || '',
         image: 'https://images.unsplash.com/photo-1541167760496-1628856ab772?q=80&w=400&h=400&fit=crop',
         dataAiHint: 'coffee meeting',
       },
       {
-        href: '/timetable#f5',
-        title: 'Collegiate General Assembly',
-        date: getEvent('f5')?.date || '',
-        image: getEvent('f5')?.image || 'https://placehold.co/400x400.png',
-        dataAiHint: getEvent('f5')?.dataAiHint,
-      },
-      {
-        href: '/timetable#f4',
-        title: 'Debate & Speech Finals',
-        date: getEvent('f4')?.date || '',
+        href: getEvent('f4')?.href || '/timetable#f4',
+        title: getEvent('f4')?.title || 'Special Event',
         image: getEvent('f4')?.image || 'https://placehold.co/400x400.png',
         dataAiHint: getEvent('f4')?.dataAiHint,
       },
@@ -427,34 +416,38 @@ export default function HomePage() {
               Event Leadership
             </h2>
              <div className="grid grid-cols-2 gap-4">
-               <Card className="relative overflow-hidden h-48 group rounded-xl">
-                 <Image
-                   src="https://images.unsplash.com/photo-1557862921-37829c790f19?q=80&w=400&h=400&fit=crop"
-                   alt="Amira Abdullahi"
-                   fill
-                   className="object-cover transition-transform duration-300 group-hover:scale-105"
-                   data-ai-hint="professional woman"
-                 />
-                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
-                 <div className="absolute bottom-0 left-0 p-3 text-primary-foreground">
-                   <h3 className="font-bold text-base">Amira Abdullahi</h3>
-                   <p className="text-sm opacity-90">Collegiate Chairperson</p>
-                 </div>
-               </Card>
-               <Card className="relative overflow-hidden h-48 group rounded-xl">
-                 <Image
-                   src="https://images.unsplash.com/photo-1560250047-0ae9630c412e?q=80&w=400&h=400&fit=crop"
-                   alt="Oluwatoyin Atanda"
-                   fill
-                   className="object-cover transition-transform duration-300 group-hover:scale-105"
-                   data-ai-hint="professional woman ceo"
-                 />
-                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
-                 <div className="absolute bottom-0 left-0 p-3 text-primary-foreground">
-                   <h3 className="font-bold text-base">Oluwatoyin Atanda</h3>
-                   <p className="text-sm opacity-90">National President</p>
-                 </div>
-               </Card>
+               <Link href="/council" className="block group">
+                  <Card className="relative overflow-hidden h-48 group rounded-xl">
+                    <Image
+                      src="https://images.unsplash.com/photo-1557862921-37829c790f19?q=80&w=400&h=400&fit=crop"
+                      alt="Amira Abdullahi"
+                      fill
+                      className="object-cover transition-transform duration-300 group-hover:scale-105"
+                      data-ai-hint="professional woman"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
+                    <div className="absolute bottom-0 left-0 p-3 text-primary-foreground">
+                      <h3 className="font-bold text-base">Amira Abdullahi</h3>
+                      <p className="text-sm opacity-90">Collegiate Chairperson</p>
+                    </div>
+                  </Card>
+                </Link>
+               <Link href="/council" className="block group">
+                  <Card className="relative overflow-hidden h-48 group rounded-xl">
+                    <Image
+                      src="https://images.unsplash.com/photo-1560250047-0ae9630c412e?q=80&w=400&h=400&fit=crop"
+                      alt="Oluwatoyin Atanda"
+                      fill
+                      className="object-cover transition-transform duration-300 group-hover:scale-105"
+                      data-ai-hint="professional woman ceo"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
+                    <div className="absolute bottom-0 left-0 p-3 text-primary-foreground">
+                      <h3 className="font-bold text-base">Oluwatoyin Atanda</h3>
+                      <p className="text-sm opacity-90">National President</p>
+                    </div>
+                  </Card>
+                </Link>
              </div>
           </section>
 

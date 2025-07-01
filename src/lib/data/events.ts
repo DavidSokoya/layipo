@@ -171,6 +171,7 @@ export const events: Event[] = [
     dressCode: 'Casual',
     image: 'https://images.unsplash.com/photo-1500352528994-5257543475cf?q=80&w=400&h=400&fit=crop',
     dataAiHint: 'campfire stories',
+    href: '/campfire',
     category: 'Networking & Socials',
   },
   // Friday
@@ -230,13 +231,14 @@ export const events: Event[] = [
     id: 'f4',
     date: 'Friday, 4th July 2025',
     time: '12:00 pm-1:30 pm',
-    title: 'Speech Contest',
+    title: 'Debate & Speech Finals',
     location: 'Favour Hall',
     role: 'All',
     description: 'Witness the final rounds of the thrilling speech and debate competitions.',
     dressCode: 'Business',
     image: 'https://images.unsplash.com/photo-1543269865-cbf427effbad?q=80&w=400&h=400&fit=crop',
     dataAiHint: 'public speaking',
+    href: '/debate',
     category: 'Competitions & Pageants',
   },
   {
