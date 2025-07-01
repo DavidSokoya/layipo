@@ -317,7 +317,7 @@ export default function HomePage() {
       {
         href: '/council',
         title: 'Meet The Council',
-        image: 'https://placehold.co/400x400.png',
+        image: 'images/spotlight/council.jpg',
         dataAiHint: 'professional team',
       },
       {
