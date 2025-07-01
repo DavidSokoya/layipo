@@ -11,13 +11,32 @@ import { Logo } from './ui/logo';
 function FullPageLoader() {
   return (
     <div className="flex flex-col gap-8 items-center justify-center h-screen bg-background text-center p-8">
-      <Logo />
-      <div
-        className="w-12 h-12 rounded-full animate-spin"
-        style={{
-          background: `conic-gradient(from 180deg at 50% 50%, hsl(var(--status-red)) 0deg, hsl(var(--status-amber)) 60deg, hsl(var(--status-green)) 120deg, hsl(var(--status-blue)) 180deg, hsl(var(--primary)) 240deg, hsl(var(--accent)) 300deg, hsl(var(--status-red)) 360deg)`
-        }}
-      />
+      {/* Container to create the 3D perspective for the flip */}
+      <div style={{ perspective: '1000px' }}>
+        {/* The tile that will perform the flip animation */}
+        <div
+          className="relative w-36 h-10 animate-flip"
+          style={{ transformStyle: 'preserve-3d' }}
+        >
+          {/* Front Face: Contains the logo */}
+          <div
+            className="absolute w-full h-full flex items-center justify-center"
+            style={{ backfaceVisibility: 'hidden', WebkitBackfaceVisibility: 'hidden' }}
+          >
+            <Logo />
+          </div>
+
+          {/* Back Face: A simple colored surface */}
+          <div
+            className="absolute w-full h-full bg-card border rounded-lg"
+            style={{
+              backfaceVisibility: 'hidden',
+              WebkitBackfaceVisibility: 'hidden',
+              transform: 'rotateY(180deg)',
+            }}
+          ></div>
+        </div>
+      </div>
     </div>
   );
 }
