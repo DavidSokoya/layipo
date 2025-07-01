@@ -83,7 +83,7 @@ const HomePageHeader = () => {
             <Skeleton className="h-5 w-24" />
           </div>
         </div>
-        <Skeleton className="h-7 w-28" />
+        <Skeleton className="h-6 w-24" />
       </div>
     );
   }
@@ -101,7 +101,7 @@ const HomePageHeader = () => {
           Hi, {firstName}
         </h1>
       </Link>
-      <Logo />
+      <Logo width={100} height={25} />
     </div>
   );
 };
