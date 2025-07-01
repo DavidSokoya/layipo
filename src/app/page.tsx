@@ -333,31 +333,31 @@ export default function HomePage() {
       {
         href: '/council',
         title: 'Meet The Council',
-        image: 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=400&h=400&fit=crop',
+        image: 'https://placehold.co/400x400.png',
         dataAiHint: 'professional team',
       },
       {
         href: '/contestants',
         title: 'Mr & Miss Collegiate',
-        image: 'https://images.unsplash.com/photo-1543269865-cbf427effbad?q=80&w=400&h=400&fit=crop',
+        image: 'https://placehold.co/400x400.png',
         dataAiHint: 'fashion pageant',
       },
        {
         href: '/outfits',
         title: 'Event Dress Codes',
-        image: 'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?q=80&w=400&h=400&fit=crop',
+        image: 'https://placehold.co/400x400.png',
         dataAiHint: 'fashion clothing',
       },
       {
         href: '/football',
         title: 'Football Showdown',
-        image: 'https://images.unsplash.com/photo-1612872087720-bb876e2e67d1?q=80&w=400&h=400&fit=crop',
+        image: 'https://placehold.co/400x400.png',
         dataAiHint: 'football trophy',
       },
       {
         href: '/campfire',
         title: 'Storytelling/Campfire',
-        image: 'https://images.unsplash.com/photo-1500352528994-5257543475cf?q=80&w=400&h=400&fit=crop',
+        image: 'https://placehold.co/400x400.png',
         dataAiHint: 'campfire',
       },
     ];
@@ -372,7 +372,7 @@ export default function HomePage() {
       {
         href: getEvent('s3')?.href || '/timetable#s3',
         title: getEvent('s3')?.title || 'Special Event',
-        image: 'https://images.unsplash.com/photo-1541167760496-1628856ab772?q=80&w=400&h=400&fit=crop',
+        image: 'https://images.unsplash.com/photo-1511537190424-bbbab87ac5eb?q=80&w=400&h=400&fit=crop',
         dataAiHint: 'coffee meeting',
       },
       {
