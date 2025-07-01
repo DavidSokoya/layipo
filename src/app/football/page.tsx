@@ -70,7 +70,7 @@ export default function FootballPage() {
                         className="my-8 rounded-xl overflow-hidden shadow-2xl shadow-blue-500/20"
                     >
                         <Image
-                            src="https://placehold.co/1200x600.png"
+                            src="/images/spotlight/baller.jpg"
                             alt="Football stadium"
                             data-ai-hint="football stadium night"
                             width={1200}

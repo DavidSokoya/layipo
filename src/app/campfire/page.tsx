@@ -75,13 +75,13 @@ export default function CampfirePage() {
       <main className="flex-1">
         <div className="relative h-64 md:h-80 w-full">
           <Image
-            src="https://placehold.co/1200x800.png"
+            src="/images/spotlight/storytelling.png"
             alt="Campfire at night"
             data-ai-hint="campfire night"
             fill
             className="object-cover"
           />
-          <div className="absolute inset-0 bg-orange-950/70 backdrop-blur-sm" />
+          <div className="absolute inset-0 bg-orange-950/20 " />
           <div className="absolute inset-0 flex flex-col items-center justify-center text-center text-white p-4">
             <Button
               variant="ghost"
@@ -109,11 +109,12 @@ export default function CampfirePage() {
           </div>
         </div>
 
-        <div className="max-w-3xl mx-auto p-4 md:p-6 lg:p-8 space-y-8 -mt-16">
+        <div className="max-w-3xl mx-auto p-4 md:p-6 lg:p-8 space-y-8 mt-4">
           <Card>
             <CardContent className="p-6">
               <p className="text-lg text-foreground leading-relaxed">
-                Join us for a magical evening under the stars. Share stories, connect with fellow delegates, and enjoy the warmth of a crackling campfire. A perfect way to unwind and forge lasting friendships.
+                Join us for a magical night of stories that echo tradition, courage, and shared laughter… all under the Ibadan skies.
+                Anchored by none other than Aare Olabode Anisoloja, The Elite Broadcaster himself, this isn’t just another night, it’s a moment of connection.
               </p>
             </CardContent>
           </Card>

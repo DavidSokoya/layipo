@@ -28,14 +28,14 @@ const councilMembers: CouncilMember[] = [
     { name: 'Chinarulumogu Eze', title: 'Director', org: 'JCIN Chapter', image: '/images/council/chinarulumogu_eze.png', bio: "A dedicated member of the 2025 Collegiate Council, committed to the 'Ascend' vision and empowering JCI members." },
     { name: 'Hamza Muhammed', title: 'Director', org: 'JCIN Chapter', image: '/images/council/hamza_muhammed.png', bio: "A dedicated member of the 2025 Collegiate Council, committed to the 'Ascend' vision and empowering JCI members." },
     { name: 'Kadril-Lawal Zainab', title: 'Director', org: 'JCIN Chapter', image: '/images/council/kadril-lawal_zainab.png', bio: "A dedicated member of the 2025 Collegiate Council, committed to the 'Ascend' vision and empowering JCI members." },
-    { name: 'Emmanuella Adaora', title: 'Director', org: 'JCIN Chapter', image: '/images/council/emmanuella_adoora.png', bio: "A dedicated member of the 2025 Collegiate Council, committed to the 'Ascend' vision and empowering JCI members." },
+    { name: 'Emmanuella Adaora', title: 'Director', org: 'JCIN Chapter', image: '/images/council/emmanuella_adora.png', bio: "A dedicated member of the 2025 Collegiate Council, committed to the 'Ascend' vision and empowering JCI members." },
     { name: 'Obaloluwa Samuel', title: 'Director', org: 'JCIN Chapter', image: '/images/council/obaloluwa_samuel.png', bio: "A dedicated member of the 2025 Collegiate Council, committed to the 'Ascend' vision and empowering JCI members." },
     { name: 'Ojo Waheed', title: 'Director', org: 'JCIN Chapter', image: '/images/council/ojo_waheed.png', bio: "A dedicated member of the 2025 Collegiate Council, committed to the 'Ascend' vision and empowering JCI members." },
     { name: 'Yusuf Abdullah A.', title: 'Director', org: 'JCIN Chapter', image: '/images/council/yusuf_abdullah_a.png', bio: "A dedicated member of the 2025 Collegiate Council, committed to the 'Ascend' vision and empowering JCI members." },
     { name: 'Ileladewa Ademidun M', title: 'Director', org: 'JCIN Chapter', image: '/images/council/ileladewa.png', bio: "A dedicated member of the 2025 Collegiate Council, committed to the 'Ascend' vision and empowering JCI members." },
     { name: 'Adekunle Daniel', title: 'Director', org: 'JCIN Chapter', image: '/images/council/adekunle_daniel.png', bio: "A dedicated member of the 2025 Collegiate Council, committed to the 'Ascend' vision and empowering JCI members." },
     { name: 'Abdulrahman Abdulraheem', title: 'Director', org: 'JCIN Chapter', image: '/images/council/abdulrahman_abdulraheem.png', bio: "A dedicated member of the 2025 Collegiate Council, committed to the 'Ascend' vision and empowering JCI members." },
-    { name: 'Cajetan Iyenaobe', title: 'Director', org: 'JCIN Chapter', image: '/images/council/cajetan_iyenaobe.png', bio: "A dedicated member of the 2025 Collegiate Council, committed to the 'Ascend' vision and empowering JCI members." },
+    { name: 'Cajetan Iyenagbe', title: 'Director', org: 'JCIN Chapter', image: '/images/council/cajetan.png', bio: "A dedicated member of the 2025 Collegiate Council, committed to the 'Ascend' vision and empowering JCI members." },
     { name: 'Raji Elizabeth Omayoza', title: 'Director', org: 'JCIN Chapter', image: '/images/council/raji.png', bio: "A dedicated member of the 2025 Collegiate Council, committed to the 'Ascend' vision and empowering JCI members." },
     { name: 'Hopeson Akamefula J.', title: 'Director', org: 'JCIN Chapter', image: '/images/council/hopeson_akamefula_j.png', bio: "A dedicated member of the 2025 Collegiate Council, committed to the 'Ascend' vision and empowering JCI members." },
     { name: 'Oluwafemi Olumuyiwa', title: 'Director', org: 'JCIN Chapter', image: '/images/council/oluwafemi_olumuyiwa.png', bio: "A dedicated member of the 2025 Collegiate Council, committed to the 'Ascend' vision and empowering JCI members." },
@@ -76,7 +76,7 @@ export default function CouncilPage() {
             <main className="flex-1 mb-16">
                  <div className="relative h-[16.66vh] w-full">
                     <Image
-                        src="https://placehold.co/1200x400.png"
+                        src="/images/spotlight/council.jpg"
                         data-ai-hint="professional team"
                         alt="Collegiate Council Banner"
                         fill
@@ -92,12 +92,9 @@ export default function CouncilPage() {
                                 </Link>
                             </Button>
                         </div>
-                        <h1 className="text-3xl font-bold font-headline tracking-tight sm:text-4xl">
+                        <h1 className="text-2xl sm:text-4xl font-bold font-headline tracking-tight sm:text-2xl">
                            Meet the 2025 Collegiate Council
                         </h1>
-                        <p className="mt-2 text-base text-white/80 max-w-2xl mx-auto">
-                            The dedicated leaders steering the collegiate community forward.
-                        </p>
                     </div>
                 </div>
 

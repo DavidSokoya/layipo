@@ -34,7 +34,7 @@ export default function AmiraAbdullahiPage() {
                             transition={{ duration: 0.5 }}
                          >
                             <Avatar className="w-32 h-32 mx-auto mb-4 border-4 border-primary/20 shadow-lg">
-                                <AvatarImage src="https://placehold.co/200x200.png" data-ai-hint="youth leader" alt="Amira Abdullahi" />
+                                <AvatarImage src="/images/amira.jpg" data-ai-hint="youth leader" alt="Amira Abdullahi" />
                                 <AvatarFallback><User className="w-16 h-16" /></AvatarFallback>
                             </Avatar>
                         </motion.div>

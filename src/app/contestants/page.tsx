@@ -26,7 +26,7 @@ const femaleFinalists: Contestant[] = [
     {
         name: "Awofodu Maryam O",
         school: "JCIN Lautech",
-        image: "/images/contestants/awofodu_maryam_O.png",
+        image: "/images/contestants/awofodu.png",
         bio: "An advocate for youth empowerment and sustainable development, Maryam is passionate about creating positive change in her community.",
         contestantNumber: 1,
         gender: 'female',
@@ -69,7 +69,7 @@ const maleFinalists: Contestant[] = [
     {
         name: "Abdulmuiz Adeagbo A.",
         school: "JCIN Lautech",
-        image: "/images/contestants/abdulmuiz_adeagbo_a.png",
+        image: "/images/contestants/abdulmuiz.png",
         bio: "A tech enthusiast and innovator, Abdulmuiz is developing solutions to bridge the digital divide and empower his community with tech skills.",
         contestantNumber: 6,
         gender: 'male',
@@ -109,8 +109,8 @@ const maleFinalists: Contestant[] = [
 ]
 
 const judges = [
-    { name: 'Miss Ibadan 2024', title: 'Special Guest Judge', image: '/images/contestants/Miss_Ibadan_2024.jpg' },
-    { name: '2025 JCI Nigeria Director', title: 'Growth and Development', image: '/images/contestants/JCIN_Director.jpg' }
+    { name: 'Miss Ibadan 2024', title: 'Special Guest Judge', image: '/images/contestants/miss.png' },
+    { name: '2025 JCI Nigeria Director', title: 'Growth and Development', image: '/images/council/cajetan.png' }
 ]
 
 const CountdownTimer = ({ targetDate }: { targetDate: string }) => {

@@ -317,49 +317,49 @@ export default function HomePage() {
       {
         href: '/council',
         title: 'Meet The Council',
-        image: 'https://placehold.co/400x200.png',
+        image: '/images/spotlight/council.jpg',
         dataAiHint: 'professional team',
       },
       {
         href: '/contestants',
         title: 'Mr & Miss Collegiate',
-        image: 'https://placehold.co/400x200.png',
+        image: '/images/spotlight/mr-ms_collegiate.png',
         dataAiHint: 'fashion pageant',
       },
        {
         href: '/outfits',
         title: 'Event Dress Codes',
-        image: 'https://placehold.co/400x200.png',
+        image: '/images/spotlight/clothing.jpg',
         dataAiHint: 'fashion clothing',
       },
       {
         href: '/football',
         title: 'Football Showdown',
-        image: 'https://placehold.co/400x200.png',
+        image: '/images/spotlight/football.jpg',
         dataAiHint: 'football',
       },
       {
         href: '/campfire',
         title: 'Storytelling/Campfire',
-        image: 'https://placehold.co/400x200.png',
+        image: '/images/spotlight/storytelling.png',
         dataAiHint: 'campfire',
       },
       {
         href: '/trainings',
         title: 'Skill Development Trainings',
-        image: 'https://placehold.co/400x200.png',
+        image: '/images/spotlight/skills_development.jpg',
         dataAiHint: 'skill workshop',
       },
       {
         href: '/coffee-chat',
         title: 'ASCEND COFFEE CHAT',
-        image: 'https://placehold.co/400x200.png',
+        image: '/images/spotlight/coffee.jpg',
         dataAiHint: 'coffee meeting',
       },
       {
         href: '/debate',
         title: 'Debate & Speech Finals',
-        image: 'https://placehold.co/400x200.png',
+        image: '/images/spotlight/speech.jpg',
         dataAiHint: 'public speaking',
       },
     ];
@@ -398,7 +398,7 @@ export default function HomePage() {
                <Link href="/council/amira-abdullahi" className="block group">
                   <Card className="relative overflow-hidden h-48 group rounded-xl">
                     <Image
-                      src="https://placehold.co/400x400.png"
+                      src="/images/amira.jpg"
                       alt="Amira Abdullahi"
                       fill
                       className="object-cover transition-transform duration-300 group-hover:scale-105"
@@ -414,7 +414,7 @@ export default function HomePage() {
                <Link href="/council/oluwatoyin-atanda" className="block group">
                   <Card className="relative overflow-hidden h-48 group rounded-xl">
                     <Image
-                      src="https://placehold.co/400x400.png"
+                      src="/images/oluwatoyin_atanda.jpg"
                       alt="Oluwatoyin Atanda"
                       fill
                       className="object-cover transition-transform duration-300 group-hover:scale-105"
