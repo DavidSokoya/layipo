@@ -11,6 +11,7 @@ import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
+import { Separator } from '@/components/ui/separator';
 
 type CouncilMember = {
     name: string;
@@ -73,7 +74,7 @@ export default function CouncilPage() {
     return (
         <PageWrapper>
             <main className="flex-1 mb-16">
-                 <div className="relative h-48 w-full">
+                 <div className="relative h-[16.66vh] w-full">
                     <Image
                         src="https://placehold.co/1200x400.png"
                         data-ai-hint="professional team"
@@ -103,29 +104,35 @@ export default function CouncilPage() {
                 <div className="max-w-4xl mx-auto p-4 md:p-6 lg:p-8">
                     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
                         {councilMembers.map((member, index) => (
-                            <motion.div
-                                key={member.name}
-                                initial={{ opacity: 0, y: 20 }}
-                                animate={{ opacity: 1, y: 0, transition: { delay: index * 0.05 } }}
-                                exit={{ opacity: 0, y: -20 }}
-                                layout
-                            >
-                                <Card 
-                                    onClick={() => setSelectedMember(member)}
-                                    className="text-center transition-all duration-300 hover:shadow-xl hover:scale-105 cursor-pointer h-full"
+                            <React.Fragment key={member.name}>
+                                <motion.div
+                                    initial={{ opacity: 0, y: 20 }}
+                                    animate={{ opacity: 1, y: 0, transition: { delay: index * 0.05 } }}
+                                    exit={{ opacity: 0, y: -20 }}
+                                    layout
                                 >
-                                    <CardContent className="p-4 flex flex-col items-center h-full">
-                                        <Avatar className="w-16 h-16 sm:w-20 sm:h-20 mx-auto mb-3 border-2 border-primary/20 rounded-full">
-                                            <AvatarImage src={member.image} alt={member.name} className="object-cover" />
-                                            <AvatarFallback><User className="w-10 h-10" /></AvatarFallback>
-                                        </Avatar>
-                                        <div className='mt-auto'>
-                                            <h3 className="text-sm sm:text-base font-semibold text-foreground leading-tight">{member.name}</h3>
-                                            <p className="text-xs sm:text-sm text-primary font-medium">{member.title}</p>
-                                        </div>
-                                    </CardContent>
-                                </Card>
-                            </motion.div>
+                                    <Card 
+                                        onClick={() => setSelectedMember(member)}
+                                        className="text-center transition-all duration-300 hover:shadow-xl hover:scale-105 cursor-pointer h-full"
+                                    >
+                                        <CardContent className="p-4 flex flex-col items-center h-full">
+                                            <Avatar className="w-16 h-16 sm:w-20 sm:h-20 mx-auto mb-3 border-2 border-primary/20 rounded-full">
+                                                <AvatarImage src={member.image} alt={member.name} className="object-cover" />
+                                                <AvatarFallback><User className="w-10 h-10" /></AvatarFallback>
+                                            </Avatar>
+                                            <div className='mt-auto'>
+                                                <h3 className="text-sm sm:text-base font-semibold text-foreground leading-tight">{member.name}</h3>
+                                                <p className="text-xs sm:text-sm text-primary font-medium">{member.title}</p>
+                                            </div>
+                                        </CardContent>
+                                    </Card>
+                                </motion.div>
+                                {index === 1 && (
+                                    <div className="col-span-2 sm:hidden">
+                                        <Separator className="my-2" />
+                                    </div>
+                                )}
+                            </React.Fragment>
                         ))}
                     </div>
                 </div>
