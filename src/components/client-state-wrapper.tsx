@@ -28,7 +28,7 @@ function FullPageLoader() {
 
           {/* Back Face: A simple colored surface */}
           <div
-            className="absolute w-full h-full bg-card border rounded-lg"
+            className="absolute w-full h-full bg-muted rounded-lg"
             style={{
               backfaceVisibility: 'hidden',
               WebkitBackfaceVisibility: 'hidden',
