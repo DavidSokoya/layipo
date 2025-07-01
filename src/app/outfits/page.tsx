@@ -12,15 +12,15 @@ import { Briefcase, UserCheck, Palette, Award, Coffee, Shirt, Flame, Check } fro
 const dressCodes = [
   {
     icon: Briefcase,
-    title: 'Business / Business Formal',
-    description: 'Polished. Professional. Power-ready. Think blazers, button-downs, and clean cuts.',
+    title: 'Business Formal',
+    description: 'Professional. Power-ready. Think blazers, button-downs, and clean cuts.',
     events: [
       'Social Enterprise Academy',
       'All Training Sessions',
       'Morning Show (Days 2 & 3)',
       'Strategy Panel, Debate, Media Rounds, etc.',
     ],
-    image: 'https://placehold.co/600x400.png',
+    image: '/images/outfits/trainings.png',
     dataAiHint: 'business attire',
   },
   {
@@ -28,23 +28,23 @@ const dressCodes = [
     title: 'Strictly Formal',
     description: 'Elevated business wear. No polos, sneakers, or denim.',
     events: ['Collegiate General Assembly'],
-    image: 'https://placehold.co/600x400.png',
+    image: '/images/outfits/morning_show.png',
     dataAiHint: 'formal suit',
   },
   {
     icon: Palette,
     title: 'Local Fabric / Cultural Attire',
-    description: 'Represent your roots in style. Campala, Ankara, or native vibes.',
+    description: 'Show your roots in style. Campala, Ankara, or native vibes.',
     events: ['Opening Ceremony', 'OJUDE LAYIPO'],
-    image: 'https://placehold.co/600x400.png',
+    image: '/images/outfits/opening_ceremony.png',
     dataAiHint: 'african fabric',
   },
   {
     icon: Award,
     title: 'Black Tie',
     description: 'The night to dazzle. Suits, gowns, bowties.',
-    events: ['Closing Ceremony Red Carpet', 'Banquet Night'],
-    image: 'https://placehold.co/600x400.png',
+    events: ['Closing Ceremony Red Carpet'],
+    image: '/images/outfits/closing_ceremony.png',
     dataAiHint: 'black tie event',
   },
   {
@@ -52,7 +52,7 @@ const dressCodes = [
     title: 'Casual',
     description: 'Relaxed and comfortable — keep it neat.',
     events: ['Arrival', 'Setup', 'Lunches', 'Mr & Miss Collegiate', 'Tungba Night'],
-    image: 'https://placehold.co/600x400.png',
+    image: '/images/outfits/campfire.png',
     dataAiHint: 'casual fashion',
   },
   {
@@ -60,7 +60,7 @@ const dressCodes = [
     title: 'Sportswear',
     description: 'Athletic wear and JCI Branded T-Shirts. You’re here to move.',
     events: ['Football Prelims & Finals', 'Aerobics'],
-    image: 'https://placehold.co/600x400.png',
+    image: '/images/outfits/sports.png',
     dataAiHint: 'sportswear fashion',
   },
   {
@@ -68,7 +68,7 @@ const dressCodes = [
     title: 'Rep Your Culture',
     description: 'Showcase your roots — it’s storytelling night.',
     events: ['Cultural Campfire Night'],
-    image: 'https://placehold.co/600x400.png',
+    image: '/images/outfits/storytelling_night.png',
     dataAiHint: 'cultural pattern',
   },
 ];

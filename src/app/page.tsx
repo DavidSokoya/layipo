@@ -192,21 +192,16 @@ const UpNextCard = ({ event }: { event: Event }) => (
 export default function HomePage() {
   const { user } = useUser();
   const [now, setNow] = React.useState<Date | null>(null);
+  const [selectedDate, setSelectedDate] = React.useState<string>('');
 
-  React.useEffect(() => {
-    setNow(new Date());
-    const interval = setInterval(() => setNow(new Date()), 60000);
-    return () => clearInterval(interval);
-  }, []);
-
-  const parseDate = (dateStr: string): Date => {
+  const parseDate = React.useCallback((dateStr: string): Date => {
     if (!dateStr) return new Date();
     const datePart = dateStr.split(', ')[1];
     if (!datePart) return new Date();
     const cleanDateStr = datePart.replace(/(\d+)(st|nd|rd|th)/, '$1');
     return new Date(`${cleanDateStr} 2025`);
-  };
-  
+  }, []);
+
   const eventDays = React.useMemo(() => {
     const grouped = events.reduce<Record<string, Event[]>>((acc, event) => {
       const date = event.date;
@@ -220,29 +215,27 @@ export default function HomePage() {
     return Object.entries(grouped).sort(([dateA], [dateB]) => {
       return parseDate(dateA).getTime() - parseDate(dateB).getTime();
     });
-  }, []);
-
-  const getInitialDate = React.useCallback(() => {
-    if (!now) return eventDays[0]?.[0] || ''; 
-
-    const todayDateOnly = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-
-    const todayKey = eventDays.find(([date]) => {
-        const eventDate = parseDate(date);
-        const eventDateOnly = new Date(eventDate.getFullYear(), eventDate.getMonth(), eventDate.getDate());
-        return eventDateOnly.getTime() === todayDateOnly.getTime();
-    });
-
-    return todayKey ? todayKey[0] : eventDays[0]?.[0] || '';
-  }, [eventDays, now]);
-
-  const [selectedDate, setSelectedDate] = React.useState('');
-
+  }, [parseDate]);
+  
   React.useEffect(() => {
-    if (eventDays.length > 0 && !selectedDate) {
-      setSelectedDate(getInitialDate());
+    const currentDate = new Date();
+    setNow(currentDate);
+
+    if (eventDays.length > 0) {
+      const todayDateOnly = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate());
+
+      const todayKey = eventDays.find(([date]) => {
+          const eventDate = parseDate(date);
+          const eventDateOnly = new Date(eventDate.getFullYear(), eventDate.getMonth(), eventDate.getDate());
+          return eventDateOnly.getTime() === todayDateOnly.getTime();
+      });
+
+      setSelectedDate(todayKey ? todayKey[0] : eventDays[0]?.[0] || '');
     }
-  }, [eventDays, getInitialDate, selectedDate]);
+
+    const interval = setInterval(() => setNow(new Date()), 60000);
+    return () => clearInterval(interval);
+  }, [eventDays, parseDate]);
   
   const { currentEvent, upcomingEvents, remainingEvents, totalUpcomingCount } = React.useMemo(() => {
      const timeStringToDate = (timeStr: string, date: Date): Date => {
@@ -309,7 +302,7 @@ export default function HomePage() {
       totalUpcomingCount: upcoming.length
     };
 
-  }, [selectedDate, eventDays, now, getInitialDate]);
+  }, [selectedDate, eventDays, now, parseDate]);
 
 
   const allSpotlightItems: SpotlightItem[] = React.useMemo(() => {
