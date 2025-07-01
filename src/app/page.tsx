@@ -18,6 +18,55 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/
 import { Progress } from '@/components/ui/progress';
 import { Badge } from '@/components/ui/badge';
 
+function HomePageLoader() {
+  return (
+    <PageWrapper>
+      <main className="flex-1 pb-24">
+        <HomePageHeader />
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 space-y-10 sm:space-y-12">
+          {/* Spotlight Skeleton */}
+          <section>
+            <Skeleton className="h-7 w-32 mb-4" />
+            <ScrollArea className="w-full whitespace-nowrap">
+              <div className="flex w-max space-x-4">
+                <Skeleton className="h-32 w-[200px] sm:w-[240px] rounded-xl" />
+                <Skeleton className="h-32 w-[200px] sm:w-[240px] rounded-xl" />
+                <Skeleton className="h-32 w-[200px] sm:w-[240px] rounded-xl hidden sm:block" />
+              </div>
+              <ScrollBar orientation="horizontal" />
+            </ScrollArea>
+          </section>
+
+          {/* Leadership Skeleton */}
+          <section>
+            <Skeleton className="h-7 w-48 mb-4" />
+            <div className="grid grid-cols-2 gap-4">
+              <Skeleton className="h-48 rounded-xl" />
+              <Skeleton className="h-48 rounded-xl" />
+            </div>
+          </section>
+
+          {/* Schedule Skeleton */}
+          <section>
+            <div className="flex space-x-3 mb-6">
+              <Skeleton className="h-[52px] w-12 rounded-lg" />
+              <Skeleton className="h-[52px] w-12 rounded-lg" />
+              <Skeleton className="h-[52px] w-12 rounded-lg" />
+              <Skeleton className="h-[52px] w-12 rounded-lg" />
+            </div>
+            <div className="space-y-3">
+              <Skeleton className="h-24 w-full rounded-lg" />
+              <Skeleton className="h-16 w-full rounded-lg" />
+              <Skeleton className="h-16 w-full rounded-lg" />
+            </div>
+          </section>
+        </div>
+      </main>
+    </PageWrapper>
+  );
+}
+
+
 const HomePageHeader = () => {
   const { user } = useUser();
   const avatarUrl =
@@ -26,10 +75,12 @@ const HomePageHeader = () => {
 
   if (!user) {
     return (
-      <div className="flex justify-between items-center p-2 bg-card border-b">
+      <div className="flex justify-between items-center p-4 bg-card border-b">
         <div className="flex items-center gap-3">
-          <Skeleton className="w-12 h-12 rounded-full" />
-          <Skeleton className="h-6 w-24" />
+          <Skeleton className="w-9 h-9 rounded-full" />
+          <div className="space-y-2">
+            <Skeleton className="h-5 w-24" />
+          </div>
         </div>
       </div>
     );
@@ -121,14 +172,18 @@ const OnNowCard = ({ event, now, remainingCount }: { event: Event & { startTime:
 
 const UpNextCard = ({ event }: { event: Event }) => (
     <Link href={event.href || `/timetable#${event.id}`} className="block group">
-        <Card className="transition-all duration-300 hover:shadow-lg hover:border-primary/50 h-full p-3 flex flex-col">
-            <div className="flex-grow">
-                 <p className="font-semibold text-xs sm:text-sm leading-tight group-hover:text-primary transition-colors flex-1">{event.title}</p>
+        <Card className="transition-all duration-300 hover:shadow-lg hover:border-primary/50 h-full p-3">
+            <p className="font-semibold text-sm leading-tight group-hover:text-primary transition-colors">{event.title}</p>
+            <div className="flex items-center text-xs text-muted-foreground pt-2 mt-1 gap-x-4 flex-wrap">
+                <span className="flex items-center gap-1.5">
+                    <Clock className="w-3 h-3" />
+                    Starts at {event.time.split('–')[0].trim()}
+                </span>
+                <span className="flex items-center gap-1.5 mt-1 sm:mt-0">
+                    <MapPin className="w-3 h-3" />
+                    {event.location}
+                </span>
             </div>
-             <div className="flex items-center text-xs text-muted-foreground pt-2 mt-auto">
-                <Clock className="w-3 h-3 mr-1.5" />
-                <span>Starts at {event.time.split('–')[0].trim()}</span>
-             </div>
         </Card>
     </Link>
 )
@@ -136,7 +191,14 @@ const UpNextCard = ({ event }: { event: Event }) => (
 
 export default function HomePage() {
   const { user } = useUser();
-  const [now, setNow] = React.useState(new Date('2025-07-04T18:30:00'));
+  const [now, setNow] = React.useState<Date | null>(null);
+
+  React.useEffect(() => {
+    // Set time on mount and update every minute
+    setNow(new Date());
+    const interval = setInterval(() => setNow(new Date()), 60000);
+    return () => clearInterval(interval);
+  }, []);
 
   const parseDate = (dateStr: string): Date => {
     if (!dateStr) return new Date();
@@ -162,6 +224,8 @@ export default function HomePage() {
   }, []);
 
   const getInitialDate = React.useCallback(() => {
+    if (!now) return eventDays[0]?.[0] || ''; // Fallback for SSR and initial client load
+
     const todayFormatted = now.toLocaleDateString('en-US', {
         weekday: 'long',
         day: 'numeric',
@@ -223,7 +287,8 @@ export default function HomePage() {
     if (!dayEvents.length) return { currentEvent: null, upcomingEvents: [], remainingEvents: [], totalUpcomingCount: 0 };
 
     const baseDate = parseDate(selectedDate);
-    const currentTime = (getInitialDate() === selectedDate) ? now : new Date(baseDate.setHours(0, 0, 0, 0)); // Use live time for today, start of day for others
+    // Use live time if `now` is set for today, otherwise default to start of day
+    const currentTime = (now && getInitialDate() === selectedDate) ? now : new Date(baseDate.setHours(0, 0, 0, 0));
 
     let current: (Event & { startTime: Date, endTime: Date }) | null = null;
     const upcoming: (Event & { startTime: Date, endTime: Date })[] = [];
@@ -248,7 +313,7 @@ export default function HomePage() {
     
     return { 
       currentEvent: current, 
-      upcomingEvents: upcoming.slice(0, 3),
+      upcomingEvents: upcoming.slice(0, 2),
       remainingEvents: allDayEventsSorted,
       totalUpcomingCount: upcoming.length
     };
@@ -332,19 +397,8 @@ export default function HomePage() {
     return [...featureLinks, ...eventHighlights];
   }, []);
 
-  if (!user || !selectedDate) {
-    return (
-      <PageWrapper>
-        <main className="flex-1 pb-24">
-          <HomePageHeader />
-          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 space-y-10 sm:space-y-12">
-            <section>
-              <p className="text-muted-foreground text-center py-4">Loading events...</p>
-            </section>
-          </div>
-        </main>
-      </PageWrapper>
-    );
+  if (!user || !selectedDate || !now) {
+    return <HomePageLoader />;
   }
 
   return (
@@ -434,16 +488,11 @@ export default function HomePage() {
              {upcomingEvents.length > 0 && (
                 <div className="mt-6">
                     <h3 className="font-semibold text-foreground mb-2">Up Next</h3>
-                    <ScrollArea className="w-full whitespace-nowrap">
-                        <div className="flex w-max space-x-4">
-                            {upcomingEvents.map(event => (
-                                <div key={event.id} className="w-44 sm:w-52">
-                                    <UpNextCard event={event} />
-                                </div>
-                            ))}
-                        </div>
-                        <ScrollBar orientation="horizontal" className="mt-4" />
-                    </ScrollArea>
+                    <div className="grid grid-cols-1 gap-3">
+                        {upcomingEvents.map(event => (
+                            <UpNextCard key={event.id} event={event} />
+                        ))}
+                    </div>
                 </div>
              )}
 
