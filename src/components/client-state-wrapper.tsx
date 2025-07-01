@@ -1,3 +1,4 @@
+
 'use client';
 
 import * as React from 'react';
@@ -26,15 +27,17 @@ function FullPageLoader() {
             <Logo />
           </div>
 
-          {/* Back Face: A simple colored surface */}
+          {/* Back Face: Also contains the logo */}
           <div
-            className="absolute w-full h-full bg-muted rounded-lg"
+            className="absolute w-full h-full flex items-center justify-center"
             style={{
               backfaceVisibility: 'hidden',
               WebkitBackfaceVisibility: 'hidden',
               transform: 'rotateY(180deg)',
             }}
-          ></div>
+          >
+            <Logo />
+          </div>
         </div>
       </div>
     </div>
