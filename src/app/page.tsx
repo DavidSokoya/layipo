@@ -373,28 +373,46 @@ export default function HomePage() {
               Event Leadership
             </h2>
             <div className="grid grid-cols-2 gap-4">
-              <Card>
-                <CardContent className="p-3 text-center space-y-1">
-                  <Avatar className="w-16 h-16 mx-auto mb-2 border-2 border-primary/20">
-                    <AvatarImage src="https://i.pravatar.cc/150?u=AmiraAbdullahi" alt="Amira Abdullahi" />
-                    <AvatarFallback>AA</AvatarFallback>
-                  </Avatar>
-                  <div>
-                      <p className="font-semibold text-sm text-foreground">Amira Abdullahi</p>
-                      <p className="text-xs text-muted-foreground">Collegiate Chairperson</p>
-                  </div>
+              <Card className="overflow-hidden text-center">
+                <div className="relative h-20 bg-muted">
+                    <Image 
+                        src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=400&h=200&fit=crop"
+                        alt="Leadership background"
+                        fill
+                        className="object-cover"
+                        data-ai-hint="professional portrait"
+                    />
+                </div>
+                <CardContent className="p-4 pt-12 relative"> 
+                    <Avatar className="w-20 h-20 absolute -top-10 left-1/2 -translate-x-1/2 border-4 border-background shadow-md">
+                        <AvatarImage src="https://i.pravatar.cc/150?u=AmiraAbdullahi" alt="Amira Abdullahi" />
+                        <AvatarFallback>AA</AvatarFallback>
+                    </Avatar>
+                    <div className="space-y-1">
+                        <p className="font-semibold text-base text-foreground">Amira Abdullahi</p>
+                        <p className="text-sm text-primary font-medium">Collegiate Chairperson</p>
+                    </div>
                 </CardContent>
               </Card>
-              <Card>
-                <CardContent className="p-3 text-center space-y-1">
-                  <Avatar className="w-16 h-16 mx-auto mb-2 border-2 border-primary/20">
-                    <AvatarImage src="https://i.pravatar.cc/150?u=OluwatoyinAtanda" alt="Oluwatoyin Atanda" />
-                    <AvatarFallback>OA</AvatarFallback>
-                  </Avatar>
-                  <div>
-                      <p className="font-semibold text-sm text-foreground">Oluwatoyin Atanda</p>
-                      <p className="text-xs text-muted-foreground">National President</p>
-                  </div>
+              <Card className="overflow-hidden text-center">
+                <div className="relative h-20 bg-muted">
+                    <Image 
+                        src="https://images.unsplash.com/photo-1557862921-37829c790f19?q=80&w=400&h=200&fit=crop"
+                        alt="Leadership background"
+                        fill
+                        className="object-cover"
+                        data-ai-hint="professional woman"
+                    />
+                </div>
+                <CardContent className="p-4 pt-12 relative">
+                    <Avatar className="w-20 h-20 absolute -top-10 left-1/2 -translate-x-1/2 border-4 border-background shadow-md">
+                        <AvatarImage src="https://i.pravatar.cc/150?u=OluwatoyinAtanda" alt="Oluwatoyin Atanda" />
+                        <AvatarFallback>OA</AvatarFallback>
+                    </Avatar>
+                    <div className="space-y-1">
+                        <p className="font-semibold text-base text-foreground">Oluwatoyin Atanda</p>
+                        <p className="text-sm text-primary font-medium">National President</p>
+                    </div>
                 </CardContent>
               </Card>
             </div>
