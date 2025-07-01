@@ -14,10 +14,10 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
-import { Clock, MapPin, Award, BookCopy, User, Star, ArrowLeft } from 'lucide-react';
+import { Clock, MapPin, User, Star, ArrowLeft } from 'lucide-react';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import Link from 'next/link';
+import { motion, AnimatePresence } from 'framer-motion';
 
 function TrainingCard({ training }: { training: Training }) {
     const { user, toggleBookmark } = useUser();
@@ -37,50 +37,43 @@ function TrainingCard({ training }: { training: Training }) {
 
   return (
     <Card className={cn(
-        "flex flex-col overflow-hidden transition-all duration-300 hover:shadow-xl group relative h-full",
-        training.special ? "bg-gradient-to-br from-primary/90 via-primary/70 to-primary/90 text-primary-foreground shadow-lg ring-2 ring-primary/50" : "bg-card"
+        "flex flex-col overflow-hidden transition-all duration-300 group relative h-full",
+        training.special ? "bg-gradient-to-br from-primary/10 via-background to-background ring-2 ring-primary/50" : "bg-card"
     )}>
-        <Button size="icon" variant={isBookmarked ? "default" : "secondary"} className="absolute top-2 right-2 z-10 h-8 w-8" onClick={handleToggleBookmark}>
-         <Star className={cn("w-4 h-4", isBookmarked && "fill-current", training.special && isBookmarked && "text-primary-foreground")} />
-       </Button>
-       {training.special && (
-            <Badge className="absolute top-2 left-2 z-10 bg-amber-400 text-black shadow">Featured Session</Badge>
+        {training.special && (
+            <Badge className="absolute top-3 right-3 z-10 bg-amber-400 text-black shadow-lg border-amber-500/50">Featured Session</Badge>
        )}
-      <CardHeader className="flex flex-row items-start gap-4 p-4">
-        <Avatar className="w-12 h-12 sm:w-16 sm:h-16 border-2 shrink-0 border-white/20">
-          <AvatarImage src={training.trainerImage} alt={training.trainer} />
-          <AvatarFallback><User className="w-8 h-8" /></AvatarFallback>
-        </Avatar>
-        <div className="flex-1">
-          <CardTitle className="text-base md:text-lg break-words">{training.topic}</CardTitle>
-          <CardDescription className={cn("text-sm font-medium mt-1", training.special ? "text-primary-foreground/90" : "text-muted-foreground")}>
-            by {training.trainer}
-          </CardDescription>
-        </div>
-      </CardHeader>
-      <CardContent className="flex-grow space-y-3 p-4 pt-0">
-        <div className="flex flex-col gap-2">
-            <div className={cn("flex items-center text-sm", training.special ? "text-primary-foreground/90" : "text-muted-foreground")}>
-                <Clock className="w-4 h-4 mr-2" />
-                <span>{training.time}</span>
-            </div>
-            <div className={cn("flex items-center text-sm", training.special ? "text-primary-foreground/90" : "text-muted-foreground")}>
-                <MapPin className="w-4 h-4 mr-2" />
-                <span>{training.venue}</span>
+      
+      <CardContent className="p-4 flex flex-col sm:flex-row gap-4">
+        <div className="flex sm:flex-col items-center gap-4 sm:gap-2 sm:w-1/4">
+            <Avatar className="w-16 h-16 sm:w-24 sm:h-24 border-2 shrink-0 border-primary/20">
+              <AvatarImage src={training.trainerImage} alt={training.trainer} />
+              <AvatarFallback><User className="w-12 h-12" /></AvatarFallback>
+            </Avatar>
+            <div className="text-left sm:text-center flex-1">
+                 <p className="font-bold text-base text-foreground">{training.trainer}</p>
+                 <Button size="icon" variant={isBookmarked ? "default" : "outline"} className="mt-2 h-8 w-8" onClick={handleToggleBookmark}>
+                    <Star className={cn("w-4 h-4", isBookmarked && "fill-current")} />
+                    <span className="sr-only">Bookmark</span>
+                </Button>
             </div>
         </div>
-        
-        <div className={cn("text-sm pt-2 space-y-3", training.special ? "text-primary-foreground/80" : "text-muted-foreground")}>
-            {training.theme && (
-                <div className="flex items-start gap-2.5">
-                <BookCopy className="w-4 h-4 mt-1 shrink-0" />
-                <p><strong className={cn("font-semibold", training.special && "text-primary-foreground")}>Theme:</strong> {training.theme}</p>
+        <div className="sm:w-3/4 sm:pl-4 sm:border-l">
+            <h3 className="text-lg font-semibold text-primary">{training.topic}</h3>
+            {training.theme && <p className="text-sm font-medium text-muted-foreground italic mb-2">Theme: {training.theme}</p>}
+
+            <div className="flex flex-col gap-1.5 my-3 text-sm text-muted-foreground">
+                <div className="flex items-center gap-2">
+                    <Clock className="w-4 h-4" />
+                    <span>{training.date} at {training.time}</span>
                 </div>
-            )}
-            <div className="flex items-start gap-2.5">
-                <Award className="w-4 h-4 mt-1 shrink-0" />
-                <p><strong className={cn("font-semibold", training.special && "text-primary-foreground")}>Trainer Profile:</strong> {training.trainerProfile}</p>
+                <div className="flex items-center gap-2">
+                    <MapPin className="w-4 h-4" />
+                    <span>{training.venue}</span>
+                </div>
             </div>
+
+            <p className="text-sm text-foreground/80 leading-relaxed">{training.trainerProfile}</p>
         </div>
       </CardContent>
     </Card>
@@ -89,18 +82,14 @@ function TrainingCard({ training }: { training: Training }) {
 
 
 export default function TrainingsPage() {
-    const groupedTrainings = React.useMemo(() => trainings.reduce<Record<string, Training[]>>((acc, training) => {
-      const date = training.date;
-      if (!acc[date]) {
-        acc[date] = [];
-      }
-      acc[date].push(training);
-      return acc;
-    }, {}), []);
+    const [activeDay, setActiveDay] = React.useState('Thursday');
     
-    const trainingDays = Object.entries(groupedTrainings);
-    const initialTab = trainingDays.length > 0 ? trainingDays[0][0] : '';
-
+    const { thursdayTrainings, fridayMorning, fridayAfternoon } = React.useMemo(() => {
+        const thursday = trainings.filter(t => t.date.startsWith('Thursday'));
+        const fridayMorning = trainings.filter(t => t.date.startsWith('Friday') && t.time.includes('AM'));
+        const fridayAfternoon = trainings.filter(t => t.date.startsWith('Friday') && t.time.includes('PM'));
+        return { thursdayTrainings: thursday, fridayMorning, fridayAfternoon };
+    }, []);
 
     return (
         <PageWrapper>
@@ -133,36 +122,74 @@ export default function TrainingsPage() {
                 </div>
 
                  <div className="max-w-4xl mx-auto p-4 md:p-6 lg:p-8">
-                     <Tabs defaultValue={initialTab} className="w-full">
-                        <ScrollArea className="w-full whitespace-nowrap">
-                            <TabsList className="inline-flex h-auto p-0 gap-3 bg-transparent">
-                                {trainingDays.map(([date]) => (
-                                    <TabsTrigger
-                                        key={date}
-                                        value={date}
-                                        className="flex flex-col items-center justify-center h-auto w-auto rounded-lg p-2 px-4 ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-md hover:bg-accent/80 data-[state=inactive]:bg-card"
-                                    >
-                                        <span className="text-sm font-semibold tracking-wider">{date}</span>
-                                    </TabsTrigger>
-                                ))}
-                            </TabsList>
-                            <ScrollBar orientation="horizontal" className="mt-2" />
-                        </ScrollArea>
-                        
-                        {trainingDays.map(([date, dayTrainings]) => (
-                            <TabsContent key={date} value={date} className="mt-6">
-                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                    {dayTrainings.map((training) => (
-                                        <TrainingCard key={training.id} training={training} />
-                                    ))}
-                                </div>
-                            </TabsContent>
-                        ))}
-                     </Tabs>
+                    <div className="grid grid-cols-2 gap-4 mb-6">
+                        <Button
+                            size="lg"
+                            onClick={() => setActiveDay('Thursday')}
+                            variant={activeDay === 'Thursday' ? 'default' : 'outline'}
+                        >
+                            Thursday, July 3rd
+                        </Button>
+                        <Button
+                            size="lg"
+                            onClick={() => setActiveDay('Friday')}
+                            variant={activeDay === 'Friday' ? 'default' : 'outline'}
+                        >
+                            Friday, July 4th
+                        </Button>
+                    </div>
+                     
+                     <AnimatePresence mode="wait">
+                        <motion.div
+                             key={activeDay}
+                             initial={{ opacity: 0, y: 10 }}
+                             animate={{ opacity: 1, y: 0 }}
+                             exit={{ opacity: 0, y: -10 }}
+                             transition={{ duration: 0.3 }}
+                        >
+                            {activeDay === 'Thursday' && (
+                                <Accordion type="single" collapsible defaultValue="session-1" className="w-full space-y-4">
+                                    <AccordionItem value="session-1" className="border rounded-lg bg-card shadow-sm">
+                                        <AccordionTrigger className="p-4 font-semibold text-lg hover:no-underline">Skill Development Session I</AccordionTrigger>
+                                        <AccordionContent className="p-4 pt-0">
+                                            <div className="space-y-4 border-t pt-4">
+                                                {thursdayTrainings.map((training) => (
+                                                    <TrainingCard key={training.id} training={training} />
+                                                ))}
+                                            </div>
+                                        </AccordionContent>
+                                    </AccordionItem>
+                                </Accordion>
+                            )}
+
+                             {activeDay === 'Friday' && (
+                                <Accordion type="single" collapsible defaultValue="session-2" className="w-full space-y-4">
+                                     <AccordionItem value="session-2" className="border rounded-lg bg-card shadow-sm">
+                                        <AccordionTrigger className="p-4 font-semibold text-lg hover:no-underline">Skill Development Session II</AccordionTrigger>
+                                        <AccordionContent className="p-4 pt-0">
+                                            <div className="space-y-4 border-t pt-4">
+                                                {fridayMorning.map((training) => (
+                                                    <TrainingCard key={training.id} training={training} />
+                                                ))}
+                                            </div>
+                                        </AccordionContent>
+                                    </AccordionItem>
+                                     <AccordionItem value="session-3" className="border rounded-lg bg-card shadow-sm">
+                                        <AccordionTrigger className="p-4 font-semibold text-lg hover:no-underline">Skill Development Session III</AccordionTrigger>
+                                        <AccordionContent className="p-4 pt-0">
+                                            <div className="space-y-4 border-t pt-4">
+                                                {fridayAfternoon.map((training) => (
+                                                    <TrainingCard key={training.id} training={training} />
+                                                ))}
+                                            </div>
+                                        </AccordionContent>
+                                    </AccordionItem>
+                                </Accordion>
+                            )}
+                        </motion.div>
+                     </AnimatePresence>
                  </div>
             </main>
         </PageWrapper>
     );
 }
-
-    
