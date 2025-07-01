@@ -317,49 +317,49 @@ export default function HomePage() {
       {
         href: '/council',
         title: 'Meet The Council',
-        image: 'images/spotlight/council.jpg',
+        image: 'https://placehold.co/400x200.png',
         dataAiHint: 'professional team',
       },
       {
         href: '/contestants',
         title: 'Mr & Miss Collegiate',
-        image: 'https://placehold.co/400x400.png',
+        image: 'https://placehold.co/400x200.png',
         dataAiHint: 'fashion pageant',
       },
        {
         href: '/outfits',
         title: 'Event Dress Codes',
-        image: 'https://placehold.co/400x400.png',
+        image: 'https://placehold.co/400x200.png',
         dataAiHint: 'fashion clothing',
       },
       {
         href: '/football',
         title: 'Football Showdown',
-        image: 'https://placehold.co/400x400.png',
-        dataAiHint: 'football trophy',
+        image: 'https://placehold.co/400x200.png',
+        dataAiHint: 'football',
       },
       {
         href: '/campfire',
         title: 'Storytelling/Campfire',
-        image: 'https://placehold.co/400x400.png',
+        image: 'https://placehold.co/400x200.png',
         dataAiHint: 'campfire',
       },
       {
         href: '/trainings',
         title: 'Skill Development Trainings',
-        image: 'https://images.unsplash.com/photo-1543269865-cbf427effbad?q=80&w=400&h=400&fit=crop',
+        image: 'https://placehold.co/400x200.png',
         dataAiHint: 'skill workshop',
       },
       {
         href: '/coffee-chat',
         title: 'ASCEND COFFEE CHAT',
-        image: 'https://images.unsplash.com/photo-1511537190424-bbbab87ac5eb?q=80&w=400&h=400&fit=crop',
+        image: 'https://placehold.co/400x200.png',
         dataAiHint: 'coffee meeting',
       },
       {
         href: '/debate',
         title: 'Debate & Speech Finals',
-        image: 'https://images.unsplash.com/photo-1543269865-cbf427effbad?q=80&w=400&h=400&fit=crop',
+        image: 'https://placehold.co/400x200.png',
         dataAiHint: 'public speaking',
       },
     ];
@@ -395,14 +395,14 @@ export default function HomePage() {
               Event Leadership
             </h2>
              <div className="grid grid-cols-2 gap-4">
-               <Link href="/council" className="block group">
+               <Link href="/council/amira-abdullahi" className="block group">
                   <Card className="relative overflow-hidden h-48 group rounded-xl">
                     <Image
-                      src="https://placehold.co/600x400.png"
+                      src="https://placehold.co/400x400.png"
                       alt="Amira Abdullahi"
                       fill
                       className="object-cover transition-transform duration-300 group-hover:scale-105"
-                      data-ai-hint="professional woman"
+                      data-ai-hint="youth leader"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
                     <div className="absolute bottom-0 left-0 p-3 text-primary-foreground">
@@ -411,10 +411,10 @@ export default function HomePage() {
                     </div>
                   </Card>
                 </Link>
-               <Link href="/council" className="block group">
+               <Link href="/council/oluwatoyin-atanda" className="block group">
                   <Card className="relative overflow-hidden h-48 group rounded-xl">
                     <Image
-                      src="https://placehold.co/600x400.png"
+                      src="https://placehold.co/400x400.png"
                       alt="Oluwatoyin Atanda"
                       fill
                       className="object-cover transition-transform duration-300 group-hover:scale-105"
