@@ -115,12 +115,12 @@ export default function CoffeeChatPage() {
           <Card className="shadow-xl overflow-hidden">
             <CardContent className="p-6 flex flex-col sm:flex-row items-center gap-6 text-center sm:text-left">
               <Avatar className="w-24 h-24 border-4 border-primary/20 shrink-0">
-                <AvatarImage src="https://i.pravatar.cc/150?u=AdebayoSunday" alt="Adebayo Sunday" />
+                <AvatarImage src="/images/amira.jpg" alt="Amira Abdullahi" />
                 <AvatarFallback><User className="w-12 h-12" /></AvatarFallback>
               </Avatar>
               <div>
                 <p className="text-muted-foreground text-sm font-medium">YOUR HOST</p>
-                <h2 className="text-2xl font-bold text-foreground">Adebayo Sunday</h2>
+                <h2 className="text-2xl font-bold text-foreground">Amira Abdullahi</h2>
                 <p className="text-base text-primary font-semibold">Collegiate Council Chairperson</p>
               </div>
             </CardContent>
@@ -129,7 +129,7 @@ export default function CoffeeChatPage() {
           <Card>
             <CardHeader>
               <p className="text-lg text-foreground leading-relaxed">
-                Join the Collegiate Chairperson, JCIN Cllr. Adebayo Sunday, for a special Townhall Meeting at LAYIPO 25 — where voices will be heard, ideas will flow, and leadership will get personal.
+                Join the Collegiate Chairperson, JCIN Cllr. Amirah Abdullahiy, for a special Townhall Meeting at LAYIPO 25 — where voices will be heard, ideas will flow, and leadership will get personal.
               </p>
               <p className="text-lg text-foreground/80 leading-relaxed mt-4">
                 Let’s sip, share, and shape the future of JCI Nigeria Collegiate — together.

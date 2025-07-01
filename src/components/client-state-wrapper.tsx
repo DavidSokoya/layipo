@@ -8,6 +8,7 @@ import { Toaster } from '@/components/ui/toaster';
 import { Pwa } from '@/components/pwa';
 import { BottomNavigation } from '@/components/ui/bottom-navigation';
 import { Logo } from './ui/logo';
+import { NotificationManager } from './notification-manager';
 
 function FullPageLoader() {
   return (
@@ -21,7 +22,7 @@ function FullPageLoader() {
         >
           {/* Front Face: Contains the logo */}
           <div
-            className="absolute w-full h-full flex items-center justify-center"
+            className="absolute w-full h-full flex items-center justify-center bg-card rounded-lg"
             style={{ backfaceVisibility: 'hidden', WebkitBackfaceVisibility: 'hidden' }}
           >
             <Logo />
@@ -29,7 +30,7 @@ function FullPageLoader() {
 
           {/* Back Face: Also contains the logo */}
           <div
-            className="absolute w-full h-full flex items-center justify-center"
+            className="absolute w-full h-full flex items-center justify-center bg-card rounded-lg"
             style={{
               backfaceVisibility: 'hidden',
               WebkitBackfaceVisibility: 'hidden',
@@ -77,7 +78,12 @@ export function ClientStateWrapper({ children }: { children: React.ReactNode }) 
   return (
     <div className="flex flex-col min-h-screen">
       <div className="flex-1 w-full pb-16">{children}</div>
-      {showNav && <BottomNavigation />}
+      {showNav && (
+        <>
+            <BottomNavigation />
+            <NotificationManager />
+        </>
+      )}
       <Toaster />
       <Pwa />
     </div>

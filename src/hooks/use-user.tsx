@@ -81,6 +81,22 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
     }, []);
 
     const toggleBookmark = React.useCallback((eventId: string) => {
+        if (typeof window !== 'undefined' && 'Notification' in window) {
+            // Check if we are about to ADD a bookmark
+            if (!user?.bookmarkedEventIds.includes(eventId)) {
+                if (Notification.permission === 'default') {
+                    Notification.requestPermission().then(permission => {
+                        if (permission === 'granted') {
+                            toast({
+                                title: 'Notifications Enabled',
+                                description: 'You\'ll now get reminders for bookmarked events.',
+                            });
+                        }
+                    });
+                }
+            }
+        }
+
         setUser(currentUser => {
             if (!currentUser) return null;
             const newBookmarks = currentUser.bookmarkedEventIds.includes(eventId)
@@ -91,7 +107,7 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
             window.localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(updatedUser));
             return updatedUser;
         });
-    }, []);
+    }, [user, toast]);
 
     const addConnection = React.useCallback((connection: PublicUserProfile) => {
         setUser(currentUser => {
