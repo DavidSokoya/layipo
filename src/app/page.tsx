@@ -372,50 +372,36 @@ export default function HomePage() {
             <h2 className="text-xl font-bold font-headline tracking-tight text-foreground mb-4">
               Event Leadership
             </h2>
-            <div className="grid grid-cols-2 gap-4">
-              <Card className="overflow-hidden text-center">
-                <div className="relative h-20 bg-muted">
-                    <Image 
-                        src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=400&h=200&fit=crop"
-                        alt="Leadership background"
-                        fill
-                        className="object-cover"
-                        data-ai-hint="professional portrait"
-                    />
-                </div>
-                <CardContent className="p-4 pt-12 relative"> 
-                    <Avatar className="w-20 h-20 absolute -top-10 left-1/2 -translate-x-1/2 border-4 border-background shadow-md">
-                        <AvatarImage src="https://i.pravatar.cc/150?u=AmiraAbdullahi" alt="Amira Abdullahi" />
-                        <AvatarFallback>AA</AvatarFallback>
-                    </Avatar>
-                    <div className="space-y-1">
-                        <p className="font-semibold text-base text-foreground">Amira Abdullahi</p>
-                        <p className="text-sm text-primary font-medium">Collegiate Chairperson</p>
-                    </div>
-                </CardContent>
-              </Card>
-              <Card className="overflow-hidden text-center">
-                <div className="relative h-20 bg-muted">
-                    <Image 
-                        src="https://images.unsplash.com/photo-1557862921-37829c790f19?q=80&w=400&h=200&fit=crop"
-                        alt="Leadership background"
-                        fill
-                        className="object-cover"
-                        data-ai-hint="professional woman"
-                    />
-                </div>
-                <CardContent className="p-4 pt-12 relative">
-                    <Avatar className="w-20 h-20 absolute -top-10 left-1/2 -translate-x-1/2 border-4 border-background shadow-md">
-                        <AvatarImage src="https://i.pravatar.cc/150?u=OluwatoyinAtanda" alt="Oluwatoyin Atanda" />
-                        <AvatarFallback>OA</AvatarFallback>
-                    </Avatar>
-                    <div className="space-y-1">
-                        <p className="font-semibold text-base text-foreground">Oluwatoyin Atanda</p>
-                        <p className="text-sm text-primary font-medium">National President</p>
-                    </div>
-                </CardContent>
-              </Card>
-            </div>
+             <div className="grid grid-cols-2 gap-4">
+               <Card className="relative overflow-hidden h-48 group rounded-xl">
+                 <Image
+                   src="https://images.unsplash.com/photo-1557862921-37829c790f19?q=80&w=400&h=400&fit=crop"
+                   alt="Amira Abdullahi"
+                   fill
+                   className="object-cover transition-transform duration-300 group-hover:scale-105"
+                   data-ai-hint="professional woman"
+                 />
+                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
+                 <div className="absolute bottom-0 left-0 p-3 text-primary-foreground">
+                   <h3 className="font-bold text-base">Amira Abdullahi</h3>
+                   <p className="text-sm opacity-90">Collegiate Chairperson</p>
+                 </div>
+               </Card>
+               <Card className="relative overflow-hidden h-48 group rounded-xl">
+                 <Image
+                   src="https://images.unsplash.com/photo-1560250047-0ae9630c412e?q=80&w=400&h=400&fit=crop"
+                   alt="Oluwatoyin Atanda"
+                   fill
+                   className="object-cover transition-transform duration-300 group-hover:scale-105"
+                   data-ai-hint="professional woman ceo"
+                 />
+                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
+                 <div className="absolute bottom-0 left-0 p-3 text-primary-foreground">
+                   <h3 className="font-bold text-base">Oluwatoyin Atanda</h3>
+                   <p className="text-sm opacity-90">National President</p>
+                 </div>
+               </Card>
+             </div>
           </section>
 
           <section className="px-4 sm:px-6 lg:px-8">
