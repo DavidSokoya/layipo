@@ -2,61 +2,59 @@
 'use client';
 
 import * as React from 'react';
-import Image from 'next/image';
 import { PageWrapper } from '@/components/page-wrapper';
 import { PageHeader } from '@/components/ui/page-header';
-import { Card } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { motion } from 'framer-motion';
+import { Briefcase, UserCheck, Palette, Award, Coffee, Shirt, Flame, Check } from 'lucide-react';
 
-const outfits = [
+const dressCodes = [
   {
-    title: 'Camp Fire Night',
-    outfit: 'Casual',
-    image: 'https://images.unsplash.com/photo-1500352528994-5257543475cf?q=80&w=600&h=800&fit=crop',
-    dataAiHint: 'bonfire casual',
-    overlayClass: 'bg-black/60',
-    textClass: 'text-white',
+    icon: Briefcase,
+    title: 'Business / Business Formal',
+    description: 'Polished. Professional. Power-ready. Think blazers, button-downs, and clean cuts.',
+    events: [
+      'Social Enterprise Academy',
+      'All Training Sessions',
+      'Morning Show (Days 2 & 3)',
+      'Strategy Panel, Debate, Media Rounds, etc.',
+    ],
   },
   {
-    title: 'Closing Ceremony',
-    outfit: 'Black Tie',
-    image: 'https://images.unsplash.com/photo-1527628217451-b2414a1ee132?q=80&w=600&h=800&fit=crop',
-    dataAiHint: 'black tie event',
-    overlayClass: 'bg-gradient-to-t from-yellow-900/40 via-black/50 to-black/70',
-    textClass: 'text-white',
-    imageFilter: 'grayscale',
+    icon: UserCheck,
+    title: 'Strictly Formal',
+    description: 'Elevated business wear. No polos, sneakers, or denim.',
+    events: ['Collegiate General Assembly'],
   },
   {
-    title: 'Morning Show',
-    outfit: 'Formal',
-    image: 'https://images.unsplash.com/photo-1543269664-7e94994d95b0?q=80&w=600&h=800&fit=crop',
-    dataAiHint: 'panel discussion',
-    overlayClass: 'bg-black/30',
-    textClass: 'text-white',
+    icon: Palette,
+    title: 'Local Fabric / Cultural Attire',
+    description: 'Represent your roots in style. Campala, Ankara, or native vibes.',
+    events: ['Opening Ceremony', 'OJUDE LAYIPO'],
   },
   {
-    title: 'Opening Ceremony',
-    outfit: 'Kampala',
-    image: 'https://images.unsplash.com/photo-1619890179927-f0375e247092?q=80&w=600&h=800&fit=crop',
-    dataAiHint: 'ankara fashion',
-    overlayClass: 'bg-black/40',
-    textClass: 'text-white',
+    icon: Award,
+    title: 'Black Tie',
+    description: 'The night to dazzle. Suits, gowns, bowties.',
+    events: ['Closing Ceremony Red Carpet', 'Banquet Night'],
   },
   {
-    title: 'Storytelling Night',
-    outfit: 'Rep Your Culture',
-    image: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=600&h=800&fit=crop',
-    dataAiHint: 'cultural attire',
-    overlayClass: 'bg-yellow-950/60',
-    textClass: 'text-white',
+    icon: Coffee,
+    title: 'Casual',
+    description: 'Relaxed and comfortable — keep it neat.',
+    events: ['Arrival', 'Setup', 'Lunches', 'Mr & Miss Collegiate', 'Tungba Night'],
   },
   {
-    title: 'Training Sessions',
-    outfit: 'Business Casual',
-    image: 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=600&h=800&fit=crop',
-    dataAiHint: 'business workshop',
-    overlayClass: 'bg-blue-950/30',
-    textClass: 'text-white',
+    icon: Shirt,
+    title: 'Sportswear',
+    description: 'Athletic wear and JCI Branded T-Shirts. You’re here to move.',
+    events: ['Football Prelims & Finals', 'Aerobics'],
+  },
+  {
+    icon: Flame,
+    title: 'Rep Your Culture',
+    description: 'Showcase your roots — it’s storytelling night.',
+    events: ['Cultural Campfire Night'],
   },
 ];
 
@@ -68,34 +66,41 @@ export default function OutfitsPage() {
           <PageHeader />
           <header className="text-center mb-12">
             <h1 className="text-3xl font-bold font-headline tracking-tight text-foreground sm:text-4xl lg:text-5xl">
-              Event Dress Codes
+              Dress Code Guide
             </h1>
             <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">
-              Your visual guide to looking the part for every occasion at LAYIPO 25.
+              Not sure what to wear at LÁYÍPO ’25? We’ve got you. Whether it’s training, culture night, or the big stage — here’s how to show up and show out.
             </p>
           </header>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {outfits.map((code, index) => (
+          <div className="space-y-8">
+            {dressCodes.map((code, index) => (
               <motion.div
                 key={code.title}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
               >
-                <Card className="overflow-hidden h-[450px] flex flex-col group relative rounded-xl shadow-lg">
-                  <Image
-                    src={code.image}
-                    alt={code.title}
-                    data-ai-hint={code.dataAiHint}
-                    fill
-                    className={`object-cover transition-transform duration-500 group-hover:scale-110 ${code.imageFilter || ''}`}
-                  />
-                  <div className={`absolute inset-0 transition-colors ${code.overlayClass}`} />
-                  <div className={`relative flex flex-col justify-end h-full p-6 ${code.textClass}`}>
-                    <h2 className="text-2xl font-bold font-headline">{code.title}</h2>
-                    <p className="text-base opacity-90">Outfit: {code.outfit}</p>
-                  </div>
+                <Card className="overflow-hidden shadow-md">
+                  <CardHeader className="flex flex-row items-center gap-4 bg-muted/50 p-4">
+                    <div className="p-3 bg-primary/10 rounded-full">
+                      <code.icon className="w-6 h-6 text-primary" />
+                    </div>
+                    <div>
+                      <CardTitle className="text-lg">{code.title}</CardTitle>
+                      <p className="text-sm text-muted-foreground">{code.description}</p>
+                    </div>
+                  </CardHeader>
+                  <CardContent className="p-4">
+                    <ul className="space-y-2">
+                      {code.events.map(event => (
+                        <li key={event} className="flex items-start gap-3">
+                          <Check className="w-4 h-4 text-green-500 mt-1 shrink-0" />
+                          <span className="text-foreground/80">{event}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </CardContent>
                 </Card>
               </motion.div>
             ))}
