@@ -2,12 +2,12 @@
 'use client';
 
 import * as React from 'react';
+import Image from 'next/image';
 import { PageWrapper } from '@/components/page-wrapper';
 import { PageHeader } from '@/components/ui/page-header';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { motion } from 'framer-motion';
 import { Briefcase, UserCheck, Palette, Award, Coffee, Shirt, Flame, Check } from 'lucide-react';
-import { cn } from '@/lib/utils';
 
 const dressCodes = [
   {
@@ -20,77 +20,56 @@ const dressCodes = [
       'Morning Show (Days 2 & 3)',
       'Strategy Panel, Debate, Media Rounds, etc.',
     ],
-    theme: {
-      header: 'bg-primary/5',
-      iconContainer: 'bg-primary/10',
-      icon: 'text-primary',
-    },
+    image: 'https://placehold.co/600x400.png',
+    dataAiHint: 'business attire',
   },
   {
     icon: UserCheck,
     title: 'Strictly Formal',
     description: 'Elevated business wear. No polos, sneakers, or denim.',
     events: ['Collegiate General Assembly'],
-    theme: {
-      header: 'bg-foreground/5',
-      iconContainer: 'bg-foreground/10',
-      icon: 'text-foreground',
-    },
+    image: 'https://placehold.co/600x400.png',
+    dataAiHint: 'formal suit',
   },
   {
     icon: Palette,
     title: 'Local Fabric / Cultural Attire',
     description: 'Represent your roots in style. Campala, Ankara, or native vibes.',
     events: ['Opening Ceremony', 'OJUDE LAYIPO'],
-    theme: {
-      header: 'bg-accent/5',
-      iconContainer: 'bg-accent/10',
-      icon: 'text-accent',
-    },
+    image: 'https://placehold.co/600x400.png',
+    dataAiHint: 'african fabric',
   },
   {
     icon: Award,
     title: 'Black Tie',
     description: 'The night to dazzle. Suits, gowns, bowties.',
     events: ['Closing Ceremony Red Carpet', 'Banquet Night'],
-     theme: {
-      header: 'bg-status-amber/5',
-      iconContainer: 'bg-status-amber/10',
-      icon: 'text-status-amber',
-    },
+    image: 'https://placehold.co/600x400.png',
+    dataAiHint: 'black tie event',
   },
   {
     icon: Coffee,
     title: 'Casual',
     description: 'Relaxed and comfortable — keep it neat.',
     events: ['Arrival', 'Setup', 'Lunches', 'Mr & Miss Collegiate', 'Tungba Night'],
-    theme: {
-      header: 'bg-status-green/5',
-      iconContainer: 'bg-status-green/10',
-      icon: 'text-status-green',
-    },
+    image: 'https://placehold.co/600x400.png',
+    dataAiHint: 'casual fashion',
   },
   {
     icon: Shirt,
     title: 'Sportswear',
     description: 'Athletic wear and JCI Branded T-Shirts. You’re here to move.',
     events: ['Football Prelims & Finals', 'Aerobics'],
-    theme: {
-      header: 'bg-status-red/5',
-      iconContainer: 'bg-status-red/10',
-      icon: 'text-status-red',
-    },
+    image: 'https://placehold.co/600x400.png',
+    dataAiHint: 'sportswear fashion',
   },
   {
     icon: Flame,
     title: 'Rep Your Culture',
     description: 'Showcase your roots — it’s storytelling night.',
     events: ['Cultural Campfire Night'],
-    theme: {
-      header: 'bg-status-blue/5',
-      iconContainer: 'bg-status-blue/10',
-      icon: 'text-status-blue',
-    },
+    image: 'https://placehold.co/600x400.png',
+    dataAiHint: 'cultural pattern',
   },
 ];
 
@@ -118,15 +97,25 @@ export default function OutfitsPage() {
                 transition={{ duration: 0.5, delay: index * 0.1 }}
               >
                 <Card className="overflow-hidden shadow-md">
-                  <CardHeader className={cn("flex flex-row items-center gap-4 p-4", code.theme.header)}>
-                    <div className={cn("p-3 rounded-full", code.theme.iconContainer)}>
-                      <code.icon className={cn("w-6 h-6", code.theme.icon)} />
-                    </div>
-                    <div>
-                      <CardTitle className="text-lg">{code.title}</CardTitle>
-                      <p className="text-sm text-muted-foreground">{code.description}</p>
-                    </div>
-                  </CardHeader>
+                   <CardHeader className="relative p-0 h-32">
+                        <Image
+                            src={code.image}
+                            alt={code.title}
+                            fill
+                            className="object-cover"
+                            data-ai-hint={code.dataAiHint}
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-transparent" />
+                        <div className="relative flex flex-row items-center gap-4 p-4 h-full text-primary-foreground">
+                            <div className="p-3 rounded-full bg-white/10 backdrop-blur-sm border border-white/20">
+                                <code.icon className="w-6 h-6 text-white" />
+                            </div>
+                            <div className="flex-1">
+                                <CardTitle className="text-lg text-white">{code.title}</CardTitle>
+                                <p className="text-sm text-white/80 mt-1">{code.description}</p>
+                            </div>
+                        </div>
+                    </CardHeader>
                   <CardContent className="p-4">
                     <ul className="space-y-2">
                       {code.events.map(event => (
