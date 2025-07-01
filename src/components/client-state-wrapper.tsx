@@ -56,10 +56,6 @@ export function ClientStateWrapper({ children }: { children: React.ReactNode }) 
       return;
     }
 
-    if (user && pathname === '/welcome') {
-      router.replace('/');
-    }
-
     if (!user && pathname !== '/welcome') {
       router.replace('/welcome');
     }
