@@ -1,7 +1,7 @@
 {
-  "name": "JCI GO",
-  "short_name": "JCI GO",
-  "description": "Your companion app for JCI events.",
+  "name": "LAYIPO'25 Collegiate Conference",
+  "short_name": "lAYIPO '25",
+  "description": "Your companion app for LAYIPO'25",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#F0FFFF",

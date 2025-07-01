@@ -369,6 +369,38 @@ export default function HomePage() {
           </section>
 
           <section className="px-4 sm:px-6 lg:px-8">
+            <h2 className="text-xl font-bold font-headline tracking-tight text-foreground mb-4">
+              Event Leadership
+            </h2>
+            <div className="grid grid-cols-2 gap-4">
+              <Card>
+                <CardContent className="p-3 text-center space-y-1">
+                  <Avatar className="w-16 h-16 mx-auto mb-2 border-2 border-primary/20">
+                    <AvatarImage src="https://i.pravatar.cc/150?u=AmiraAbdullahi" alt="Amira Abdullahi" />
+                    <AvatarFallback>AA</AvatarFallback>
+                  </Avatar>
+                  <div>
+                      <p className="font-semibold text-sm text-foreground">Amira Abdullahi</p>
+                      <p className="text-xs text-muted-foreground">Collegiate Chairperson</p>
+                  </div>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardContent className="p-3 text-center space-y-1">
+                  <Avatar className="w-16 h-16 mx-auto mb-2 border-2 border-primary/20">
+                    <AvatarImage src="https://i.pravatar.cc/150?u=OluwatoyinAtanda" alt="Oluwatoyin Atanda" />
+                    <AvatarFallback>OA</AvatarFallback>
+                  </Avatar>
+                  <div>
+                      <p className="font-semibold text-sm text-foreground">Oluwatoyin Atanda</p>
+                      <p className="text-xs text-muted-foreground">National President</p>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          </section>
+
+          <section className="px-4 sm:px-6 lg:px-8">
              <ScrollArea className="w-full whitespace-nowrap [&_>div>div]:pb-2 [&_>div>div]:-mb-2">
                 <div className="flex w-max space-x-3">
                     {eventDays.map(([date]) => {
