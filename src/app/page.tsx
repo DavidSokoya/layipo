@@ -194,7 +194,6 @@ export default function HomePage() {
   const [now, setNow] = React.useState<Date | null>(null);
 
   React.useEffect(() => {
-    // Set time on mount and update every minute
     setNow(new Date());
     const interval = setInterval(() => setNow(new Date()), 60000);
     return () => clearInterval(interval);
@@ -224,23 +223,14 @@ export default function HomePage() {
   }, []);
 
   const getInitialDate = React.useCallback(() => {
-    if (!now) return eventDays[0]?.[0] || ''; // Fallback for SSR and initial client load
+    if (!now) return eventDays[0]?.[0] || ''; 
 
-    const todayFormatted = now.toLocaleDateString('en-US', {
-        weekday: 'long',
-        day: 'numeric',
-        month: 'long',
-        year: 'numeric'
-    }).replace(/(\d)(st|nd|rd|th)/, '$1');
+    const todayDateOnly = new Date(now.getFullYear(), now.getMonth(), now.getDate());
 
     const todayKey = eventDays.find(([date]) => {
-        const parsed = parseDate(date).toLocaleDateString('en-US', {
-             weekday: 'long',
-             day: 'numeric',
-             month: 'long',
-             year: 'numeric'
-        }).replace(/(\d)(st|nd|rd|th)/, '$1');
-        return parsed === todayFormatted;
+        const eventDate = parseDate(date);
+        const eventDateOnly = new Date(eventDate.getFullYear(), eventDate.getMonth(), eventDate.getDate());
+        return eventDateOnly.getTime() === todayDateOnly.getTime();
     });
 
     return todayKey ? todayKey[0] : eventDays[0]?.[0] || '';
@@ -284,11 +274,12 @@ export default function HomePage() {
     };
       
     const dayEvents = eventDays.find(([date]) => date === selectedDate)?.[1] || [];
-    if (!dayEvents.length) return { currentEvent: null, upcomingEvents: [], remainingEvents: [], totalUpcomingCount: 0 };
+    if (!dayEvents.length || !now) return { currentEvent: null, upcomingEvents: [], remainingEvents: [], totalUpcomingCount: 0 };
 
     const baseDate = parseDate(selectedDate);
-    // Use live time if `now` is set for today, otherwise default to start of day
-    const currentTime = (now && getInitialDate() === selectedDate) ? now : new Date(baseDate.setHours(0, 0, 0, 0));
+    
+    const isToday = baseDate.toDateString() === now.toDateString();
+    const currentTime = isToday ? now : new Date(baseDate.setHours(0, 0, 0, 0));
 
     let current: (Event & { startTime: Date, endTime: Date }) | null = null;
     const upcoming: (Event & { startTime: Date, endTime: Date })[] = [];
@@ -322,14 +313,7 @@ export default function HomePage() {
 
 
   const allSpotlightItems: SpotlightItem[] = React.useMemo(() => {
-    const eventMap = events.reduce((acc, event) => {
-      acc[event.id] = event;
-      return acc;
-    }, {} as Record<string, Event>);
-
-    const getEvent = (id: string) => eventMap[id];
-
-    const featureLinks: SpotlightItem[] = [
+    return [
       {
         href: '/council',
         title: 'Meet The Council',
@@ -360,9 +344,6 @@ export default function HomePage() {
         image: 'https://placehold.co/400x400.png',
         dataAiHint: 'campfire',
       },
-    ];
-
-    const eventHighlights: SpotlightItem[] = [
       {
         href: '/trainings',
         title: 'Skill Development Trainings',
@@ -370,20 +351,18 @@ export default function HomePage() {
         dataAiHint: 'skill workshop',
       },
       {
-        href: getEvent('s3')?.href || '/timetable#s3',
-        title: getEvent('s3')?.title || 'Special Event',
+        href: '/coffee-chat',
+        title: 'ASCEND COFFEE CHAT',
         image: 'https://images.unsplash.com/photo-1511537190424-bbbab87ac5eb?q=80&w=400&h=400&fit=crop',
         dataAiHint: 'coffee meeting',
       },
       {
-        href: getEvent('f4')?.href || '/timetable#f4',
-        title: getEvent('f4')?.title || 'Special Event',
-        image: getEvent('f4')?.image || 'https://placehold.co/400x400.png',
-        dataAiHint: getEvent('f4')?.dataAiHint,
+        href: '/debate',
+        title: 'Debate & Speech Finals',
+        image: 'https://images.unsplash.com/photo-1543269865-cbf427effbad?q=80&w=400&h=400&fit=crop',
+        dataAiHint: 'public speaking',
       },
-    ].filter((e) => e.title);
-
-    return [...featureLinks, ...eventHighlights];
+    ];
   }, []);
 
   if (!user || !selectedDate || !now) {
@@ -419,7 +398,7 @@ export default function HomePage() {
                <Link href="/council" className="block group">
                   <Card className="relative overflow-hidden h-48 group rounded-xl">
                     <Image
-                      src="https://images.unsplash.com/photo-1557862921-37829c790f19?q=80&w=400&h=400&fit=crop"
+                      src="https://placehold.co/400x600.png"
                       alt="Amira Abdullahi"
                       fill
                       className="object-cover transition-transform duration-300 group-hover:scale-105"
@@ -435,7 +414,7 @@ export default function HomePage() {
                <Link href="/council" className="block group">
                   <Card className="relative overflow-hidden h-48 group rounded-xl">
                     <Image
-                      src="https://images.unsplash.com/photo-1560250047-0ae9630c412e?q=80&w=400&h=400&fit=crop"
+                      src="https://placehold.co/400x600.png"
                       alt="Oluwatoyin Atanda"
                       fill
                       className="object-cover transition-transform duration-300 group-hover:scale-105"
