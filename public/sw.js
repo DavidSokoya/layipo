@@ -1,31 +1,16 @@
-const CACHE_NAME = 'jci-go-cache-v1';
+const CACHE_NAME = 'layipo25-cache-v1';
 const urlsToCache = [
   '/',
-  '/badge',
-  '/profile',
-  '/globals.css',
+  '/manifest.json',
 ];
 
 self.addEventListener('install', (event) => {
+  self.skipWaiting();
   event.waitUntil(
-    caches.open(CACHE_NAME)
-      .then((cache) => {
-        console.log('Opened cache');
-        return cache.addAll(urlsToCache);
-      })
-  );
-});
-
-self.addEventListener('fetch', (event) => {
-  event.respondWith(
-    caches.match(event.request)
-      .then((response) => {
-        if (response) {
-          return response;
-        }
-        return fetch(event.request);
-      }
-    )
+    caches.open(CACHE_NAME).then((cache) => {
+      console.log('Opened cache');
+      return cache.addAll(urlsToCache);
+    })
   );
 });
 
@@ -40,6 +25,27 @@ self.addEventListener('activate', (event) => {
           }
         })
       );
+    })
+  );
+});
+
+self.addEventListener('fetch', (event) => {
+  event.respondWith(
+    caches.open(CACHE_NAME).then((cache) => {
+      return cache.match(event.request).then((cachedResponse) => {
+        const fetchPromise = fetch(event.request).then((networkResponse) => {
+          // If the request is for a chrome-extension, do not cache it
+          if (event.request.url.startsWith('chrome-extension://')) {
+            return networkResponse;
+          }
+          if (networkResponse.status === 200) {
+            cache.put(event.request, networkResponse.clone());
+          }
+          return networkResponse;
+        });
+
+        return cachedResponse || fetchPromise;
+      });
     })
   );
 });
