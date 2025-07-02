@@ -54,7 +54,8 @@ export default function WelcomePage() {
 
   const [imageSrc, setImageSrc] = React.useState<string | null>(null);
   const [showCamera, setShowCamera] = React.useState(false);
-  const [hasCameraPermission, setHasCameraPermission] = React.useState(false);
+  // Start with true to avoid showing the error message before permission is denied.
+  const [hasCameraPermission, setHasCameraPermission] = React.useState(true);
   const videoRef = React.useRef<HTMLVideoElement>(null);
   const canvasRef = React.useRef<HTMLCanvasElement>(null);
   
@@ -245,7 +246,7 @@ export default function WelcomePage() {
                     <Card className="flex items-center justify-center w-full h-40 bg-muted rounded-lg overflow-hidden">
                         {imageSrc ? (
                             <Image src={imageSrc} alt="Profile preview" width={160} height={160} className="object-cover w-full h-full" />
-                        ) : showCamera && hasCameraPermission ? (
+                        ) : showCamera ? (
                             <video ref={videoRef} className="w-full h-full object-cover" autoPlay muted playsInline />
                         ) : (
                             <div className="text-muted-foreground flex flex-col items-center justify-center text-center p-4">
