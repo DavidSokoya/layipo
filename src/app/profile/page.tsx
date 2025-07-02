@@ -134,7 +134,7 @@ export default function ProfilePage() {
                         </Link>
                     </Button>
                 </div>
-                <Image src="/logos/elevate_lo.png" alt="Elevate Logo" width={90} height={24} className="object-contain" />
+                <Image src="/logos/elevate_lo.png" alt="Elevate Logo" width={75} height={24} className="object-contain" />
             </div>
           <div className="flex flex-col sm:flex-row items-center gap-6">
             <Avatar className="w-24 h-24 border-4 border-primary/20">

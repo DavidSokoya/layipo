@@ -104,7 +104,7 @@ const HomePageHeader = () => {
             </h1>
         </Link>
       </div>
-      <Image src="/logos/elevate_lo.png" alt="Elevate Logo" width={90} height={24} className="object-contain" />
+      <Image src="/logos/elevate_lo.png" alt="Elevate Logo" width={75} height={24} className="object-contain" />
     </div>
   );
 };
