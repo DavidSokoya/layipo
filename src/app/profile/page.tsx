@@ -122,8 +122,8 @@ export default function ProfilePage() {
         <div className="max-w-4xl mx-auto space-y-8">
           <div className="mb-8 flex items-center justify-between">
             <div className="flex items-center gap-4">
-                <Image src="/logos/levate_lo.png" alt="Levate Logo" width={100} height={30} className="object-contain" />
                 <Image src="/logos/layipo_lo.png" alt="LAYIPO 25 Logo" width={100} height={30} className="object-contain" />
+                <Image src="/logos/elevate_lo.png" alt="Elevate Logo" width={100} height={30} className="object-contain" />
             </div>
             <div className="flex items-center gap-2">
                  <Button variant="outline" asChild size="sm">
