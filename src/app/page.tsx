@@ -93,7 +93,7 @@ const HomePageHeader = () => {
   return (
     <div className="flex justify-between items-center p-3 bg-card border-b">
        <div className="flex items-center gap-4">
-        <Image src="/logos/elevate_lo.png" alt="Elevate Logo" width={90} height={24} className="object-contain hidden md:block" />
+        <Image src="/logos/elevate_lo.png" alt="Elevate Logo" width={90} height={20} className="object-contain hidden md:block" />
         <Link href="/profile" className="flex items-center gap-3 group">
             <Avatar className="w-9 h-9 border-2 border-primary/20 group-hover:border-primary transition-colors">
             <AvatarImage src={avatarUrl} alt={user.name} />

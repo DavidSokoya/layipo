@@ -121,7 +121,7 @@ export default function ProfilePage() {
       <main className="flex-1 p-4 md:p-6 lg:p-8 mb-16">
         <div className="max-w-4xl mx-auto space-y-8">
            <div className="mb-4 flex items-center justify-between">
-                <Image src="/logos/elevate_lo.png" alt="Elevate Logo" width={90} height={24} className="object-contain" />
+                <Image src="/logos/elevate_lo.png" alt="Elevate Logo" width={90} height={20} className="object-contain" />
                 <div className="flex items-center gap-2">
                     <Button variant="outline" asChild size="sm">
                         <Link href="/install">
