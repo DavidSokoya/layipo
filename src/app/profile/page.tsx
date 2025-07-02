@@ -2,6 +2,7 @@
 'use client';
 import { BookMarked, Users, Calendar, Clock, MapPin, User, FileText, Bot, Download } from 'lucide-react';
 import React from 'react';
+import Image from 'next/image';
 import { useUser } from '@/hooks/use-user';
 import { events } from '@/lib/data/events';
 import { trainings } from '@/lib/data/trainings';
@@ -9,7 +10,6 @@ import type { Event, Training, PublicUserProfile } from '@/lib/types';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Logo } from '@/components/ui/logo';
 import { PageWrapper } from '@/components/page-wrapper';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
@@ -19,7 +19,7 @@ function ProfileLoader() {
     return (
         <div className="max-w-4xl mx-auto space-y-8">
             <div className="mb-8">
-                <Logo />
+                <Skeleton className="h-8 w-48" />
             </div>
             <div className="flex flex-col sm:flex-row items-center gap-6">
                 <Skeleton className="w-24 h-24 rounded-full" />
@@ -121,7 +121,10 @@ export default function ProfilePage() {
       <main className="flex-1 p-4 md:p-6 lg:p-8 mb-16">
         <div className="max-w-4xl mx-auto space-y-8">
           <div className="mb-8 flex items-center justify-between">
-            <Logo />
+            <div className="flex items-center gap-4">
+                <Image src="/logos/levate_lo.png" alt="Levate Logo" width={100} height={30} className="object-contain" />
+                <Image src="/logos/layipo_lo.png" alt="LAYIPO 25 Logo" width={100} height={30} className="object-contain" />
+            </div>
             <div className="flex items-center gap-2">
                  <Button variant="outline" asChild size="sm">
                     <Link href="/install">

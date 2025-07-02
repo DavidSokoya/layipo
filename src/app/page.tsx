@@ -17,7 +17,6 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Progress } from '@/components/ui/progress';
 import { Badge } from '@/components/ui/badge';
-import { Logo } from '@/components/ui/logo';
 
 function HomePageLoader() {
   return (
@@ -77,13 +76,14 @@ const HomePageHeader = () => {
   if (!user) {
     return (
       <div className="flex justify-between items-center p-3 bg-card border-b">
-        <div className="flex items-center gap-3">
-          <Skeleton className="w-9 h-9 rounded-full" />
-          <div className="space-y-2">
-            <Skeleton className="h-5 w-24" />
-          </div>
+        <div className="flex items-center gap-4">
+            <Skeleton className="h-8 w-24 hidden md:block" />
+            <div className="flex items-center gap-3">
+                <Skeleton className="w-9 h-9 rounded-full" />
+                <Skeleton className="h-5 w-24" />
+            </div>
         </div>
-        <Skeleton className="h-6 w-24" />
+        <Skeleton className="h-8 w-24" />
       </div>
     );
   }
@@ -92,16 +92,19 @@ const HomePageHeader = () => {
 
   return (
     <div className="flex justify-between items-center p-3 bg-card border-b">
-      <Link href="/profile" className="flex items-center gap-3 group">
-        <Avatar className="w-9 h-9 border-2 border-primary/20 group-hover:border-primary transition-colors">
-          <AvatarImage src={avatarUrl} alt={user.name} />
-          <AvatarFallback><User className="w-5 h-5" /></AvatarFallback>
-        </Avatar>
-        <h1 className="text-lg font-bold text-foreground group-hover:text-primary transition-colors">
-          Hi, {firstName}
-        </h1>
-      </Link>
-      <Logo width={100} height={25} />
+       <div className="flex items-center gap-4">
+        <Image src="/logos/levate_lo.png" alt="Levate Logo" width={100} height={30} className="object-contain hidden md:block" />
+        <Link href="/profile" className="flex items-center gap-3 group">
+            <Avatar className="w-9 h-9 border-2 border-primary/20 group-hover:border-primary transition-colors">
+            <AvatarImage src={avatarUrl} alt={user.name} />
+            <AvatarFallback><User className="w-5 h-5" /></AvatarFallback>
+            </Avatar>
+            <h1 className="text-lg font-bold text-foreground group-hover:text-primary transition-colors">
+            Hi, {firstName}
+            </h1>
+        </Link>
+      </div>
+      <Image src="/logos/layipo_lo.png" alt="LAYIPO 25 Logo" width={100} height={30} className="object-contain" />
     </div>
   );
 };
