@@ -24,10 +24,10 @@ export function PageHeader({
                 <span className="sr-only">Back</span>
                 </Link>
             </Button>
-            <Image src="/logos/elevate_lo.png" alt="Elevate Logo" width={90} height={20} className="object-contain" />
+            <Image src="/logos/layipo_lo.png" alt="LAYIPO 25 Logo" width={90} height={24} className="object-contain" />
         </div>
       
-      <Image src="/logos/layipo_lo.png" alt="LAYIPO 25 Logo" width={90} height={24} className="object-contain" />
+      <Image src="/logos/elevate_lo.png" alt="Elevate Logo" width={90} height={24} className="object-contain" />
     </div>
   );
 }
