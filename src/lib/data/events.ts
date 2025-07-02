@@ -329,7 +329,7 @@ export const events: Event[] = [
     role: 'All',
     description: 'An energizing morning aerobics session to get your body moving.',
     dressCode: 'JCI T-shirt/Sports Wear',
-    image: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?q=80&w=400&h=400&fit=crop',
+    image: '/images/timetable/aerobics.jpg',
     dataAiHint: 'group aerobics',
     category: 'Networking & Socials',
   },
