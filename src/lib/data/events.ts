@@ -448,7 +448,7 @@ export const events: Event[] = [
     role: 'All',
     description: 'Official departure day for all attendees.',
     dressCode: 'Not stated',
-    image: '/images/timetable/departure.jpg',
+    image: '/images/timetable/depart.jpg',
     dataAiHint: 'people leaving',
     category: 'Main Events & Ceremonies',
   },

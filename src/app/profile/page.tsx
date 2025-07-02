@@ -1,6 +1,6 @@
 
 'use client';
-import { BookMarked, Users, Calendar, Clock, MapPin, User, FileText, Bot } from 'lucide-react';
+import { BookMarked, Users, Calendar, Clock, MapPin, User, FileText, Bot, Download } from 'lucide-react';
 import React from 'react';
 import { useUser } from '@/hooks/use-user';
 import { events } from '@/lib/data/events';
@@ -122,11 +122,18 @@ export default function ProfilePage() {
         <div className="max-w-4xl mx-auto space-y-8">
           <div className="mb-8 flex items-center justify-between">
             <Logo />
-            <Button variant="ghost" asChild>
-                <Link href="/welcome">
-                    <User className="mr-2"/> Edit Profile
-                </Link>
-            </Button>
+            <div className="flex items-center gap-2">
+                 <Button variant="outline" asChild size="sm">
+                    <Link href="/install">
+                        <Download className="mr-2 h-4 w-4" /> Install App
+                    </Link>
+                </Button>
+                <Button variant="ghost" asChild size="sm">
+                    <Link href="/welcome">
+                        <User className="mr-2 h-4 w-4"/> Edit Profile
+                    </Link>
+                </Button>
+            </div>
           </div>
           <div className="flex flex-col sm:flex-row items-center gap-6">
             <Avatar className="w-24 h-24 border-4 border-primary/20">
