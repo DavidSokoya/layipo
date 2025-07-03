@@ -50,7 +50,7 @@ export type RewardBadge = {
 // Represents the full profile of the currently logged-in user.
 export type UserProfile = PublicUserProfile & {
   bookmarkedEventIds: string[];
-  connections: PublicUserProfile[];
+  connections: (PublicUserProfile & { connectedAt: string })[];
   points: number;
   unlockedBadges: string[]; // Array of RewardBadge IDs
 };

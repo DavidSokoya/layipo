@@ -119,10 +119,21 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
 
     const addConnection = React.useCallback((connection: PublicUserProfile) => {
         setUser(currentUser => {
-            if (!currentUser || currentUser.connections.some(c => c.whatsappNumber === connection.whatsappNumber)) {
+            if (!currentUser) {
+                toast({ variant: 'destructive', title: 'Error', description: 'You must be logged in to add connections.' });
+                return null;
+            }
+            if(currentUser.whatsappNumber === connection.whatsappNumber) {
+                toast({ title: "It's You!", description: "You can't connect with yourself." });
                 return currentUser;
             }
-            const newConnections = [...currentUser.connections, connection];
+            if (currentUser.connections.some(c => c.whatsappNumber === connection.whatsappNumber)) {
+                toast({ title: 'Already Connected', description: `You are already connected with ${connection.name}.` });
+                return currentUser;
+            }
+
+            const newConnection = { ...connection, connectedAt: new Date().toISOString() };
+            const newConnections = [...currentUser.connections, newConnection];
             
             // Add points for new connection
             const newPoints = currentUser.points + 5;
@@ -139,6 +150,7 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
 
             const updatedUser = { ...currentUser, connections: newConnections, points: newPoints, unlockedBadges: updatedBadges };
             window.localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(updatedUser));
+            toast({ title: 'Connection Made!', description: `You are now connected with ${connection.name}.` });
             return updatedUser;
         });
     }, [toast]);

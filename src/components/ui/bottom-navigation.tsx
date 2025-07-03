@@ -3,13 +3,14 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Home, User, Badge as BadgeIcon, CalendarDays } from 'lucide-react';
+import { Home, User, Badge as BadgeIcon, CalendarDays, ScanLine } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useState, useEffect } from 'react';
 
 const navItems = [
   { href: '/', label: 'Home', icon: Home },
   { href: '/badge', label: 'My Badge', icon: BadgeIcon },
+  { href: '/scan', label: 'Scan', icon: ScanLine },
   { href: '/timetable', label: 'Schedules', icon: CalendarDays },
   { href: '/profile', label: 'Profile', icon: User },
 ];
@@ -55,11 +56,20 @@ export function BottomNavigation() {
               href={item.href}
               className={cn(
                 "flex flex-col items-center justify-center w-full h-full text-sm font-medium transition-colors",
-                isActive ? "text-primary" : "text-muted-foreground hover:text-primary"
+                isActive ? "text-primary" : "text-muted-foreground hover:text-primary",
+                item.href === '/scan' && 'relative' // Style for the scan button if needed
               )}
             >
-              <item.icon className="w-5 h-5 mb-1" />
-              <span className="text-xs text-center">{item.label}</span>
+              {item.href === '/scan' ? (
+                <div className="absolute -top-5 flex items-center justify-center w-14 h-14 rounded-full bg-primary text-primary-foreground shadow-lg border-4 border-background">
+                  <item.icon className="w-6 h-6" />
+                </div>
+              ) : (
+                 <item.icon className="w-5 h-5 mb-1" />
+              )}
+              <span className={cn("text-xs text-center", item.href === '/scan' ? "absolute bottom-1.5" : "")}>
+                {item.label}
+              </span>
             </Link>
           );
         })}
