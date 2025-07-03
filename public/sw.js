@@ -1,52 +1,39 @@
 const CACHE_NAME = 'jci-go-cache-v1';
 
-// On install, the service worker is installed.
+// This is a basic service worker. It's kept simple to ensure it works
+// without specific knowledge of Next.js build outputs.
+// It mainly helps the app pass PWA installation checks.
+
 self.addEventListener('install', (event) => {
-    console.log('Service Worker installed.');
-    // Activate worker immediately
-    event.waitUntil(self.skipWaiting());
+  // Perform install steps
+  console.log('Service Worker: Installing...');
+  // Skip waiting to activate the new service worker faster
+  self.skipWaiting();
 });
 
-// On activate, clean up old caches.
 self.addEventListener('activate', (event) => {
-    console.log('Service Worker activating.');
-    event.waitUntil(
-        caches.keys().then((cacheNames) => {
-            return Promise.all(
-                cacheNames.filter((name) => name !== CACHE_NAME).map((name) => caches.delete(name))
-            );
-        }).then(() => {
-            // Take control of all open pages
-            return self.clients.claim();
+  console.log('Service Worker: Activating...');
+  // Clean up old caches
+  event.waitUntil(
+    caches.keys().then((cacheNames) => {
+      return Promise.all(
+        cacheNames.map((cacheName) => {
+          if (cacheName !== CACHE_NAME) {
+            console.log('Service Worker: Clearing old cache:', cacheName);
+            return caches.delete(cacheName);
+          }
         })
-    );
+      );
+    })
+  );
+  return self.clients.claim();
 });
 
-// On fetch, use a cache-first, then network strategy.
 self.addEventListener('fetch', (event) => {
-    // We only want to cache GET requests.
-    // We also avoid caching webpack hot-reload chunks.
-    if (event.request.method !== 'GET' || event.request.url.includes('/_next/static/webpack')) {
-        return;
-    }
-
-    event.respondWith(
-        caches.open(CACHE_NAME).then((cache) => {
-            return cache.match(event.request).then((response) => {
-                // Return response from cache if found.
-                if (response) {
-                    return response;
-                }
-
-                // Otherwise, fetch from network.
-                return fetch(event.request).then((networkResponse) => {
-                    // If we get a valid response, cache it for next time.
-                    if (networkResponse && networkResponse.status === 200 && networkResponse.type === 'basic') {
-                       cache.put(event.request, networkResponse.clone());
-                    }
-                    return networkResponse;
-                });
-            });
-        })
-    );
+  // For a "network falling back to cache" strategy:
+  event.respondWith(
+    fetch(event.request).catch(() => {
+      return caches.match(event.request);
+    })
+  );
 });

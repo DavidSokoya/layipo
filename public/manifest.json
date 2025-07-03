@@ -1,23 +1,35 @@
 {
-  "name": "JCI GO",
-  "short_name": "JCI GO",
+  "name": "LAYIPO 25",
+  "short_name": "LAYIPO 25",
   "description": "Your companion app for JCI events.",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#F0FFFF",
-  "theme_color": "#008080",
+  "background_color": "#ffffff",
+  "theme_color": "#3b82f6",
   "icons": [
     {
-      "src": "/icons/icon-192x192.png",
+      "src": "/logos/layipo25.png",
       "sizes": "192x192",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
     },
     {
-      "src": "/icons/icon-512x512.png",
+      "src": "/logos/layipo25.png",
       "sizes": "512x512",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
+    },
+    {
+      "src": "/logos/layipo25.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/logos/layipo25.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
     }
   ]
 }
