@@ -79,11 +79,17 @@ const config = {
           "0%": { transform: "rotateY(0deg)" },
           "100%": { transform: "rotateY(360deg)" },
         },
+        "scan": {
+          "0%": { transform: "translateY(0)" },
+          "50%": { transform: "translateY(calc(100% - 2px))" },
+          "100%": { transform: "translateY(0)" },
+        }
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
         "flip": "flip 2s linear infinite",
+        "scan": "scan 3s cubic-bezier(0.4, 0, 0.6, 1) infinite",
       },
     },
   },
