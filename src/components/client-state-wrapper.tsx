@@ -1,3 +1,4 @@
+
 'use client';
 
 import * as React from 'react';
@@ -11,7 +12,7 @@ import { NotificationManager } from './notification-manager';
 
 function FullPageLoader() {
   return (
-    <div className="flex flex-col gap-8 items-center justify-center h-screen bg-background text-center p-8">
+    <div className="flex flex-col gap-8 items-center justify-center h-screen bg-[#F0FFFF] text-center p-8">
         <div className="w-32 h-32 [transform-style:preserve-3d] animate-flip">
             {/* Front of the card */}
             <div className="absolute w-full h-full flex items-center justify-center [backface-visibility:hidden]">
@@ -21,6 +22,10 @@ function FullPageLoader() {
             <div className="absolute w-full h-full flex items-center justify-center [backface-visibility:hidden] [transform:rotateY(180deg)]">
                 <Image src="/logos/elevate_lo.png" alt="Elevate Logo" width={32} height={32} className="object-contain" />
             </div>
+        </div>
+        <div className="max-w-md">
+            <p className="text-lg font-semibold text-foreground">Welcome to JCIN Collegiate Conference 2025!</p>
+            <p className="text-sm text-muted-foreground mt-1">Your companion app for LAYIPO25</p>
         </div>
     </div>
   );
