@@ -104,7 +104,8 @@ const ConnectionCard = ({ connection }: { connection: PublicUserProfile & { conn
         month: 'long',
         day: 'numeric',
     });
-    const whatsappLink = `https://wa.me/${connection.whatsappNumber.replace(/\+/g, '')}`;
+    const message = encodeURIComponent("We met at the JCIN Collegiate Conference 2025");
+    const whatsappLink = `https://wa.me/${connection.whatsappNumber.replace(/\+/g, '')}?text=${message}`;
 
     return (
          <Card className="transition-all duration-300 hover:shadow-lg hover:border-primary/30 bg-gradient-to-br from-card to-muted/30">
