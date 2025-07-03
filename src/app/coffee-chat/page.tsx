@@ -86,18 +86,20 @@ export default function CoffeeChatPage() {
           <div className="absolute inset-0 bg-amber-950/70 backdrop-blur-sm" />
           <div className="absolute inset-0 flex flex-col items-center justify-center text-center text-white p-4">
             <div className="absolute top-4 left-4 right-4 flex items-center justify-between">
-              <Button
-                variant="ghost"
-                size="icon"
-                className="text-white hover:bg-white/10 hover:text-white"
-                onClick={() => router.back()}
-              >
-                <ArrowLeft className="h-5 w-5" />
-                <span className="sr-only">Back</span>
-              </Button>
+              <div className="flex items-center gap-4">
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="text-white hover:bg-white/10 hover:text-white"
+                    onClick={() => router.back()}
+                  >
+                    <ArrowLeft className="h-5 w-5" />
+                    <span className="sr-only">Back</span>
+                  </Button>
+                  <Image src="/logos/layipo_lo.png" alt="LAYIPO 25 Logo" width={90} height={24} className="object-contain" />
+              </div>
               <div className="flex items-center gap-4">
                   <Image src="/logos/elevate_lo.png" alt="Elevate Logo" width={24} height={24} className="object-contain" />
-                  <Image src="/logos/layipo_lo.png" alt="LAYIPO 25 Logo" width={90} height={24} className="object-contain" />
               </div>
             </div>
             <motion.div
