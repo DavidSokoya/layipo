@@ -104,7 +104,7 @@ const ConnectionCard = ({ connection }: { connection: PublicUserProfile & { conn
         month: 'long',
         day: 'numeric',
     });
-    const message = encodeURIComponent(`Hi ${User.name}We met at the JCIN Collegiate Conference 2025`);
+    const message = encodeURIComponent(`Hi ${connection.name}! We met at the JCIN Collegiate Conference 2025`);
     const whatsappLink = `https://wa.me/${connection.whatsappNumber.replace(/\+/g, '')}?text=${message}`;
 
     return (

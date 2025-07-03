@@ -24,7 +24,7 @@ const WhatsappIcon = (props: React.SVGProps<SVGSVGElement>) => (
 
 function ScannedUserCard({ user }: { user: PublicUserProfile }) {
     const avatarUrl = user.imageUrl || `https://i.pravatar.cc/150?u=${encodeURIComponent(user.name)}`;
-    const message = encodeURIComponent("We met at the JCIN Collegiate Conference 2025");
+    const message = encodeURIComponent(`Hi ${user.name}! We met at the JCIN Collegiate Conference 2025`);
     const whatsappLink = `https://wa.me/${user.whatsappNumber.replace(/\+/g, '')}?text=${message}`;
 
     return (
