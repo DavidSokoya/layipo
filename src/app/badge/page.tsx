@@ -1,5 +1,7 @@
 
 'use client';
+import * as React from 'react';
+import QRCode from 'qrcode';
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { ScanLine, CalendarDays, MapPin, User } from 'lucide-react';
@@ -32,7 +34,7 @@ function BadgeLoader() {
           </div>
         </CardContent>
         <CardFooter className="p-4 flex-col gap-2 bg-black/5">
-          <Skeleton className="h-32 w-32 rounded-md" />
+          <Skeleton className="h-[160px] w-[160px] rounded-md" />
           <Skeleton className="h-3 w-32" />
         </CardFooter>
       </Card>
@@ -43,6 +45,31 @@ function BadgeLoader() {
 
 export default function BadgePage() {
   const { user, isLoading } = useUser();
+  const [qrCodeDataUrl, setQrCodeDataUrl] = React.useState<string | null>(null);
+  
+  React.useEffect(() => {
+      if (user) {
+        const whatsappNumber = user.whatsappNumber.replace(/\+/g, ''); // Remove '+' for the wa.me link
+        const prefilledMessage = `Hi ${user.name}! We met at the JCI National Convention. Great connecting with you.`;
+        const whatsappLink = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(prefilledMessage)}`;
+        
+        QRCode.toDataURL(whatsappLink, {
+          errorCorrectionLevel: 'H',
+          margin: 2,
+          width: 250, // Set desired width for high quality
+          color: {
+            dark: '#000000',
+            light: '#FFFFFF',
+          },
+        })
+        .then(url => {
+          setQrCodeDataUrl(url);
+        })
+        .catch(err => {
+          console.error('Failed to generate QR code', err);
+        });
+      }
+    }, [user]);
 
   if (isLoading || !user) {
     return (
@@ -56,12 +83,6 @@ export default function BadgePage() {
   
   const avatarUrl = user.imageUrl || `https://i.pravatar.cc/150?u=${encodeURIComponent(user.name)}`;
   
-  const whatsappNumber = user.whatsappNumber.replace(/\+/g, ''); // Remove '+' for the wa.me link
-  const prefilledMessage = `Hi ${user.name}! We met at the JCI National Convention. Great connecting with you.`;
-  const whatsappLink = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(prefilledMessage)}`;
-  const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(whatsappLink)}`;
-
-
   return (
     <PageWrapper>
       <main className="flex-1 p-4 md:p-6 lg:p-8 mb-16 flex flex-col">
@@ -76,7 +97,7 @@ export default function BadgePage() {
             </p>
           <Card className="w-full shadow-2xl rounded-2xl overflow-hidden transition-transform duration-300 hover:scale-[1.02] bg-gradient-to-br from-gray-900 via-gray-800 to-black text-primary-foreground">
             <CardHeader className="p-4 text-center space-y-1">
-              <h2 className="text-xl font-bold tracking-tight">JCI National Convention</h2>
+              <h2 className="text-xl font-bold tracking-tight">JCI Collegiate Conference</h2>
               <div className="flex items-center justify-center gap-2 text-xs text-white/70">
                 <CalendarDays className="w-3 h-3" />
                 <span>July 2-6, 2025</span>
@@ -92,17 +113,21 @@ export default function BadgePage() {
               </Avatar>
               <div className="text-center">
                 <h3 className="text-2xl font-bold">{user.name}</h3>
-                <p className="text-sm opacity-60 mt-1">{user.localOrganisation}</p>
+                <p className="text-sm opacity-60 mt-1">{user.localOrganisation.toLowerCase()}</p>
               </div>
             </CardContent>
             <CardFooter className="p-4 flex-col gap-2 bg-black/20 backdrop-blur-sm">
                 <div className="bg-white p-1 rounded-md">
-                    <img 
-                        src={qrCodeUrl}
-                        alt="Contact QR Code"
-                        width={160}
-                        height={160}
-                    />
+                    {qrCodeDataUrl ? (
+                        <img 
+                            src={qrCodeDataUrl}
+                            alt="Contact QR Code"
+                            width={160}
+                            height={160}
+                        />
+                    ) : (
+                        <Skeleton className="h-[160px] w-[160px] rounded-sm" />
+                    )}
                 </div>
                <p className="text-xs text-primary-foreground/70 flex items-center gap-1.5 mt-1">
                   <ScanLine className="w-3 h-3"/>
