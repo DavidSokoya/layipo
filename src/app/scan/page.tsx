@@ -35,7 +35,6 @@ export default function ScanPage() {
   }, [addConnection]);
 
   React.useEffect(() => {
-    // If we're not supposed to be scanning, don't do anything.
     if (!isScanning) {
       return;
     }
@@ -62,9 +61,8 @@ export default function ScanPage() {
           }
         }
       }
-      // Only request next frame if we are still in scanning mode
       if (isScanning) {
-         animationFrameId = requestAnimationFrame(tick);
+        animationFrameId = requestAnimationFrame(tick);
       }
     };
 
@@ -75,11 +73,8 @@ export default function ScanPage() {
 
         if (videoRef.current) {
           videoRef.current.srcObject = stream;
-          // Use `loadedmetadata` to ensure video dimensions are available before playing.
-          videoRef.current.onloadedmetadata = () => {
-            videoRef.current?.play();
-            animationFrameId = requestAnimationFrame(tick);
-          };
+          // The autoPlay prop on the video element will handle playing the stream.
+          animationFrameId = requestAnimationFrame(tick);
         }
       } catch (error) {
         console.error('Error accessing camera:', error);
@@ -89,8 +84,6 @@ export default function ScanPage() {
 
     startCamera();
 
-    // This cleanup function is crucial. It runs when `isScanning` changes to `false`
-    // or when the component unmounts.
     return () => {
       cancelAnimationFrame(animationFrameId);
       if (stream) {
@@ -114,7 +107,7 @@ export default function ScanPage() {
             </header>
             
             <div className="relative w-full aspect-square rounded-xl overflow-hidden bg-muted shadow-lg border">
-                <video ref={videoRef} className="w-full h-full object-cover" playsInline muted />
+                <video ref={videoRef} className="w-full h-full object-cover" autoPlay playsInline muted />
                 <div className="absolute inset-0 z-10 flex items-center justify-center">
                     <div className="w-3/4 h-3/4 border-4 border-white/50 rounded-lg shadow-[0_0_0_9999px_rgba(0,0,0,0.5)]" />
                 </div>
