@@ -11,7 +11,7 @@ const USER_STORAGE_KEY = 'jci-go-user-profile';
 type UserContextType = {
   user: UserProfile | null;
   isLoading: boolean;
-  saveUser: (userData: Omit<UserProfile, 'bookmarkedEventIds' | 'connections'>) => void;
+  saveUser: (userData: Omit<UserProfile, 'bookmarkedEventIds' | 'connections' | 'points' | 'unlockedBadges'>) => void;
   updateUser: (updatedData: Partial<UserProfile>) => void;
   toggleBookmark: (eventId: string) => void;
   addConnection: (connection: PublicUserProfile) => void;
@@ -32,6 +32,8 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
                 const parsedUser = JSON.parse(item);
                 if (!parsedUser.bookmarkedEventIds) parsedUser.bookmarkedEventIds = [];
                 if (!parsedUser.connections) parsedUser.connections = [];
+                if (typeof parsedUser.points === 'undefined') parsedUser.points = 0;
+                if (!parsedUser.unlockedBadges) parsedUser.unlockedBadges = [];
                 setUser(parsedUser);
             }
         } catch (error) {
@@ -41,12 +43,14 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
         }
     }, []);
 
-    const saveUser = React.useCallback((userData: Omit<UserProfile, 'bookmarkedEventIds' | 'connections'>) => {
+    const saveUser = React.useCallback((userData: Omit<UserProfile, 'bookmarkedEventIds' | 'connections' | 'points' | 'unlockedBadges'>) => {
         try {
             const newUser: UserProfile = {
                 ...userData,
                 bookmarkedEventIds: [],
                 connections: [],
+                points: 10, // Start with some points
+                unlockedBadges: ['early-bird'], // Give them one badge for signing up
             };
             window.localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(newUser));
             setUser(newUser);
@@ -99,11 +103,15 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
 
         setUser(currentUser => {
             if (!currentUser) return null;
-            const newBookmarks = currentUser.bookmarkedEventIds.includes(eventId)
-                ? currentUser.bookmarkedEventIds.filter(id => id !== eventId)
-                : [...currentUser.bookmarkedEventIds, eventId];
+            const isBookmarking = !currentUser.bookmarkedEventIds.includes(eventId);
+            const newBookmarks = isBookmarking
+                ? [...currentUser.bookmarkedEventIds, eventId]
+                : currentUser.bookmarkedEventIds.filter(id => id !== eventId);
             
-            const updatedUser = { ...currentUser, bookmarkedEventIds: newBookmarks };
+            // Add/remove points for bookmarking
+            const newPoints = isBookmarking ? currentUser.points + 2 : currentUser.points - 2;
+
+            const updatedUser = { ...currentUser, bookmarkedEventIds: newBookmarks, points: newPoints };
             window.localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(updatedUser));
             return updatedUser;
         });
@@ -115,11 +123,25 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
                 return currentUser;
             }
             const newConnections = [...currentUser.connections, connection];
-            const updatedUser = { ...currentUser, connections: newConnections };
+            
+            // Add points for new connection
+            const newPoints = currentUser.points + 5;
+            const updatedBadges = [...currentUser.unlockedBadges];
+
+            // Unlock badge if condition met
+            if (newConnections.length >= 5 && !updatedBadges.includes('social-butterfly')) {
+                updatedBadges.push('social-butterfly');
+                 toast({
+                    title: 'Badge Unlocked!',
+                    description: 'You earned the "Social Butterfly" badge!',
+                });
+            }
+
+            const updatedUser = { ...currentUser, connections: newConnections, points: newPoints, unlockedBadges: updatedBadges };
             window.localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(updatedUser));
             return updatedUser;
         });
-    }, []);
+    }, [toast]);
 
     const value = { user, isLoading, saveUser, updateUser, toggleBookmark, addConnection };
 

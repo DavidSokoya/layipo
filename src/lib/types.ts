@@ -1,6 +1,8 @@
 
 'use server';
 
+import type { ComponentType } from 'react';
+
 export type EventCategory = 
   | 'Main Events & Ceremonies' 
   | 'Competitions & Pageants' 
@@ -38,10 +40,19 @@ export type PublicUserProfile = {
   imageUrl?: string;
 };
 
+export type RewardBadge = {
+  id: string;
+  name: string;
+  description: string;
+  icon: ComponentType<{ className?: string }>;
+};
+
 // Represents the full profile of the currently logged-in user.
 export type UserProfile = PublicUserProfile & {
   bookmarkedEventIds: string[];
   connections: PublicUserProfile[];
+  points: number;
+  unlockedBadges: string[]; // Array of RewardBadge IDs
 };
 
 export type Training = {

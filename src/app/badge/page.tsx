@@ -115,7 +115,7 @@ export default function BadgePage() {
               </Avatar>
               <div className="text-center">
                 <h3 className="text-2xl font-bold">{user.name}</h3>
-                <p className="text-sm opacity-60 mt-1">{user.localOrganisation.toLowerCase()}</p>
+                <p className="text-sm opacity-60 mt-1">{user.localOrganisation.toUpperCase()}</p>
               </div>
             </CardContent>
             <CardFooter className="p-4 flex-col gap-2 bg-black/20 backdrop-blur-sm">
