@@ -1,6 +1,6 @@
 {
-  "name": "JCI GO",
-  "short_name": "JCI GO",
+  "name": "JCIN CONFERENCE GUIDE",
+  "short_name": "JCIN CG",
   "description": "Your companion app for JCI events.",
   "start_url": "/",
   "display": "standalone",
