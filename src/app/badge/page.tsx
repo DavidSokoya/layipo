@@ -56,7 +56,6 @@ export default function BadgePage() {
             name: user.name,
             localOrganisation: user.localOrganisation,
             whatsappNumber: user.whatsappNumber,
-            imageUrl: user.imageUrl || '',
           };
 
           const qrCodeString = JSON.stringify(userPublicProfile);
