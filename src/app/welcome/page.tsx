@@ -189,8 +189,8 @@ export default function WelcomePage() {
         <Card className="w-full max-w-lg">
           <CardHeader className="items-center">
             <div className="flex w-full items-center justify-between mb-4">
-                <Image src="/logos/layipo_lo.png" alt="LAYIPO 25 Logo" width={90} height={24} className="object-contain" />
                 <Image src="/logos/elevate_lo.png" alt="Elevate Logo" width={24} height={24} className="object-contain" />
+                <Image src="/logos/layipo_lo.png" alt="LAYIPO 25 Logo" width={90} height={24} className="object-contain" />
             </div>
             <CardTitle className="text-2xl">
                 {isEditing ? 'Edit Your Profile' : 'Welcome to LAYIPO 25!'}
