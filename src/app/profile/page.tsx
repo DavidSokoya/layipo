@@ -1,7 +1,7 @@
 
 'use client';
 import {
-    BookMarked, Users, Calendar, Clock, MapPin, User, FileText, Bot, Download, Edit, Star, Award, BrainCircuit, Activity, Mic, Flame, Coffee, Badge, Link as LinkIcon
+    BookMarked, Users, Calendar, Clock, MapPin, User, FileText, Bot, Download, Edit, Star, Award, BrainCircuit, Activity, Mic, Flame, Coffee, Badge, Link as LinkIcon, HelpCircle
 } from 'lucide-react';
 import React from 'react';
 import { useUser } from '@/hooks/use-user';
@@ -196,14 +196,32 @@ export default function ProfilePage() {
                     </div>
                 </CardHeader>
                 <CardContent className="p-4 space-y-4">
-                     <div>
-                        <div className="flex justify-between items-center mb-1 text-sm">
-                            <span className="font-semibold text-primary">My Points</span>
-                            <span className="font-bold">{user.points} / {pointsToNextLevel}</span>
-                        </div>
-                        <Progress value={(user.points / pointsToNextLevel) * 100} />
-                        <p className="text-xs text-muted-foreground mt-1 text-right">{pointsToNextLevel - user.points} points to next level</p>
-                    </div>
+                     <TooltipProvider>
+                        <Tooltip>
+                            <TooltipTrigger asChild>
+                                <div className="cursor-help">
+                                    <div className="flex justify-between items-center mb-1 text-sm">
+                                        <span className="font-semibold text-primary flex items-center gap-1.5">
+                                            My Points
+                                            <HelpCircle className="w-4 h-4 text-muted-foreground" />
+                                        </span>
+                                        <span className="font-bold">{user.points} / {pointsToNextLevel}</span>
+                                    </div>
+                                    <Progress value={(user.points / pointsToNextLevel) * 100} />
+                                    <p className="text-xs text-muted-foreground mt-1 text-right">{pointsToNextLevel - user.points} points to next level</p>
+                                </div>
+                            </TooltipTrigger>
+                            <TooltipContent>
+                                <p className="font-semibold">How to earn points:</p>
+                                <ul className="list-disc list-inside text-sm text-muted-foreground mt-2 space-y-1">
+                                    <li>+10 for creating your profile</li>
+                                    <li>+5 for each new connection</li>
+                                    <li>+2 for bookmarking a session</li>
+                                    <li>-2 for removing a bookmark</li>
+                                </ul>
+                            </TooltipContent>
+                        </Tooltip>
+                    </TooltipProvider>
 
                      <div>
                         <h3 className="text-sm font-semibold text-primary mb-2">My Badges</h3>
