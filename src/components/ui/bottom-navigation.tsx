@@ -3,7 +3,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Home, User, Badge as BadgeIcon, Trophy, ScanLine } from 'lucide-react';
+import { Home, User, Badge as BadgeIcon, Calendar, ScanLine } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useState, useEffect } from 'react';
 
@@ -11,7 +11,7 @@ const navItems = [
   { href: '/', label: 'Home', icon: Home },
   { href: '/badge', label: 'My Badge', icon: BadgeIcon },
   { href: '/scan', label: 'Scan', icon: ScanLine },
-  { href: '/leaderboard', label: 'Leaderboard', icon: Trophy },
+  { href: '/timetable', label: 'Schedule', icon: Calendar },
   { href: '/profile', label: 'Profile', icon: User },
 ];
 
