@@ -1,51 +1,52 @@
-const CACHE_NAME = 'layipo25-cache-v1';
-const urlsToCache = [
-  '/',
-  '/manifest.json',
-];
+const CACHE_NAME = 'jci-go-cache-v1';
 
+// On install, the service worker is installed.
 self.addEventListener('install', (event) => {
-  self.skipWaiting();
-  event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => {
-      console.log('Opened cache');
-      return cache.addAll(urlsToCache);
-    })
-  );
+    console.log('Service Worker installed.');
+    // Activate worker immediately
+    event.waitUntil(self.skipWaiting());
 });
 
+// On activate, clean up old caches.
 self.addEventListener('activate', (event) => {
-  const cacheWhitelist = [CACHE_NAME];
-  event.waitUntil(
-    caches.keys().then((cacheNames) => {
-      return Promise.all(
-        cacheNames.map((cacheName) => {
-          if (cacheWhitelist.indexOf(cacheName) === -1) {
-            return caches.delete(cacheName);
-          }
+    console.log('Service Worker activating.');
+    event.waitUntil(
+        caches.keys().then((cacheNames) => {
+            return Promise.all(
+                cacheNames.filter((name) => name !== CACHE_NAME).map((name) => caches.delete(name))
+            );
+        }).then(() => {
+            // Take control of all open pages
+            return self.clients.claim();
         })
-      );
-    })
-  );
+    );
 });
 
+// On fetch, use a cache-first, then network strategy.
 self.addEventListener('fetch', (event) => {
-  event.respondWith(
-    caches.open(CACHE_NAME).then((cache) => {
-      return cache.match(event.request).then((cachedResponse) => {
-        const fetchPromise = fetch(event.request).then((networkResponse) => {
-          // If the request is for a chrome-extension, do not cache it
-          if (event.request.url.startsWith('chrome-extension://')) {
-            return networkResponse;
-          }
-          if (networkResponse.status === 200) {
-            cache.put(event.request, networkResponse.clone());
-          }
-          return networkResponse;
-        });
+    // We only want to cache GET requests.
+    // We also avoid caching webpack hot-reload chunks.
+    if (event.request.method !== 'GET' || event.request.url.includes('/_next/static/webpack')) {
+        return;
+    }
 
-        return cachedResponse || fetchPromise;
-      });
-    })
-  );
+    event.respondWith(
+        caches.open(CACHE_NAME).then((cache) => {
+            return cache.match(event.request).then((response) => {
+                // Return response from cache if found.
+                if (response) {
+                    return response;
+                }
+
+                // Otherwise, fetch from network.
+                return fetch(event.request).then((networkResponse) => {
+                    // If we get a valid response, cache it for next time.
+                    if (networkResponse && networkResponse.status === 200 && networkResponse.type === 'basic') {
+                       cache.put(event.request, networkResponse.clone());
+                    }
+                    return networkResponse;
+                });
+            });
+        })
+    );
 });
