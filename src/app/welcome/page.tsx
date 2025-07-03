@@ -31,7 +31,6 @@ import { Input } from '@/components/ui/input';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { useUser } from '@/hooks/use-user';
 import { useToast } from '@/hooks/use-toast';
-import { Logo } from '@/components/ui/logo';
 import { PageWrapper } from '@/components/page-wrapper';
 
 const formSchema = z.object({
@@ -184,9 +183,10 @@ export default function WelcomePage() {
       <main className="flex min-h-screen flex-col items-center justify-center p-4 sm:p-6 md:p-8">
         <canvas ref={canvasRef} className="hidden" />
         <Card className="w-full max-w-lg">
-          <CardHeader className="text-center">
-            <div className="mx-auto mb-4">
-              <Logo />
+          <CardHeader className="items-center">
+            <div className="flex w-full items-center justify-between mb-4">
+                <Image src="/logos/layipo_lo.png" alt="LAYIPO 25 Logo" width={90} height={24} className="object-contain" />
+                <Image src="/logos/elevate_lo.png" alt="Elevate Logo" width={24} height={24} className="object-contain" />
             </div>
             <CardTitle className="text-2xl">
                 {isEditing ? 'Edit Your Profile' : 'Welcome to LAYIPO 25!'}

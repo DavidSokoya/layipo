@@ -7,40 +7,16 @@ import { useUser } from '@/hooks/use-user';
 import { Toaster } from '@/components/ui/toaster';
 import { Pwa } from '@/components/pwa';
 import { BottomNavigation } from '@/components/ui/bottom-navigation';
-import { Logo } from './ui/logo';
+import Image from 'next/image';
 import { NotificationManager } from './notification-manager';
 
 function FullPageLoader() {
   return (
     <div className="flex flex-col gap-8 items-center justify-center h-screen bg-background text-center p-8">
-      {/* Container to create the 3D perspective for the flip */}
-      <div style={{ perspective: '1000px' }}>
-        {/* The tile that will perform the flip animation */}
-        <div
-          className="relative w-36 h-10 animate-flip"
-          style={{ transformStyle: 'preserve-3d' }}
-        >
-          {/* Front Face: Contains the logo */}
-          <div
-            className="absolute w-full h-full flex items-center justify-center bg-card rounded-lg"
-            style={{ backfaceVisibility: 'hidden', WebkitBackfaceVisibility: 'hidden' }}
-          >
-            <Logo />
-          </div>
-
-          {/* Back Face: Also contains the logo */}
-          <div
-            className="absolute w-full h-full flex items-center justify-center bg-card rounded-lg"
-            style={{
-              backfaceVisibility: 'hidden',
-              WebkitBackfaceVisibility: 'hidden',
-              transform: 'rotateY(180deg)',
-            }}
-          >
-            <Logo />
-          </div>
+        <div className="flex items-center gap-4 animate-pulse">
+            <Image src="/logos/layipo_lo.png" alt="LAYIPO 25 Logo" width={90} height={24} className="object-contain" />
+            <Image src="/logos/elevate_lo.png" alt="Elevate Logo" width={24} height={24} className="object-contain" />
         </div>
-      </div>
     </div>
   );
 }

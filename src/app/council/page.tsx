@@ -83,13 +83,17 @@ export default function CouncilPage() {
                     />
                     <div className="absolute inset-0 bg-black/50" />
                     <div className="absolute inset-0 flex flex-col items-center justify-center text-center text-white p-4">
-                        <div className="absolute top-4 left-4">
+                        <div className="absolute top-4 left-4 right-4 flex items-center justify-between">
                              <Button asChild variant="ghost" size="icon" className="text-white hover:bg-white/10 hover:text-white">
                                 <Link href="/">
                                 <ArrowLeft className="h-5 w-5" />
                                 <span className="sr-only">Back</span>
                                 </Link>
                             </Button>
+                            <div className="flex items-center gap-4">
+                                <Image src="/logos/layipo_lo.png" alt="LAYIPO 25 Logo" width={90} height={24} className="object-contain" />
+                                <Image src="/logos/elevate_lo.png" alt="Elevate Logo" width={24} height={24} className="object-contain" />
+                            </div>
                         </div>
                         <h1 className="text-2xl sm:text-4xl font-bold font-headline tracking-tight sm:text-2xl">
                            Meet the 2025 Collegiate Council

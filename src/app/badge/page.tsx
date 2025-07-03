@@ -3,16 +3,17 @@
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { ScanLine, CalendarDays, MapPin, User } from 'lucide-react';
-import { Logo } from "@/components/ui/logo";
 import { PageWrapper } from "@/components/page-wrapper";
 import { useUser } from "@/hooks/use-user";
 import { Skeleton } from "@/components/ui/skeleton";
+import Image from 'next/image';
 
 function BadgeLoader() {
   return (
     <div className="max-w-md mx-auto w-full">
       <div className="mb-8 flex items-center justify-between">
-        <Logo />
+        <Image src="/logos/layipo_lo.png" alt="LAYIPO 25 Logo" width={90} height={24} className="object-contain" />
+        <Image src="/logos/elevate_lo.png" alt="Elevate Logo" width={24} height={24} className="object-contain" />
       </div>
       <h1 className="text-3xl font-bold font-headline tracking-tight text-foreground text-center mb-2">My Digital Badge</h1>
       <p className="text-muted-foreground text-center mb-8">
@@ -66,7 +67,8 @@ export default function BadgePage() {
       <main className="flex-1 p-4 md:p-6 lg:p-8 mb-16 flex flex-col">
         <div className="max-w-md mx-auto w-full">
            <div className="mb-8 flex items-center justify-between">
-              <Logo />
+              <Image src="/logos/layipo_lo.png" alt="LAYIPO 25 Logo" width={90} height={24} className="object-contain" />
+              <Image src="/logos/elevate_lo.png" alt="Elevate Logo" width={24} height={24} className="object-contain" />
             </div>
           <h1 className="text-3xl font-bold font-headline tracking-tight text-foreground text-center mb-2">My Digital Badge</h1>
             <p className="text-muted-foreground text-center mb-8">
