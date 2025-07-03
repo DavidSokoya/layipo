@@ -102,33 +102,13 @@ const ConnectionCard = ({ connection }: { connection: PublicUserProfile }) => {
                 </Avatar>
                 <div>
                     <p className="font-semibold text-sm">{connection.name}</p>
-                    <p className="text-xs text-muted-foreground">{connection.localOrganisation}</p>
+                    <p className="text-xs text-muted-foreground">{connection.localOrganisation.toUpperCase()}</p>
                 </div>
             </CardContent>
         </Card>
     )
 }
 
-const RewardBadgeCard = ({ badge }: { badge: RewardBadge }) => {
-    const Icon = badge.icon;
-    return (
-        <TooltipProvider>
-            <Tooltip>
-                <TooltipTrigger asChild>
-                    <div className="flex flex-col items-center gap-2 w-24">
-                        <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center border-2 border-primary/20">
-                           <Icon className="w-8 h-8 text-primary" />
-                        </div>
-                    </div>
-                </TooltipTrigger>
-                <TooltipContent>
-                    <p className="font-semibold">{badge.name}</p>
-                    <p className="text-sm text-muted-foreground">{badge.description}</p>
-                </TooltipContent>
-            </Tooltip>
-        </TooltipProvider>
-    )
-};
 
 
 export default function ProfilePage() {
