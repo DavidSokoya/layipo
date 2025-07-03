@@ -1,3 +1,4 @@
+
 'use client';
 
 import * as React from 'react';
@@ -24,8 +25,8 @@ type UserContextType = {
     >
   ) => Promise<void>;
   updateUser: (updatedData: Partial<Omit<UserProfile, 'uid'>>) => Promise<void>;
-  toggleBookmark: (eventId: string) => void;
-  addConnection: (connection: PublicUserProfile) => void;
+  toggleBookmark: (eventId: string) => Promise<void>;
+  addConnection: (connection: PublicUserProfile) => Promise<void>;
 };
 
 const UserContext = React.createContext<UserContextType | undefined>(undefined);
@@ -67,31 +68,28 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
 
   const updateUser = React.useCallback(
     async (updatedData: Partial<Omit<UserProfile, 'uid'>>) => {
-      if (!user) {
-        toast({
-          variant: 'destructive',
-          title: 'Error',
-          description: 'User profile not found. Cannot update.',
-        });
-        return;
+      if (!authUser || !user) {
+        throw new Error('User not authenticated or profile not loaded.');
       }
 
       const newProfile: UserProfile = { ...user, ...updatedData };
+      setUser(newProfile); // Optimistic update
 
       try {
-        const userDocRef = doc(db, 'users', user.uid);
+        const userDocRef = doc(db, 'users', authUser.uid);
         await setDoc(userDocRef, newProfile, { merge: true });
-        setUser(newProfile);
       } catch (error) {
         console.error('Failed to update user profile:', error);
+        setUser(user); // Rollback optimistic update
         toast({
           variant: 'destructive',
           title: 'Sync Error',
           description: 'Could not save your changes to the cloud.',
         });
+        throw error; // Re-throw error to be caught by calling function
       }
     },
-    [user, toast]
+    [authUser, user, toast]
   );
 
   const saveUser = React.useCallback(
@@ -134,13 +132,14 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
           title: 'Something went wrong',
           description: 'Could not save your profile. Please try again.',
         });
+        throw error;
       }
     },
     [authUser, router, toast]
   );
 
   const toggleBookmark = React.useCallback(
-    (eventId: string) => {
+    async (eventId: string) => {
       if (!user) return;
 
       const isCurrentlyBookmarked = user.bookmarkedEventIds.includes(eventId);
@@ -159,17 +158,20 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
         ? user.points - 2
         : user.points + 2;
 
-      updateUser({ bookmarkedEventIds: newBookmarks, points: Math.max(0, newPoints) });
-      
-      toast({
-        title: !isCurrentlyBookmarked ? 'Event Bookmarked!' : 'Bookmark Removed',
-      });
+      try {
+        await updateUser({ bookmarkedEventIds: newBookmarks, points: Math.max(0, newPoints) });
+        toast({
+          title: !isCurrentlyBookmarked ? 'Event Bookmarked!' : 'Bookmark Removed',
+        });
+      } catch (error) {
+        // Error is already handled in updateUser
+      }
     },
     [user, updateUser, toast]
   );
 
   const addConnection = React.useCallback(
-    (connection: PublicUserProfile) => {
+    async (connection: PublicUserProfile) => {
       if (!user) {
         toast({
           variant: 'destructive',
@@ -202,7 +204,8 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
         updatedBadges.push('social-butterfly');
       }
       
-      updateUser({ connections: newConnections, points: newPoints, unlockedBadges: updatedBadges }).then(() => {
+      try {
+        await updateUser({ connections: newConnections, points: newPoints, unlockedBadges: updatedBadges });
         toast({
           title: 'Connection Made!',
           description: `You are now connected with ${connection.name}.`,
@@ -215,7 +218,9 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
             });
           }, 500);
         }
-      });
+      } catch (error) {
+         // Error is already handled in updateUser
+      }
     },
     [user, updateUser, toast]
   );

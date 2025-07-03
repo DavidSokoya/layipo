@@ -58,13 +58,15 @@ export default function ScanPage() {
   const canvasRef = React.useRef<HTMLCanvasElement>(null);
   const [lastScannedUser, setLastScannedUser] = React.useState<PublicUserProfile | null>(null);
   const [hasCameraPermission, setHasCameraPermission] = React.useState<boolean>(true);
+  const [isProcessing, setIsProcessing] = React.useState(false);
 
-  const handleScan = React.useCallback((data: string) => {
-    if (data) {
+  const handleScan = React.useCallback(async (data: string) => {
+    if (data && !isProcessing) {
+      setIsProcessing(true);
       try {
         const parsedData: PublicUserProfile = JSON.parse(data);
         if (parsedData.name && parsedData.localOrganisation && parsedData.whatsappNumber) {
-          addConnection(parsedData);
+          await addConnection(parsedData);
           setLastScannedUser(parsedData);
         } else {
            toast({
@@ -80,9 +82,14 @@ export default function ScanPage() {
             title: 'Invalid QR Code',
             description: 'This does not seem to be a valid JCI GO badge.',
         });
+      } finally {
+        // Only set processing to false if we didn't successfully scan a user
+        if (!lastScannedUser) {
+          setTimeout(() => setIsProcessing(false), 2000); // Add a small delay to prevent rapid re-scans
+        }
       }
     }
-  }, [addConnection, toast]);
+  }, [addConnection, toast, isProcessing, lastScannedUser]);
 
   React.useEffect(() => {
     if (lastScannedUser) {
@@ -111,7 +118,7 @@ export default function ScanPage() {
           }
         }
       }
-      if (!lastScannedUser) {
+      if (!lastScannedUser && !isProcessing) {
         animationFrameId = requestAnimationFrame(tick);
       }
     };
@@ -147,7 +154,12 @@ export default function ScanPage() {
         videoRef.current.srcObject = null;
       }
     };
-  }, [lastScannedUser, handleScan, toast]);
+  }, [lastScannedUser, handleScan, toast, isProcessing]);
+
+  const resetScanner = () => {
+    setLastScannedUser(null);
+    setIsProcessing(false);
+  }
 
   return (
     <PageWrapper>
@@ -166,7 +178,7 @@ export default function ScanPage() {
                     <p className="text-lg text-muted-foreground">You are now connected with {lastScannedUser.name.split(' ')[0]}.</p>
                     <ScannedUserCard user={lastScannedUser} />
                     <div className="mt-8 space-y-3">
-                        <Button onClick={() => setLastScannedUser(null)} size="lg" className="w-full">
+                        <Button onClick={resetScanner} size="lg" className="w-full">
                             <Camera className="mr-2" /> Scan Another Badge
                         </Button>
                         <Button asChild variant="outline" size="lg" className="w-full">

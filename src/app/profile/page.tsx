@@ -1,7 +1,7 @@
 
 'use client';
 import {
-    BookMarked, Users, Calendar, Clock, MapPin, User, FileText, Bot, Download, Edit, Star, Award, BrainCircuit, Activity, Mic, Flame, Coffee, Badge, Link as LinkIcon, HelpCircle
+    Bookmarked, Users, Calendar, Clock, MapPin, User, FileText, Bot, Download, Edit, Star, Award, BrainCircuit, Activity, Mic, Flame, Coffee, Badge, Link as LinkIcon, HelpCircle
 } from 'lucide-react';
 import React from 'react';
 import { useUser } from '@/hooks/use-user';
@@ -261,7 +261,7 @@ export default function ProfilePage() {
             <Card>
                 <CardHeader>
                     <CardTitle className="flex items-center gap-2 text-base">
-                        <BookMarked className="w-5 h-5 text-primary"/>
+                        <Bookmarked className="w-5 h-5 text-primary"/>
                         My Agenda
                     </CardTitle>
                     <CardDescription>Your personalized schedule of bookmarked events and sessions.</CardDescription>

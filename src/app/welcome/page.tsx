@@ -163,11 +163,11 @@ export default function WelcomePage() {
     
     try {
       if (isEditing) {
-        updateUser(profileData);
+        await updateUser(profileData);
         toast({ title: 'Profile Updated!', description: 'Your changes have been saved.' });
         router.push('/profile');
       } else {
-        saveUser(profileData);
+        await saveUser(profileData);
       }
     } catch(error) {
         toast({

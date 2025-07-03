@@ -83,7 +83,6 @@ type EventCardProps = {
 };
 
 export function EventCard({ event, layout = 'horizontal' }: EventCardProps) {
-  const { toast } = useToast();
   const { user, toggleBookmark } = useUser();
   const [selectedVenue, setSelectedVenue] = React.useState<string | null>(null);
 
@@ -91,10 +90,6 @@ export function EventCard({ event, layout = 'horizontal' }: EventCardProps) {
 
   const handleToggleBookmark = () => {
     toggleBookmark(event.id);
-    toast({
-      title: !isBookmarked ? 'Event Bookmarked!' : 'Bookmark Removed',
-      description: `"${event.title}" has been ${!isBookmarked ? 'added to' : 'removed from'} your agenda.`,
-    });
   };
 
   const badgeColorClass = roleBadgeColors[event.role] || 'bg-muted text-muted-foreground';
