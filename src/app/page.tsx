@@ -102,10 +102,10 @@ const HomePageHeader = () => {
             Hi, {firstName}
             </h1>
         </Link>
+         <Image src="/logos/layipo_lo.png" alt="LAYIPO 25 Logo" width={90} height={24} className="object-contain" />
       </div>
       <div className="flex items-center gap-4">
         <Image src="/logos/elevate_lo.png" alt="Elevate Logo" width={40} height={24} className="object-contain" />
-        <Image src="/logos/layipo_lo.png" alt="LAYIPO 25 Logo" width={90} height={24} className="object-contain" />
       </div>
     </div>
   );
