@@ -13,18 +13,14 @@ import { NotificationManager } from './notification-manager';
 function FullPageLoader() {
   return (
     <div className="flex flex-col gap-8 items-center justify-center h-screen bg-background text-center p-8">
-        <div className="relative w-32 h-32 animate-orbit-cw">
-            {/* Logo 1 at 12 o'clock */}
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2">
-                <div className="animate-orbit-ccw">
-                    <Image src="/logos/layipo_lo.png" alt="LAYIPO 25 Logo" width={90} height={24} className="object-contain" />
-                </div>
+        <div className="w-32 h-32 [transform-style:preserve-3d] animate-flip">
+            {/* Front of the card */}
+            <div className="absolute w-full h-full flex items-center justify-center [backface-visibility:hidden]">
+                <Image src="/logos/layipo_lo.png" alt="LAYIPO 25 Logo" width={90} height={24} className="object-contain" />
             </div>
-            {/* Logo 2 at 6 o'clock */}
-             <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2">
-                <div className="animate-orbit-ccw">
-                    <Image src="/logos/elevate_lo.png" alt="Elevate Logo" width={24} height={24} className="object-contain" />
-                </div>
+            {/* Back of the card */}
+            <div className="absolute w-full h-full flex items-center justify-center [backface-visibility:hidden] [transform:rotateY(180deg)]">
+                <Image src="/logos/elevate_lo.png" alt="Elevate Logo" width={32} height={32} className="object-contain" />
             </div>
         </div>
     </div>

@@ -1,3 +1,4 @@
+
 import type {Config} from 'tailwindcss';
 
 const config = {
@@ -78,16 +79,11 @@ const config = {
           "0%": { transform: "rotateY(0deg)" },
           "100%": { transform: "rotateY(360deg)" },
         },
-        "spin-reverse": {
-          to: { transform: "rotate(-360deg)" },
-        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
         "flip": "flip 2s linear infinite",
-        "orbit-cw": "spin 4s linear infinite",
-        "orbit-ccw": "spin-reverse 4s linear infinite",
       },
     },
   },
