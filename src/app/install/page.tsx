@@ -14,7 +14,7 @@ const androidSteps = [
     },
     {
         icon: PlusSquare,
-        text: 'From the dropdown menu, select "Install app" or "Add to Home screen".'
+        text: 'From the dropdown menu, select "Add to Home screen" or "Install app".'
     },
     {
         icon: Smartphone,

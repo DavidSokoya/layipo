@@ -229,16 +229,66 @@ export default function HomePage() {
     const currentDate = new Date();
     setNow(currentDate);
 
+    const timeStringToDate = (timeStr: string, date: Date): Date => {
+        const newDate = new Date(date);
+        const [time, modifier] = timeStr.toLowerCase().split(' ');
+        let [hours, minutes] = time.split(':').map(Number);
+        minutes = minutes || 0;
+
+        if (modifier === 'pm' && hours < 12) {
+            hours += 12;
+        }
+        if (modifier === 'am' && hours === 12) {
+            hours = 0;
+        }
+        newDate.setHours(hours, minutes, 0, 0);
+        return newDate;
+    };
+    
+    const parseTimeRange = (timeRangeStr: string, date: Date): [Date, Date] => {
+        const parts = timeRangeStr.split('–');
+        if (parts.length !== 2) return [new Date(), new Date()];
+        const [startStr, endStr] = parts;
+        const startDate = timeStringToDate(startStr.trim(), date);
+        const endDate = timeStringToDate(endStr.trim(), date);
+        if(endDate < startDate) {
+            endDate.setDate(endDate.getDate() + 1);
+        }
+        return [startDate, endDate];
+    };
+
     if (eventDays.length > 0) {
       const todayDateOnly = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate());
 
-      const todayKey = eventDays.find(([date]) => {
-          const eventDate = parseDate(date);
-          const eventDateOnly = new Date(eventDate.getFullYear(), eventDate.getMonth(), eventDate.getDate());
-          return eventDateOnly.getTime() === todayDateOnly.getTime();
+      const todayIndex = eventDays.findIndex(([date]) => {
+        const eventDate = parseDate(date);
+        const eventDateOnly = new Date(eventDate.getFullYear(), eventDate.getMonth(), eventDate.getDate());
+        return eventDateOnly.getTime() === todayDateOnly.getTime();
       });
 
-      setSelectedDate(todayKey ? todayKey[0] : eventDays[0]?.[0] || '');
+      let initialDateKey = eventDays[0]?.[0] || '';
+
+      if (todayIndex !== -1) {
+        const todayKey = eventDays[todayIndex][0];
+        const dayEvents = eventDays[todayIndex][1];
+        
+        const hasUpcomingEventsToday = dayEvents.some(event => {
+            const [, endTime] = parseTimeRange(event.time, parseDate(todayKey));
+            return endTime > currentDate;
+        });
+
+        if (hasUpcomingEventsToday) {
+            initialDateKey = todayKey;
+        } else {
+            const nextDayWithEvents = eventDays.find((_, index) => index > todayIndex);
+            initialDateKey = nextDayWithEvents ? nextDayWithEvents[0] : todayKey;
+        }
+      } else {
+        const futureDay = eventDays.find(([date]) => parseDate(date) >= todayDateOnly);
+        initialDateKey = futureDay ? futureDay[0] : (eventDays[eventDays.length - 1]?.[0] || '');
+      }
+
+      setSelectedDate(initialDateKey);
     }
 
     const interval = setInterval(() => setNow(new Date()), 60000);

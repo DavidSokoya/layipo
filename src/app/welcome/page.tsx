@@ -52,6 +52,7 @@ export default function WelcomePage() {
   const router = useRouter();
 
   const [imageSrc, setImageSrc] = React.useState<string | null>(null);
+  const [initialImageSrc, setInitialImageSrc] = React.useState<string | null>(null);
   const [showCamera, setShowCamera] = React.useState(false);
   // Start with true to avoid showing the error message before permission is denied.
   const [hasCameraPermission, setHasCameraPermission] = React.useState(true);
@@ -78,6 +79,7 @@ export default function WelcomePage() {
       });
       if (user.imageUrl) {
         setImageSrc(user.imageUrl);
+        setInitialImageSrc(user.imageUrl);
       }
     }
   }, [user, form]);
@@ -177,6 +179,8 @@ export default function WelcomePage() {
         });
     }
   }
+
+  const isProfileDirty = form.formState.isDirty || imageSrc !== initialImageSrc;
 
   return (
     <PageWrapper>
@@ -288,7 +292,7 @@ export default function WelcomePage() {
                      />
                  </div>
                 
-                <Button type="submit" className="w-full" disabled={form.formState.isSubmitting}>
+                <Button type="submit" className="w-full" disabled={form.formState.isSubmitting || (isEditing && !isProfileDirty)}>
                   {form.formState.isSubmitting 
                     ? 'Saving...' 
                     : isEditing ? 'Save Changes' : 'Create My Badge'
