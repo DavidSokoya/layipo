@@ -19,7 +19,27 @@ export default function ScanPage() {
   const [hasCameraPermission, setHasCameraPermission] = React.useState<boolean>(true);
   const [isScanning, setIsScanning] = React.useState<boolean>(true);
 
+  const handleScan = React.useCallback((data: string) => {
+    if (data) {
+      setIsScanning(false); // Stop scanning, which triggers useEffect cleanup.
+      setScanResult(data);
+      try {
+        const parsedData: PublicUserProfile = JSON.parse(data);
+        if (parsedData.name && parsedData.localOrganisation && parsedData.whatsappNumber) {
+          addConnection(parsedData);
+        }
+      } catch (error) {
+        console.error("Failed to parse QR code data", error);
+      }
+    }
+  }, [addConnection]);
+
   React.useEffect(() => {
+    // If we're not supposed to be scanning, don't do anything.
+    if (!isScanning) {
+      return;
+    }
+
     let stream: MediaStream | null = null;
     let animationFrameId: number;
 
@@ -42,20 +62,24 @@ export default function ScanPage() {
           }
         }
       }
-      if(isScanning) {
+      // Only request next frame if we are still in scanning mode
+      if (isScanning) {
          animationFrameId = requestAnimationFrame(tick);
       }
     };
 
-    const getCameraPermission = async () => {
+    const startCamera = async () => {
       try {
         stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
         setHasCameraPermission(true);
 
         if (videoRef.current) {
           videoRef.current.srcObject = stream;
-          videoRef.current.play();
-          animationFrameId = requestAnimationFrame(tick);
+          // Use `loadedmetadata` to ensure video dimensions are available before playing.
+          videoRef.current.onloadedmetadata = () => {
+            videoRef.current?.play();
+            animationFrameId = requestAnimationFrame(tick);
+          };
         }
       } catch (error) {
         console.error('Error accessing camera:', error);
@@ -63,35 +87,21 @@ export default function ScanPage() {
       }
     };
 
-    getCameraPermission();
+    startCamera();
 
+    // This cleanup function is crucial. It runs when `isScanning` changes to `false`
+    // or when the component unmounts.
     return () => {
       cancelAnimationFrame(animationFrameId);
       if (stream) {
         stream.getTracks().forEach(track => track.stop());
       }
-    };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isScanning]);
-
-  const handleScan = (data: string) => {
-    if (data) {
-      setScanResult(data);
-      setIsScanning(false); // Stop scanning once a code is found
-      try {
-        const parsedData: PublicUserProfile = JSON.parse(data);
-        if (parsedData.name && parsedData.localOrganisation && parsedData.whatsappNumber) {
-          addConnection(parsedData);
-        } else {
-            // Handle cases where QR code is not the expected format (e.g., a simple URL)
-            // This toast is handled inside addConnection now
-        }
-      } catch (error) {
-        console.error("Failed to parse QR code data", error);
-        // This toast is handled inside addConnection now
+      if (videoRef.current) {
+        videoRef.current.srcObject = null;
       }
-    }
-  };
+    };
+  }, [isScanning, handleScan]);
+
 
   return (
     <PageWrapper>
@@ -100,7 +110,7 @@ export default function ScanPage() {
             <PageHeader />
             <header className="text-center mb-8">
                 <h1 className="text-3xl font-bold font-headline tracking-tight text-foreground sm:text-4xl">Scan to Connect</h1>
-                <p className="mt-2 text-lg text-muted-foreground">Point your camera at another delegate's QR code to exchange contact info.</p>
+                <p className="text-lg text-muted-foreground">Point your camera at another delegate's QR code to exchange contact info.</p>
             </header>
             
             <div className="relative w-full aspect-square rounded-xl overflow-hidden bg-muted shadow-lg border">
