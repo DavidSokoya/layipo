@@ -1,7 +1,6 @@
 
 'use client';
 import * as React from 'react';
-import QRCode from 'qrcode';
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { ScanLine, CalendarDays, MapPin, User } from 'lucide-react';
@@ -48,28 +47,31 @@ export default function BadgePage() {
   const [qrCodeDataUrl, setQrCodeDataUrl] = React.useState<string | null>(null);
   
   React.useEffect(() => {
-      if (user) {
-        const whatsappNumber = user.whatsappNumber.replace(/\+/g, ''); // Remove '+' for the wa.me link
-        const prefilledMessage = `Hi ${user.name}! We met at the JCI National Convention. Great connecting with you.`;
-        const whatsappLink = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(prefilledMessage)}`;
-        
-        QRCode.toDataURL(whatsappLink, {
-          errorCorrectionLevel: 'H',
-          margin: 2,
-          width: 250, // Set desired width for high quality
-          color: {
-            dark: '#000000',
-            light: '#FFFFFF',
-          },
-        })
-        .then(url => {
+    if (user) {
+      const generateQrCode = async () => {
+        try {
+          const QRCode = await import('qrcode');
+          const whatsappNumber = user.whatsappNumber.replace(/\+/g, ''); // Remove '+' for the wa.me link
+          const prefilledMessage = `Hi ${user.name}! We met at the JCI National Convention. Great connecting with you.`;
+          const whatsappLink = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(prefilledMessage)}`;
+          
+          const url = await QRCode.toDataURL(whatsappLink, {
+            errorCorrectionLevel: 'H',
+            margin: 2,
+            width: 250, // Set desired width for high quality
+            color: {
+              dark: '#000000',
+              light: '#FFFFFF',
+            },
+          });
           setQrCodeDataUrl(url);
-        })
-        .catch(err => {
+        } catch (err) {
           console.error('Failed to generate QR code', err);
-        });
-      }
-    }, [user]);
+        }
+      };
+      generateQrCode();
+    }
+  }, [user]);
 
   if (isLoading || !user) {
     return (
