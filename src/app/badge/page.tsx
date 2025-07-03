@@ -61,7 +61,7 @@ export default function BadgePage() {
           const qrCodeString = JSON.stringify(userPublicProfile);
           
           const url = await toDataURL(qrCodeString, {
-            errorCorrectionLevel: 'H',
+            errorCorrectionLevel: 'M',
             margin: 2,
             width: 250, // Set desired width for high quality
             color: {
