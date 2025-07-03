@@ -5,6 +5,8 @@ import * as React from 'react';
 import { useRouter } from 'next/navigation';
 import type { UserProfile, PublicUserProfile } from '@/lib/types';
 import { useToast } from './use-toast';
+import { db } from '@/lib/firebase';
+import { doc, setDoc } from 'firebase/firestore';
 
 const USER_STORAGE_KEY = 'jci-go-user-profile';
 
@@ -24,6 +26,7 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
     const [isLoading, setIsLoading] = React.useState(true);
     const router = useRouter();
     const { toast } = useToast();
+    const isInitialLoad = React.useRef(true);
 
     React.useEffect(() => {
         try {
@@ -43,28 +46,48 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
         }
     }, []);
 
-    const saveUser = React.useCallback((userData: Omit<UserProfile, 'bookmarkedEventIds' | 'connections' | 'points' | 'unlockedBadges'>) => {
-        try {
-            const newUser: UserProfile = {
-                ...userData,
-                bookmarkedEventIds: [],
-                connections: [],
-                points: 10, // Start with some points
-                unlockedBadges: ['early-bird'], // Give them one badge for signing up
-            };
-            window.localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(newUser));
-            setUser(newUser);
-            toast({ title: 'Badge Created!', description: 'Welcome to LAYIPO 25!' });
-            router.push('/');
-        } catch (error) {
-            console.error('Failed to save user data to localStorage', error);
-            toast({
-                variant: 'destructive',
-                title: 'Something went wrong',
-                description: 'Could not save your profile. Please try again.',
-            });
-            throw error;
+    React.useEffect(() => {
+        // Prevent persisting the initial state on first load
+        if (isLoading || isInitialLoad.current) {
+            if(!isLoading) {
+                 isInitialLoad.current = false;
+            }
+            return;
         }
+
+        if (user) {
+            try {
+                // Persist to localStorage for fast initial loads
+                window.localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(user));
+                
+                // Persist to Firestore for cloud sync and leaderboard
+                const persistToFirestore = async () => {
+                    await setDoc(doc(db, 'users', user.whatsappNumber), user, { merge: true });
+                };
+                persistToFirestore();
+
+            } catch (error) {
+                console.error('Failed to persist user data', error);
+                toast({
+                    variant: 'destructive',
+                    title: 'Sync Error',
+                    description: 'Could not sync your data with the cloud.',
+                });
+            }
+        }
+    }, [user, isLoading]);
+
+    const saveUser = React.useCallback((userData: Omit<UserProfile, 'bookmarkedEventIds' | 'connections' | 'points' | 'unlockedBadges'>) => {
+        const newUser: UserProfile = {
+            ...userData,
+            bookmarkedEventIds: [],
+            connections: [],
+            points: 10, // Start with some points
+            unlockedBadges: ['early-bird'], // Give them one badge for signing up
+        };
+        setUser(newUser); // This triggers the useEffect to persist data
+        toast({ title: 'Badge Created!', description: 'Welcome to LAYIPO 25!' });
+        router.push('/');
     }, [router, toast]);
 
     const updateUser = React.useCallback((updatedData: Partial<UserProfile>) => {
@@ -73,21 +96,15 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
                 console.error("User not found for update");
                 return null;
             }
-            try {
-                const newData = { ...currentUser, ...updatedData };
-                window.localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(newData));
-                return newData;
-            } catch (error) {
-                console.error('Failed to update user data in localStorage', error);
-                throw error;
-            }
+            return { ...currentUser, ...updatedData };
         });
     }, []);
 
     const toggleBookmark = React.useCallback((eventId: string) => {
+        const isCurrentlyBookmarked = user?.bookmarkedEventIds.includes(eventId) || false;
+
         if (typeof window !== 'undefined' && 'Notification' in window) {
-            // Check if we are about to ADD a bookmark
-            if (!user?.bookmarkedEventIds.includes(eventId)) {
+            if (!isCurrentlyBookmarked) {
                 if (Notification.permission === 'default') {
                     Notification.requestPermission().then(permission => {
                         if (permission === 'granted') {
@@ -108,12 +125,13 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
                 ? [...currentUser.bookmarkedEventIds, eventId]
                 : currentUser.bookmarkedEventIds.filter(id => id !== eventId);
             
-            // Add/remove points for bookmarking
-            const newPoints = isBookmarking ? currentUser.points + 2 : currentUser.points - 2;
+            const newPoints = isBookmarking ? currentUser.points + 2 : Math.max(0, currentUser.points - 2);
 
-            const updatedUser = { ...currentUser, bookmarkedEventIds: newBookmarks, points: newPoints };
-            window.localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(updatedUser));
-            return updatedUser;
+            return { ...currentUser, bookmarkedEventIds: newBookmarks, points: newPoints };
+        });
+
+        toast({
+            title: !isCurrentlyBookmarked ? 'Event Bookmarked!' : 'Bookmark Removed',
         });
     }, [user, toast]);
 
@@ -130,40 +148,33 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
             toast({ title: 'Already Connected', description: `You are already connected with ${connection.name}.` });
             return;
         }
-
-        const newConnection = { ...connection, connectedAt: new Date().toISOString() };
-        const newConnections = [...user.connections, newConnection];
         
-        const newPoints = user.points + 5;
-        const updatedBadges = [...user.unlockedBadges];
-        let newBadgeUnlocked = false;
+        const wasSocialButterfly = user.unlockedBadges.includes('social-butterfly');
 
-        if (newConnections.length >= 5 && !updatedBadges.includes('social-butterfly')) {
-            updatedBadges.push('social-butterfly');
-            newBadgeUnlocked = true;
-        }
+        setUser(currentUser => {
+            if (!currentUser) return null;
 
-        const updatedUser = { ...user, connections: newConnections, points: newPoints, unlockedBadges: updatedBadges };
+            const newConnection = { ...connection, connectedAt: new Date().toISOString() };
+            const newConnections = [...currentUser.connections, newConnection];
+            const newPoints = currentUser.points + 5;
+            const updatedBadges = [...currentUser.unlockedBadges];
+
+            if (newConnections.length >= 5 && !wasSocialButterfly) {
+                updatedBadges.push('social-butterfly');
+            }
+
+            return { ...currentUser, connections: newConnections, points: newPoints, unlockedBadges: updatedBadges };
+        });
         
-        try {
-            window.localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(updatedUser));
-            setUser(updatedUser); // Update the state
-            
-            // Trigger toasts AFTER state update and outside of the updater function
-            toast({ title: 'Connection Made!', description: `You are now connected with ${connection.name}.` });
-            if (newBadgeUnlocked) {
-                 toast({
+        toast({ title: 'Connection Made!', description: `You are now connected with ${connection.name}.` });
+        
+        if (user.connections.length + 1 >= 5 && !wasSocialButterfly) {
+             setTimeout(() => {
+                toast({
                     title: 'Badge Unlocked!',
                     description: 'You earned the "Social Butterfly" badge!',
                 });
-            }
-        } catch (error) {
-            console.error('Failed to update user data in localStorage', error);
-            toast({
-                variant: 'destructive',
-                title: 'Something went wrong',
-                description: 'Could not save connection. Please try again.',
-            });
+             }, 500);
         }
     }, [user, toast]);
 

@@ -14,7 +14,7 @@ function BadgeLoader() {
     <div className="max-w-md mx-auto w-full">
       <div className="mb-8 flex items-center justify-between">
         <Image src="/logos/layipo_lo.png" alt="LAYIPO 25 Logo" width={90} height={24} className="object-contain" />
-        <Image src="/logos/elevate_lo.png" alt="Elevate Logo" width={24} height={24} className="object-contain" />
+        <Image src="/logos/elevate_lo.png" alt="Elevate Logo" width={40} height={24} className="object-contain" />
       </div>
       <h1 className="text-3xl font-bold font-headline tracking-tight text-foreground text-center mb-2">My Digital Badge</h1>
       <p className="text-muted-foreground text-center mb-8">
@@ -96,7 +96,7 @@ export default function BadgePage() {
         <div className="max-w-md mx-auto w-full">
            <div className="mb-8 flex items-center justify-between">
               <Image src="/logos/layipo_lo.png" alt="LAYIPO 25 Logo" width={90} height={24} className="object-contain" />
-              <Image src="/logos/elevate_lo.png" alt="Elevate Logo" width={24} height={24} className="object-contain" />
+              <Image src="/logos/elevate_lo.png" alt="Elevate Logo" width={40} height={24} className="object-contain" />
             </div>
           <h1 className="text-3xl font-bold font-headline tracking-tight text-foreground text-center mb-2">My Digital Badge</h1>
             <p className="text-muted-foreground text-center mb-8">
