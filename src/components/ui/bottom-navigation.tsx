@@ -4,7 +4,6 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Home, User, Badge as BadgeIcon, Calendar, ScanLine } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { useState, useEffect } from 'react';
 
 const navItems = [
   { href: '/', label: 'Home', icon: Home },
@@ -16,26 +15,6 @@ const navItems = [
 
 export function BottomNavigation() {
   const pathname = usePathname();
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  // To prevent hydration mismatch, we only render the nav on the client
-  // after the component has mounted.
-  if (!mounted) {
-    return (
-        <nav className="fixed bottom-0 left-0 right-0 h-16 bg-card border-t z-50">
-            <div className="flex justify-around items-center h-full max-w-lg mx-auto">
-                {/* Render placeholders or an empty state on the server */}
-                 {navItems.map((item) => (
-                    <div key={item.href} className="w-full h-full"></div>
-                ))}
-            </div>
-        </nav>
-    );
-  }
   
   const getIsActive = (href: string) => {
       if (href === '/') {
@@ -56,7 +35,7 @@ export function BottomNavigation() {
               className={cn(
                 "flex flex-col items-center justify-center w-full h-full text-sm font-medium transition-colors",
                 isActive ? "text-primary" : "text-muted-foreground hover:text-primary",
-                item.href === '/scan' && 'relative' // Style for the scan button if needed
+                item.href === '/scan' && 'relative'
               )}
             >
               {item.href === '/scan' ? (
