@@ -104,7 +104,7 @@ export default function BadgePage() {
             </p>
           <Card className="w-full shadow-2xl rounded-2xl overflow-hidden transition-transform duration-300 hover:scale-[1.02] bg-gradient-to-br from-gray-900 via-gray-800 to-black text-primary-foreground">
             <CardHeader className="p-4 text-center space-y-1">
-              <h2 className="text-xl font-bold tracking-tight">JCI Collegiate Conference</h2>
+              <h2 className="text-xl font-bold tracking-tight">JCIN Collegiate Conference</h2>
               <div className="flex items-center justify-center gap-2 text-xs text-white/70">
                 <CalendarDays className="w-3 h-3" />
                 <span>July 2-6, 2025</span>
