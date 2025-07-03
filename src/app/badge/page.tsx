@@ -50,7 +50,7 @@ export default function BadgePage() {
     if (user) {
       const generateQrCode = async () => {
         try {
-          const QRCode = (await import('qrcode')).default;
+          const { toDataURL } = await import('qrcode');
           
           const userPublicProfile = {
             name: user.name,
@@ -61,7 +61,7 @@ export default function BadgePage() {
 
           const qrCodeString = JSON.stringify(userPublicProfile);
           
-          const url = await QRCode.toDataURL(qrCodeString, {
+          const url = await toDataURL(qrCodeString, {
             errorCorrectionLevel: 'H',
             margin: 2,
             width: 250, // Set desired width for high quality
