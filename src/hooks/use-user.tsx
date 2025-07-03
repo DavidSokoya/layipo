@@ -164,7 +164,7 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
           title: !isCurrentlyBookmarked ? 'Event Bookmarked!' : 'Bookmark Removed',
         });
       } catch (error) {
-        // Error is already handled in updateUser
+        console.error("Failed to toggle bookmark:", error);
       }
     },
     [user, updateUser, toast]
@@ -219,7 +219,7 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
           }, 500);
         }
       } catch (error) {
-         // Error is already handled in updateUser
+         console.error("Failed to add connection:", error);
       }
     },
     [user, updateUser, toast]

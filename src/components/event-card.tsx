@@ -138,7 +138,7 @@ export function EventCard({ event, layout = 'horizontal' }: EventCardProps) {
                 <MapPin className="w-4 h-4 mr-2 mt-1 shrink-0" />
                  <div className="flex flex-wrap items-center gap-x-1">
                     {event.location.split(', ').map((part, index, arr) => (
-                        <React.Fragment key={part}>
+                        <React.Fragment key={`${part}-${index}`}>
                         <button
                             onClick={() => venuesMap[part.trim()] && setSelectedVenue(part.trim())}
                             className={cn(
