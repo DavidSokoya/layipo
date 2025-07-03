@@ -10,9 +10,11 @@ import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
 import { Camera, ZapOff } from 'lucide-react';
 import { PageHeader } from '@/components/ui/page-header';
+import { useToast } from '@/hooks/use-toast';
 
 export default function ScanPage() {
   const { addConnection } = useUser();
+  const { toast } = useToast();
   const videoRef = React.useRef<HTMLVideoElement>(null);
   const canvasRef = React.useRef<HTMLCanvasElement>(null);
   const [scanResult, setScanResult] = React.useState<string | null>(null);
@@ -21,7 +23,7 @@ export default function ScanPage() {
 
   const handleScan = React.useCallback((data: string) => {
     if (data) {
-      setIsScanning(false); // Stop scanning, which triggers useEffect cleanup.
+      setIsScanning(false);
       setScanResult(data);
       try {
         const parsedData: PublicUserProfile = JSON.parse(data);
@@ -30,9 +32,14 @@ export default function ScanPage() {
         }
       } catch (error) {
         console.error("Failed to parse QR code data", error);
+        toast({
+            variant: 'destructive',
+            title: 'Invalid QR Code',
+            description: 'This does not seem to be a valid JCI GO badge.',
+        });
       }
     }
-  }, [addConnection]);
+  }, [addConnection, toast]);
 
   React.useEffect(() => {
     if (!isScanning) {
@@ -73,12 +80,16 @@ export default function ScanPage() {
 
         if (videoRef.current) {
           videoRef.current.srcObject = stream;
-          // The autoPlay prop on the video element will handle playing the stream.
           animationFrameId = requestAnimationFrame(tick);
         }
       } catch (error) {
         console.error('Error accessing camera:', error);
         setHasCameraPermission(false);
+        toast({
+            variant: 'destructive',
+            title: 'Camera Error',
+            description: 'Could not start video source. Please ensure camera permissions are enabled.',
+        });
       }
     };
 
@@ -93,7 +104,7 @@ export default function ScanPage() {
         videoRef.current.srcObject = null;
       }
     };
-  }, [isScanning, handleScan]);
+  }, [isScanning, handleScan, toast]);
 
 
   return (
