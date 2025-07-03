@@ -118,42 +118,54 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
     }, [user, toast]);
 
     const addConnection = React.useCallback((connection: PublicUserProfile) => {
-        setUser(currentUser => {
-            if (!currentUser) {
-                toast({ variant: 'destructive', title: 'Error', description: 'You must be logged in to add connections.' });
-                return null;
-            }
-            if(currentUser.whatsappNumber === connection.whatsappNumber) {
-                toast({ title: "It's You!", description: "You can't connect with yourself." });
-                return currentUser;
-            }
-            if (currentUser.connections.some(c => c.whatsappNumber === connection.whatsappNumber)) {
-                toast({ title: 'Already Connected', description: `You are already connected with ${connection.name}.` });
-                return currentUser;
-            }
+        if (!user) {
+            toast({ variant: 'destructive', title: 'Error', description: 'You must be logged in to add connections.' });
+            return;
+        }
+        if(user.whatsappNumber === connection.whatsappNumber) {
+            toast({ title: "It's You!", description: "You can't connect with yourself." });
+            return;
+        }
+        if (user.connections.some(c => c.whatsappNumber === connection.whatsappNumber)) {
+            toast({ title: 'Already Connected', description: `You are already connected with ${connection.name}.` });
+            return;
+        }
 
-            const newConnection = { ...connection, connectedAt: new Date().toISOString() };
-            const newConnections = [...currentUser.connections, newConnection];
+        const newConnection = { ...connection, connectedAt: new Date().toISOString() };
+        const newConnections = [...user.connections, newConnection];
+        
+        const newPoints = user.points + 5;
+        const updatedBadges = [...user.unlockedBadges];
+        let newBadgeUnlocked = false;
+
+        if (newConnections.length >= 5 && !updatedBadges.includes('social-butterfly')) {
+            updatedBadges.push('social-butterfly');
+            newBadgeUnlocked = true;
+        }
+
+        const updatedUser = { ...user, connections: newConnections, points: newPoints, unlockedBadges: updatedBadges };
+        
+        try {
+            window.localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(updatedUser));
+            setUser(updatedUser); // Update the state
             
-            // Add points for new connection
-            const newPoints = currentUser.points + 5;
-            const updatedBadges = [...currentUser.unlockedBadges];
-
-            // Unlock badge if condition met
-            if (newConnections.length >= 5 && !updatedBadges.includes('social-butterfly')) {
-                updatedBadges.push('social-butterfly');
+            // Trigger toasts AFTER state update and outside of the updater function
+            toast({ title: 'Connection Made!', description: `You are now connected with ${connection.name}.` });
+            if (newBadgeUnlocked) {
                  toast({
                     title: 'Badge Unlocked!',
                     description: 'You earned the "Social Butterfly" badge!',
                 });
             }
-
-            const updatedUser = { ...currentUser, connections: newConnections, points: newPoints, unlockedBadges: updatedBadges };
-            window.localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(updatedUser));
-            toast({ title: 'Connection Made!', description: `You are now connected with ${connection.name}.` });
-            return updatedUser;
-        });
-    }, [toast]);
+        } catch (error) {
+            console.error('Failed to update user data in localStorage', error);
+            toast({
+                variant: 'destructive',
+                title: 'Something went wrong',
+                description: 'Could not save connection. Please try again.',
+            });
+        }
+    }, [user, toast]);
 
     const value = { user, isLoading, saveUser, updateUser, toggleBookmark, addConnection };
 
