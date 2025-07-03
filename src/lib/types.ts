@@ -49,6 +49,7 @@ export type RewardBadge = {
 
 // Represents the full profile of the currently logged-in user.
 export type UserProfile = PublicUserProfile & {
+  uid: string; // The user's unique ID from Firebase Auth.
   bookmarkedEventIds: string[];
   connections: (PublicUserProfile & { connectedAt: string })[];
   points: number;
