@@ -25,7 +25,7 @@ function FullPageLoader() {
         </div>
         <div className="max-w-md">
             <p className="text-lg font-semibold text-foreground">Welcome to JCIN Collegiate Conference 2025!</p>
-            <p className="text-sm text-muted-foreground mt-1">Your companion app for LAYIPO25</p>
+            <p className="text-sm text-muted-foreground mt-1">Your companion app for LAYIPO'25</p>
         </div>
     </div>
   );
