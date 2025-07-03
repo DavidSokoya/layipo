@@ -1,7 +1,7 @@
 
 'use client';
 import {
-    Bookmarked, Users, Calendar, Clock, MapPin, User, FileText, Bot, Download, Edit, Star, Award, BrainCircuit, Activity, Mic, Flame, Coffee, Badge, Link as LinkIcon, HelpCircle
+    Bookmark, Users, Calendar, Clock, MapPin, User, FileText, Bot, Download, Edit, Star, Award, BrainCircuit, Activity, Mic, Flame, Coffee, Badge, Link as LinkIcon, HelpCircle
 } from 'lucide-react';
 import React from 'react';
 import { useUser } from '@/hooks/use-user';
@@ -104,7 +104,7 @@ const ConnectionCard = ({ connection }: { connection: PublicUserProfile & { conn
         month: 'long',
         day: 'numeric',
     });
-    const message = encodeURIComponent("We met at the JCIN Collegiate Conference 2025");
+    const message = encodeURIComponent(`Hi ${User.name}We met at the JCIN Collegiate Conference 2025`);
     const whatsappLink = `https://wa.me/${connection.whatsappNumber.replace(/\+/g, '')}?text=${message}`;
 
     return (
@@ -180,7 +180,7 @@ export default function ProfilePage() {
                     </Avatar>
                     <div className="flex-1 text-center sm:text-left">
                         <h1 className="text-2xl font-bold font-headline text-foreground">{user.name}</h1>
-                        <p className="text-muted-foreground">{user.localOrganisation}</p>
+                        <p className="text-muted-foreground">{user.localOrganisation.toLocaleUpperCase()}</p>
                          <div className="mt-2 flex items-center gap-2 justify-center sm:justify-start">
                             <Button variant="outline" asChild size="sm">
                                 <Link href="/install">
@@ -261,7 +261,7 @@ export default function ProfilePage() {
             <Card>
                 <CardHeader>
                     <CardTitle className="flex items-center gap-2 text-base">
-                        <Bookmarked className="w-5 h-5 text-primary"/>
+                        <Bookmark className="w-5 h-5 text-primary"/>
                         My Agenda
                     </CardTitle>
                     <CardDescription>Your personalized schedule of bookmarked events and sessions.</CardDescription>
